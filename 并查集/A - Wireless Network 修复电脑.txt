@@ -1,0 +1,71 @@
+#include <stdio.h>
+using namespace std;
+const int maxn = 3e4 + 10;
+struct MyStruct
+{
+	int fa;
+	int x, y;
+}a[maxn];
+int find_fa(int h)
+{
+	if (h != a[h].fa)
+		return a[h].fa = find_fa(a[h].fa);
+	return h;
+}
+
+int main()
+{
+	int n, d, x, y;
+	char c;
+	a[0].fa = 0;
+	scanf("%d %d", &n, &d);
+	for (int i = 1; i <= n; i++)
+	{
+		a[i].fa = 0;
+		scanf("%d %d", &a[i].x, &a[i].y);
+	}
+	getchar();
+	while (~scanf("%c", &c))
+	{
+		if (c == 'O')
+		{
+			scanf("%d", &x);
+			a[x].fa = x;
+			for (int i = 1; i <= n; i++)
+				if (i != x && a[i].fa && ((a[i].x - a[x].x)*(a[i].x - a[x].x) + (a[i].y - a[x].y)*(a[i].y - a[x].y) <= d * d))
+				{
+					int p = find_fa(i);
+					int q = find_fa(x);
+					if (q != p)
+					{
+						a[q].fa = p;
+
+					}
+				}
+
+		}
+		else
+		{
+			scanf("%d %d", &x, &y);
+			int p = find_fa(x);
+			int q = find_fa(y);
+			if (p == q)printf("SUCCESS\n");
+			else printf("FAIL\n");
+		}
+		getchar();
+	}
+	return 0;
+}
+/*
+4 1
+0 1
+0 2
+0 3
+0 4
+O 1
+O 2
+O 4
+S 1 4
+O 3
+S 1 4
+*/

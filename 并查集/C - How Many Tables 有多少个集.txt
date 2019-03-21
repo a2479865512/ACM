@@ -1,0 +1,52 @@
+#include <stdio.h>
+using namespace std;
+const int maxn = 3e4 + 10;
+struct MyStruct
+{
+	int fa;
+	int x, y;
+}a[maxn];
+int find_fa(int h)
+{
+	if (h != a[h].fa)
+		return a[h].fa = find_fa(a[h].fa);
+	return h;
+}
+
+int main()
+{
+	int t, n, m, x, y;
+	scanf("%d", &t);
+	while (t--)
+	{
+		scanf("%d %d", &n, &m);
+		int s = n;
+		for (int i = 1; i <= n; i++)
+			a[i].fa = i;
+		while (m--)
+		{
+			scanf("%d %d", &x, &y);
+			int p = find_fa(x);
+			int q = find_fa(y);
+			if (q != p)
+			{
+				a[q].fa = p;
+				s--;
+			}
+		}
+		printf("%d\n", s);
+
+	}
+	return 0;
+}
+
+
+
+2
+5 3
+1 2
+2 3
+4 5
+
+5 1
+2 5

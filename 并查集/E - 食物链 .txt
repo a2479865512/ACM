@@ -1,0 +1,71 @@
+
+#include <stdio.h>
+int a[150001];
+int find(int h)
+{
+    if (h != a[h])
+		return a[h] = find(a[h]) ;
+    return h ;
+}
+int main ()
+{
+	int n,m,s=0;
+		scanf("%d %d",&n,&m);
+		for(int i=0;i<n*3;i++)
+			a[i]=i;
+		int x,y,z;
+		while (m--)
+		{
+			scanf("%d %d %d",&x,&y,&z);
+			y--;z--;
+			if(y>=n||z>=n||z<0||y<0)
+					s++;
+			else if(x==1)
+			    {
+					if(find(y)==find(z+n)||find(y)==find(z+n*2))
+					s++;
+					else
+					{
+						//if(find(y)!=find(z))
+						 a[find(y)]=find(z);
+						//if(find(y+n)!=find(z+n))
+						 a[find(y+n)]=find(z+n);
+						//if(find(y+n<<1)!=find(z+n<<1))
+						 a[find(y+n*2)]=find(z+n*2);
+					}
+
+			    }
+			else if(x==2)
+				{
+					if(find(y)==find(z)||find(y)==find(z+n*2))
+					s++;
+					else
+					{
+						//if(find(y)!=find(z+n))
+						 a[find(y)]=find(z+n);
+						//if(find(y+n)!=find(z+n<<1))
+						 a[find(y+n)]=find(z+n*2);
+						//if(find(y+n<<1)!=find(z))
+						 a[find(y+n*2)]=find(z);
+					}
+				}
+		}
+		printf("%d\n",s);
+	return 0;
+}
+
+
+
+
+
+
+
+
+100 7
+1 101 1 
+2 1 2
+2 2 3 
+2 3 3 
+1 1 3 
+2 3 1 
+1 5 5

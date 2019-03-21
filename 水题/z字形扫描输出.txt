@@ -1,0 +1,49 @@
+#include<bits/stdc++.h>
+using namespace std;
+int a[501][501];
+int main()
+{
+	int n;
+	cin>>n;
+	for(int i=0;i<n;i++)
+	for(int j=0;j<n;j++)
+	cin>>a[i][j];
+	int j=0;
+	for(int i=0;i<n;)
+	{
+		cout<<a[i][j]<<" ";
+		if(i==j&&i==n-1)return 0;
+		if((i+j)%2==0)
+		{
+			i--;
+			j++;
+		}
+		else
+		{
+			i++;
+			j--;
+		}
+		
+		if(i==n)
+		{
+			i--;
+			j+=2;
+		}
+		if(j==n)
+		{
+			j--;
+			i+=2;
+		}
+		if(i<0)
+		{
+			i=0;
+		}
+		if(j<0)
+		{
+			j=0;
+		}
+		//cout<<a[i][j]<<" "
+	}
+	
+	return 0;
+} 

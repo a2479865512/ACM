@@ -1,0 +1,83 @@
+#include"stdio.h"
+//#define MID (node[h].lson + node[h].rson) >> 1
+struct Node
+{
+	long long	int add;
+	long long   int val;
+}node[400005];
+int num[100005];
+void Pushup(int o) {
+	node[o].val = node[o << 1].val + node[(o << 1) | 1].val;
+}
+void Pushdown(int o, int len) {
+	if (node[o].add) {
+		node[o << 1].add = node[o].add;
+		node[(o << 1) | 1].add = node[o].add;
+		//int mid=(l+r)>>1;
+		node[o << 1].val = (node[o].add * (len - (len >> 1)));
+		node[(o << 1) + 1].val = node[o].add * (len >> 1);
+		node[o].val = node[o].add*len;
+		node[o].add = 0;
+	}
+
+}
+void Build(int l, int r, int o) {
+
+	node[o].add = 0;
+	if (l == r) {
+		node[o].val = 1;
+		return;
+	}
+	int mid = (l + r) >> 1;
+	Build(l, mid, o << 1);
+	Build(mid + 1, r, (o << 1) + 1);
+	Pushup(o);
+}
+long long Query(int o, int l, int r, int ql, int qr) {
+	if (ql <= l && qr >= r)
+		return  node[o].val;
+	Pushdown(o, r - l + 1);
+	int mid = (l + r) >> 1;
+	long long ans = 0;
+	if (ql <= mid) ans += Query(o << 1, l, mid, ql, qr);
+	if (qr > mid) ans += Query((o << 1) + 1, mid + 1, r, ql, qr);
+	return ans;
+}
+void Update(int o, int l, int r, int tl, int tr, int value) {
+	if (tl <= l && tr >= r) {
+		node[o].add = value;
+		node[o].val = (long long)value* (r - l + 1);
+		return;
+	}
+	Pushdown(o, r - l + 1);
+	int mid = (r + l) >> 1;
+	if (tl <= mid) Update(o << 1, l, mid, tl, tr, value);
+	if (tr > mid) Update((o << 1) + 1, mid + 1, r, tl, tr, value);
+	Pushup(o);
+}
+int main()
+{
+	int n, m, t;
+	int a, b, d;
+	scanf("%d", &t);
+	for (int k = 1; k <= t; k++)
+	{
+		scanf("%d %d", &n, &m);
+		Build(1, n, 1);
+		for (int i = 0; i < m; i++)
+		{
+			scanf("%d %d %d", &a, &b, &d);
+			Update(1, 1, n, a, b, d);
+		}
+		printf("Case %d: The total value of the hook is ", k);
+		printf("%lld.\n", Query(1, 1, n, 1, n));
+	}
+	return 0;
+}
+
+
+1
+10
+2
+1 5 2
+5 9 3

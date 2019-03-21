@@ -1,0 +1,47 @@
+#include <stdio.h>
+//#include"string.h"
+//int max(int a,int b)
+//{if(a>b)return a;
+//else return b;
+//}
+//char a[10000],b[10000],c[10000];
+#define MAXN 1000002
+long long int d[MAXN], a[MAXN];
+void ss()
+{
+	d[0] = 0; d[1] = 0;
+	for (int i = 2; i < MAXN; i++)
+	{
+		d[i] = i;
+	}
+	for (int i = 2; i < MAXN; i++)
+	{
+		if (!a[i])
+			for (int j = i; j < MAXN; j = j + i)
+			{
+				a[j] = 1;
+				d[j] = d[j] * (i - 1) / i;
+			}
+
+	}
+	for (int i = 2; i < MAXN; i++)
+		d[i] += d[i - 1];
+}
+int main()
+{
+	ss();
+	long long int b;
+	while (scanf("%lld", &b) && b)
+	{
+		printf("%lld\n", d[b]);
+	}
+
+	return 0;
+}
+
+
+2
+3
+4
+5
+0

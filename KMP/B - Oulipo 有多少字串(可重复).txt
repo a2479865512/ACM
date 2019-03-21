@@ -1,0 +1,72 @@
+#include"cstdio"
+#include"cstring"
+#include"iostream"
+using namespace std;
+char c1[1000001],c2[10001];
+int next1[10001];
+int len1,len2;
+void getNext(char *p) {
+    next1[0] = -1;
+    int j = 0;
+    int k = -1;
+    while (j < len2 ) {
+       if (k == -1 || p[j] == p[k]) {
+				k++;
+				j++;
+				next1[j]=k;
+       } 
+	   else {
+           k = next1[k];
+		}
+    }
+} 
+int KMP(char *S, char *P)
+{   
+	int s=0;
+    int i = 0;
+    int j = 0; 
+    while (i < len1)
+    {
+        if (j == -1 || S[i] == P[j]) 
+        {
+            i++;
+            j++;
+        }
+        else
+            j = next1[j];
+    
+	if (j == len2)
+       {
+		   s++;
+		   j=next1[j-1];
+			 i--;
+		}
+	}
+    return s;
+}
+int main()
+{
+	int t;
+	cin>>t;
+	while(t--){
+		cin>>c2>>c1;
+		len1=strlen(c1);
+		len2=strlen(c2);
+		getNext(c2);
+		printf("%d\n",KMP(c1,c2));
+	}
+
+return 0;
+}
+
+
+
+
+
+3
+BAPC
+BAPC
+AZA
+AZAZAZA
+VERDI
+AVERDXIVYERDIAN

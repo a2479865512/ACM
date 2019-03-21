@@ -1,0 +1,65 @@
+#include"stdio.h"
+#include "algorithm" 
+using namespace std;
+struct MyStruct
+{
+	int x, y, z;
+}a[181];
+bool cmp(MyStruct a, MyStruct b)
+{
+	if (a.x == b.x)
+		return a.y > b.y;
+	return a.x > b.x;
+}
+int d[181];
+int main()
+{
+	int n, c = 1, m;
+	while (~scanf("%d", &n) && n)
+	{
+		for (int i = 0; i < 6 * n; i++)
+		{
+			scanf("%d %d %d", &a[i].x, &a[i].y, &a[i].z);
+			a[++i].x = a[i - 1].x; a[i].y = a[i - 1].z; a[i].z = a[i - 1].y;
+			a[++i].x = a[i - 1].z; a[i].y = a[i - 1].x; a[i].z = a[i - 1].y;
+			a[++i].x = a[i - 1].x; a[i].y = a[i - 1].z; a[i].z = a[i - 1].y;
+			a[++i].x = a[i - 1].y; a[i].y = a[i - 1].x; a[i].z = a[i - 1].z;
+			a[++i].x = a[i - 1].x; a[i].y = a[i - 1].z; a[i].z = a[i - 1].y;
+		}
+		sort(a, a + 6 * n, cmp);
+		m = 0;
+		for (int i = 0; i < 6 * n; i++)
+		{
+			d[i] = a[i].z;
+			for (int j = 0; j < i; j++)
+				if (a[i].x < a[j].x&&a[i].y < a[j].y)
+					if (d[i] < d[j] + a[i].z)
+						d[i] = d[j] + a[i].z;
+			if (m < d[i])m = d[i];
+		}
+		printf("Case %d: maximum height = %d\n", c++, m);
+	}
+	return 0;
+}
+
+
+1
+10 20 30
+2
+6 8 10
+5 5 5
+7
+1 1 1
+2 2 2
+3 3 3
+4 4 4
+5 5 5
+6 6 6
+7 7 7
+5
+31 41 59
+26 53 58
+97 93 23
+84 62 64
+33 83 27
+0

@@ -1,0 +1,43 @@
+#include"stdio.h"
+int main()
+{
+	int a, b, k = 0, t;
+	int c[20] = { 0 };
+	scanf("%d %d", &a, &b);
+	b = -b;
+	printf("%d=", a);
+	while (a != 0)
+	{
+		c[k++] = a % b;
+		a /= b;
+	}
+	for (int i = 1; i < k; i = i + 2)
+	{
+		c[i] = -c[i];
+	}
+	for (int i = 0; i < k; i++)
+	{
+		if (c[i] < 0)
+		{
+			c[i] = b + c[i];
+			c[i + 1]++;
+			if (k - 1 == i)
+				k = k + 1;
+		}
+		while (c[i] >= b)
+		{
+			c[i] -= b;
+			c[i + 1]--;
+			if (k - 1 == i)
+				k = k + 1;
+		}
+	}
+
+	for (int i = k - 1; i >= 0; i--)
+	{
+		if (c[i] < 10)printf("%d", c[i]);
+		else printf("%c", c[i] + 55);
+	}
+	printf("(base-%d)\n", b);
+	return 0;
+}

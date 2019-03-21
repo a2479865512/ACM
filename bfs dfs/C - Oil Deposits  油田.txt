@@ -1,0 +1,85 @@
+#include <iostream>
+#include <queue>
+#include <cstring>
+using namespace std;
+int n,m;
+const int AX = 300;
+char a[AX][AX];
+struct  Node
+{
+	int x;
+	int y;
+}pos,q;
+int vis[110][110];
+int dir[8][2]={{0,1},{1,0},{0,-1},{-1,0},{1,-1},{1,1},{-1,1},{-1,-1}};
+void bfs(int x1,int y1){
+	queue<Node>que;
+	pos.x=x1;
+	pos.y=y1;
+	vis[pos.x][pos.y] = 1;
+	que.push(pos);
+    while(!que.empty())
+    { 
+		pos=que.front(); 
+        que.pop();
+        for(int i=0;i<8;i++)
+        {
+            q.x=pos.x+dir[i][0];
+            q.y=pos.y+dir[i][1];
+                while(a[q.x][q.y]=='@'&&q.x>=0 &&q.x<m && q.y>=0 && q.y<n )
+                {
+                   if(vis[q.x][q.y]==0)
+                    {  
+                        vis[q.x][q.y]=1; 
+                        que.push(q);
+						
+                    }
+                    q.x+=dir[i][0];
+                    q.y+=dir[i][1];
+                }
+        }
+    }
+}
+int main(){
+	int s;
+	while(cin>>m>>n){
+		if(!m)break;
+		memset(a,0,sizeof(a));
+		memset(vis,0,sizeof(vis));
+	
+		s=0;
+		for(int i=0;i<m;i++)
+			for(int j=0;j<n;j++)
+				cin>>a[i][j];
+		for(int i=0;i<m;i++)
+			for(int j=0;j<n;j++)
+			if(a[i][j]=='@'&&!vis[i][j])
+			{
+			bfs(i,j);
+			s++;
+			}
+			printf("%d\n",s);
+	}
+	return 0;
+} 
+
+
+
+
+
+
+1 1
+*
+3 5
+*@*@*
+**@**
+*@*@*
+1 8
+@@****@*
+5 5
+****@
+*@@*@
+*@**@
+@@@*@
+@@**@
+0 0

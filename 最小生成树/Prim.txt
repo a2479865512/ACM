@@ -1,0 +1,55 @@
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+const int inf = 0x3f3f3f3f;
+
+int e[42][42], dis[42], vis[42];
+
+void Prim(int n);
+
+int main(){
+    int n, i, k, u, v, w;
+    char st1[14], st2[14];
+    while(scanf("%d", &n) && n){
+        getchar();
+
+        memset(e, inf, sizeof(e));
+
+        for(i = 1; i < n; i++){
+            scanf("%s %d", st1, &k);
+            u = st1[0]-'A'+1;
+            while(k--){
+                scanf("%s %d", st2, &w);
+                v = st2[0]-'A'+1;
+                e[u][v] = e[v][u] = w;
+            }
+        }
+
+        Prim(n);
+    }
+    return 0;
+}
+void Prim(int n){
+    int i, v, miv, num, sum;
+    memset(vis, 0, sizeof(vis));
+    for(i = 1; i <= n; i++)
+        dis[i] = e[1][i];
+    vis[1] = 1, dis[1] = 0, num = 1, sum = 0;
+    while(num < n){
+        miv = inf;
+        for(i = 1; i <= n; i++){
+            if(!vis[i] && dis[i] < miv){
+                miv = dis[i], v = i;
+            }
+        }
+        vis[v] = 1, num++, sum += dis[v];
+        for(i = 1; i <= n; i++){
+            if(!vis[i] && e[v][i] < dis[i])
+                dis[i] = e[v][i];
+        }
+    }
+    printf("%d\n", sum);
+}

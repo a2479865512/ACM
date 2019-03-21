@@ -1,0 +1,88 @@
+#include<iostream>
+using namespace std;
+const int inf = 1e9;
+int a[30][30];
+int n,m,sum;
+char x;
+int vis[30];
+int length[30];
+void prim()
+{
+    for(int i=1;i<=n;i++)
+    {
+        length[i]=a[1][i];
+        vis[i]=0;
+    }
+    for(int i=1;i<=n;i++)
+    {
+        int u=inf;
+        int v;
+        for(int j=1;j<=n;j++)
+        {
+            if(vis[j]==0&&u>length[j])
+            {
+                v=j;
+                u=length[j];
+            }
+        }
+        vis[v]=1;
+        sum+=length[v];
+        for(int j=1;j<=n;j++)
+        {
+            if(vis[j]==0&&length[j]>a[v][j])
+            {
+                length[j]=a[v][j];
+            }
+        }
+    }
+}
+int main()
+{
+    while(cin>>n&&n)
+    {
+        sum=0;
+        for(int i=1;i<=n;i++)
+            for(int j=1;j<=n;j++)
+        {
+            if(i==j)a[i][j]=0;
+            else a[i][j]=inf;
+        }
+		int t=n-1;
+        while(t--)
+        {
+            cin>>x>>m;
+            while(m--)
+            {
+                char y;
+                int z;
+                cin>>y>>z;
+                a[x-'A'+1][y-'A'+1]=a[y-'A'+1][x-'A'+1]=z;
+            }
+        }
+        prim();
+        cout<<sum<<endl;
+    }
+    return 0;
+}
+
+
+
+
+
+
+
+
+
+9
+A 2 B 12 I 25
+B 3 C 10 H 40 I 8
+C 2 D 18 G 55
+D 1 E 44
+E 2 F 60 G 38
+F 0
+G 1 H 35
+H 1 I 35
+3
+A 2 B 10 C 40
+B 1 C 20
+0

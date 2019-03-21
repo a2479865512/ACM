@@ -1,0 +1,80 @@
+#include <cstdio>
+#include <cstring>
+#include <algorithm>
+
+using namespace std;
+
+struct Edge{
+    int u, v, w;
+    bool operator < (const Edge &b) const{
+        return w < b.w;
+    }
+}link[2014];
+
+int tp, f[40];
+
+void add_edge(int u, int v, int w);
+void Init(int n);
+int get_f(int x);
+bool Merge(int x, int y);
+void Kruskal(int n);
+
+int main(){
+    int n, i, k, u, v, w;
+    char st[14];
+    while(~scanf("%d", &n) && n){
+        tp = 0;
+        for(i = 1; i < n; i++){
+            scanf("%s %d", st, &k);
+            u = st[0] - 'A' + 1;
+            while(k--){
+                scanf("%s %d", st, &w);
+                v = st[0] - 'A' + 1;
+                add_edge(u, v, w);
+            }
+        }
+        Kruskal(n);
+    }
+    return 0;
+}
+void add_edge(int u, int v, int w){
+    link[tp].u = u;
+    link[tp].v = v;
+    link[tp].w = w;
+    tp++;
+}
+void Kruskal(int n){
+    Init(n);
+    sort(link, link+tp);
+    int cnt = 0, sum = 0;
+    for(int i = 0; i < tp; i++){
+        int x = link[i].u;
+        int y = link[i].v;
+        if(Merge(x, y)){
+            cnt++;
+            sum += link[i].w;
+            if(cnt == n-1)
+                break;
+        }
+    }
+    printf("%d\n", sum);
+}
+void Init(int n){
+    for(int i = 0; i <= n; i++)
+        f[i] = i;
+}
+int get_f(int x){
+    if(f[x] == x)
+        return x;
+    return f[x] = get_f(f[x]);
+}
+bool Merge(int x, int y){
+    int t1 = get_f(x);
+    int t2 = get_f(y);
+    if(t1 == t2)
+        return false;
+    else {
+        f[t2] = t1;
+        return true;
+    }
+}

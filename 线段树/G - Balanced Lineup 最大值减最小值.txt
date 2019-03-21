@@ -1,0 +1,111 @@
+#include"stdio.h"
+int max(int a, int b)
+{
+	if (a > b)return a;
+	else return b;
+}
+int min(int a, int b)
+{
+	if (a > b)return b;
+	else return a;
+}
+int a, b;
+struct Node
+{
+	int max1;
+	int min1;
+}node[800001];
+int num[200001];
+void Build(int l, int r, int h)
+{
+	if (l == r)
+	{
+		node[h].min1 = node[h].max1 = num[l];
+
+		return;
+	}
+	else
+	{
+		int mid = (l + r) >> 1;
+		Build(l, mid, h << 1);
+		Build(mid + 1, r, h << 1 | 1);
+		node[h].max1 = max(node[h << 1].max1, node[h << 1 | 1].max1);
+		node[h].min1 = min(node[h << 1].min1, node[h << 1 | 1].min1);
+		return;
+	}
+}
+int Querymax(int l, int r, int h)
+{
+	if (a <= l && b >= r)
+	{
+		return node[h].max1;
+	}
+	else
+	{
+		int mid = (l + r) >> 1;
+		if (b <= mid)
+		{
+			return Querymax(l, mid, h << 1);
+		}
+		else if (a > mid)
+		{
+			return Querymax(mid + 1, r, h << 1 | 1);
+		}
+		else
+			return max(Querymax(l, mid, h << 1), Querymax(mid + 1, r, h << 1 | 1));
+	}
+}
+int Querymin(int l, int r, int h)
+{
+	if (a <= l && b >= r)
+	{
+		return node[h].min1;
+	}
+	else
+	{
+		int mid = (l + r) >> 1;
+		if (b <= mid)
+		{
+			return Querymin(l, mid, h << 1);
+		}
+		else if (a > mid)
+		{
+			return Querymin(mid + 1, r, h << 1 | 1);
+		}
+		else
+			return min(Querymin(l, mid, h << 1), Querymin(mid + 1, r, h << 1 | 1));
+	}
+}
+int main()
+{
+	int n, m;
+	while (~scanf("%d %d", &n, &m))
+	{
+		for (int i = 1; i <= n; i++)
+		{
+			scanf("%d", num + i);
+		}
+		Build(1, n, 1);
+		for (int i = 0; i < m; i++)
+		{
+			scanf("%d %d", &a, &b);
+			printf("%d\n", Querymax(1, n, 1) - Querymin(1, n, 1));
+		}
+	}
+	return 0;
+}
+
+
+
+
+
+6 3
+1
+7
+3
+4
+2
+5
+1 5
+4 6
+2 2

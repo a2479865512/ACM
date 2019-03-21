@@ -1,0 +1,46 @@
+#include"cstdio"
+#include"cstring"
+#include"iostream"
+using namespace std;
+char c2[100001];
+int next1[100001];
+int len1,len2;
+void getNext(char *p) {
+    next1[0] = -1;
+    int j = 0;
+    int k = -1;
+    while (j < len2) {
+       if (k == -1 || p[j] == p[k]) {
+				k++;
+				j++;
+				next1[j]=k;
+       } 
+	   else {
+           k = next1[k];
+		}
+    }
+} 
+
+int main()
+{
+	int t;
+	scanf("%d",&t);	getchar();
+	while(t--){
+	
+		scanf("%s",&c2);
+		len2=strlen(c2);
+		getNext(c2);
+		if(len2%(len2-next1[len2])==0&&next1[len2]!=0)
+			printf("0\n");
+		else
+		printf("%d\n",len2-next1[len2]-len2%(len2-next1[len2]));
+	}
+
+return 0;
+}
+
+
+3
+aaa
+abca
+abcde

@@ -1,0 +1,79 @@
+#include<iostream>
+#include<set>
+#include<map>
+#include<vector>
+#include<queue>
+#include<cmath>
+#include<climits>
+#include<cstdio>
+#include<string>
+#include<cstring>
+#include<algorithm>
+typedef long long LL;
+using namespace std;
+const int INF=10000000;
+int N,M;
+int col[1005][1005];
+int dis[1005];
+bool vis[1005];
+void prim()
+{
+    int ans=0;
+    int biao;
+    for(int i=1; i<=N; i++)
+    {
+        if(col[1][i]==0)
+            dis[i]=INF;
+        else
+        dis[i]=col[1][i];
+        vis[i]=false;
+    }
+
+
+    dis[1]=0;
+    vis[1]=true;
+    for(int i=2; i<=N; i++)
+    {
+        int min1=INF;
+        for(int j=2; j<=N; j++)
+        {
+            if((!vis[j])&&dis[j]<min1)
+            {
+                min1=dis[j];
+                biao=j;
+            }
+        }
+        ans+=min1;
+        vis[biao]=true;
+        for(int j=1; j<=N; j++)
+            if((!vis[j])&&(col[j][biao]!=0)&&dis[j]>col[j][biao])
+                dis[j]=col[j][biao];
+    }
+
+
+    for(int i=1; i<=N; i++)
+        if(dis[i]>=INF)
+        {
+            cout<<-1<<endl;
+            return;
+        }
+    cout<<-ans<<endl;
+}
+int main()
+{
+    //freopen("in.txt","r",stdin);
+    int u,v,x;
+    while(cin>>N>>M)
+    {
+        memset(col,0,sizeof(col));
+        memset(vis,false,sizeof(vis));
+        for(int i=1; i<=M; i++)
+        {
+            cin>>u>>v>>x;
+            col[u][v]=min(col[u][v],-x);
+            col[v][u]=col[u][v];
+        }
+        prim();
+    }
+    return 0;
+}

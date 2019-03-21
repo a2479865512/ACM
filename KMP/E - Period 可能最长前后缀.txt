@@ -1,0 +1,49 @@
+#include"cstdio"
+#include"cstring"
+#include"iostream"
+using namespace std;
+char c2[1000001];
+int next1[1000001];
+int len2;
+void getNext(char *p) {
+    next1[0] = -1;
+	int j=0;
+	  int k = -1;
+    while (j < len2) {
+       if (k == -1 || p[j] == p[k]) {
+				k++;
+				j++;
+				next1[j]=k;
+       } 
+	   else {
+           k = next1[k];
+		}
+    }
+} 
+
+int main()
+{int t=0;
+	while(cin>>len2&&len2!=0){
+		cin>>c2;
+		t++;
+		getNext(c2);
+		printf("Test case #%d\n",t);
+		for(int i=2;i<=len2;i++)
+			if(i%(i-next1[i])==0&&next1[i]!=0)
+		printf("%d %d\n",i,i/(i-next1[i]));
+		printf("\n");
+	}
+
+return 0;
+}
+
+
+
+
+
+
+3
+aaa
+12
+aabaabaabaab
+0

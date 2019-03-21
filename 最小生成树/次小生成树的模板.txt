@@ -1,0 +1,94 @@
+次小生成树的模板:
+#include<iostream>
+using namespace std;
+const int INF=0x3f3f3f3f;
+int g[110][110],dist[110],mmax[110][110];
+int pre[110];
+bool mark[110];
+bool connect[110][110];
+int mst,mint;
+int n,m;
+int prim()
+{
+       int res=0,fa,p,min,i,j;
+       memset(mmax,0,sizeof(mmax));
+       for(i=1;i<=n;i++)
+       {
+              dist[i]=g[1][i];
+              pre[i]=1;
+              mark[i]=false;
+       }
+       dist[1]=0;
+       mark[1]=true;
+       for(i=1;i<n;i++)
+       {
+              p=-1;min=INF;
+              for(j=1;j<=n;j++)
+              {
+                     if(!mark[j]&&dist[j]<min)
+                     {
+                            p=j;
+                            min=dist[j];
+                     }
+              }
+              if(p==-1) return res;
+              mark[p]=true;
+              res+=dist[p];
+              fa=pre[p];
+              connect[fa][p]=false;
+              connect[p][fa]=false;
+              mmax[fa][p]=min;
+              for(j=1;j<=n;j++)
+                     mmax[j][p]=(mmax[fa][p]>mmax[j][fa])?mmax[fa][p]:mmax[j][fa];
+              for(j=1;j<=n;j++)
+              {
+                     if(!mark[j]&&dist[j]>g[p][j])
+                     {
+                            dist[j]=g[p][j];
+                            pre[j]=p;
+                     }
+              }
+       }
+       return res;
+}
+
+int main()
+{
+       int tc;
+    //freopen("1.txt","r",stdin);
+       scanf("%d",&tc);
+       while(tc--)
+       {
+              scanf("%d %d",&n,&m);
+              memset(g,INF,sizeof(g));
+              memset(connect,false,sizeof(connect));
+              while(m--)
+              {
+                     int u,v,c;
+                     scanf("%d %d %d",&u,&v,&c);
+                     g[u][v]=c;
+                     g[v][u]=c;
+                     connect[u][v]=true;
+                     connect[v][u]=true;
+              }
+              mst=prim();
+              int i,j;
+              bool flag=false;
+              for(i=1;i<=n;i++)
+                     for(j=1;j<=n;j++)
+                     {
+                            if(connect[i][j]==false||g[i][j]==INF)
+                                   continue;
+                            if(g[i][j]==mmax[i][j])
+                            {
+                                   flag=true;
+                                   break;
+                            }
+                     }
+              if(flag)
+                     printf("Not Unique!\n");
+              else
+                     printf("%d\n",mst);
+       }
+       return 0;
+}

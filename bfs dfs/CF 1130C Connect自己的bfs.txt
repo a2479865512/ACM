@@ -1,0 +1,79 @@
+#include <iostream>
+#include<cstdio>
+#include<algorithm>
+#include <queue>
+
+using namespace std;
+
+int n, a, b, c, d, min1 = 5000;
+char a1[55][55];
+int vis[55][55];
+struct  Node
+{
+	int x;
+	int y;
+}pos, q;
+int dir[4][2] = { {0,1},{1,0},{0,-1},{-1,0} };
+int  bfs(int x1, int y1, int x2, int y2, int k) {
+	queue<Node>que;
+	if (x1 == x2 && y1 == y2) return 1;
+	pos.x = x1;
+	pos.y = y1;
+	vis[pos.x][pos.y] = k;
+	que.push(pos);
+	while (!que.empty())
+	{
+		pos = que.front();
+		que.pop();
+		for (int i = 0; i < 4; i++)
+		{
+			q.x = pos.x + dir[i][0];
+			q.y = pos.y + dir[i][1];
+			while (a1[q.x][q.y] == '0')
+			{
+				if (q.x == x2 && q.y == y2) return 1;
+				if (vis[q.x][q.y]==0)
+				{
+					vis[q.x][q.y] = k;
+					que.push(q);
+				}
+				q.x += dir[i][0];
+				q.y += dir[i][1];
+			}
+		}
+	}
+	return 0;
+}
+int main()
+{
+	scanf("%d", &n);
+	scanf("%d%d", &a, &b);
+	scanf("%d%d", &c, &d);
+	for (int i = 0; i < n; i++)
+	{
+		for (int j = 0; j < n; j++)
+		{
+			cin>>a1[i][j];
+		}
+	}
+	if (bfs(a - 1, b - 1, c - 1, d - 1, 1))
+	{
+		printf("0\n");
+		return 0;
+	}
+	bfs(c - 1, d - 1, a-1, b-1, 2);
+	for (int i = 0; i < n; i++)
+		for (int j = 0; j < n; j++)
+		{
+			if (vis[i][j] == 1)
+			{
+				for (int i1 = 0; i1 < n; i1++)
+					for (int j1 = 0; j1 < n; j1++)
+						if (vis[i1][j1] == 2)
+							min1 = min(min1, (i - i1)*(i - i1) + (j - j1)*(j - j1));
+			}
+
+		}
+		printf("%d\n", min1);
+	return 0;
+}

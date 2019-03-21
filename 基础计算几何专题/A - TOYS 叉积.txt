@@ -1,0 +1,96 @@
+#include"stdio.h"
+#include"math.h"
+int a[5001],b[5001],c[5001];
+
+int main()
+{
+	int n,m,x1,y1,x2,y2,x3,y3,t,s;
+	while(scanf("%d",&n)!=EOF)
+	{ 
+		if(n==0)break;
+		scanf("%d %d %d %d %d",&m,&x1,&y1,&x2,&y2);
+		for (int i = 0; i < n; i++)
+    	{
+		scanf("%d %d",a+i,b+i);
+       		c[i]=0;
+		}
+		for (int i = 0; i < n-1; i++)
+		{
+			int k=i;
+			for (int j = i+1; j < n; j++)
+				if(a[k]>a[j])k=j;
+			if(k!=i){
+				t=a[k];a[k]=a[i];a[i]=t;
+				t=b[k];b[k]=b[i];b[i]=t;
+			}
+		}
+		s=m;
+		for(int i=0;i<m;i++)
+		{
+		scanf("%d %d",&x3,&y3);
+			for(int j=0;j<n;j++)
+			{
+				if((b[j]-a[j])*(y3-y1)+(x3-a[j])*(y1-y2)<0)
+				{
+					c[j]++;
+					s--;
+					break;
+				}
+			}
+		}
+		for(int i=0;i<n;i++)
+		{
+		  printf("%d: %d\n",i,c[i]);
+		}
+		printf("%d: %d\n \n",n,s);
+	}
+return 0;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+5 6 0 10 60 0
+3 1
+4 3
+6 8
+10 10
+15 30
+1 5
+2 1
+2 8
+5 5
+40 10
+7 9
+4 10 0 10 100 0
+20 20
+40 40
+60 60
+80 80
+ 5 10
+15 10
+25 10
+35 10
+45 10
+55 10
+65 10
+75 10
+85 10
+95 10
+0

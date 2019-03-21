@@ -1,0 +1,44 @@
+#include"stdio.h"
+int t[100], a[100];
+void u(int l, int r)
+{
+	int mid = (l + r) >> 1;
+	int i = l, j = mid + 1;
+	int c = 0;
+	while (i <= mid && j <= r)
+	{
+		if (a[i] > a[j]) {
+			t[c++] = a[j++];
+		}
+		else t[c++] = a[i++];
+	}
+	while (i <= mid)t[c++] = a[i++];
+	while (j <= r)t[c++] = a[j++];
+	for (int i = 0; i < c; i++)
+		a[l++] = t[i];
+}
+void s(int l, int r)
+{
+	if (l == r) return;
+	int mid = (l + r) >> 1;
+	s(l, mid);
+	s(mid + 1, r);
+	u(l, r);
+}
+int main()
+{
+	int n;
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++)
+		scanf("%d", a + i);
+	s(0, n - 1);
+	for (int i = 0; i < n; i++)
+		printf("%d\x20", a[i]);
+	printf("\n");
+
+	return 0;
+}
+
+
+8926726
+19335419
