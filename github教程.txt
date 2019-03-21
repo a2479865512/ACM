@@ -32,8 +32,10 @@ git add "上传的文件名"		添加单个文件
 git commit -m "注释"		添加本次上传文件注释
 
 git remote add origin 仓库地址	本地关联GitHub 
-git@github.com:"用户账号"/"库名".git	仓库地址格式SSH
-https://github.com/"用户账号"/"库名".git仓库地址格式HTTPS
+git@github.com:用户账号/库名.git	仓库地址格式SSH
+https://github.com/用户账号/库名.git	仓库地址格式HTTPS
+
+git pull origin master		拉取最新文件(库里已经有东西的时候用)
 
 git push -u origin master		上传文件	需要账号密码
 *********************************************************************/
