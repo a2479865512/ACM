@@ -1,0 +1,54 @@
+#include<stdio.h>
+#include<string.h>
+#include<cstdio>
+#include<algorithm>
+#include<cmath>
+#include<bits/stdc++.h>
+using namespace std;
+const int MAXN = 1e5 + 5;
+int a;
+int w[MAXN];
+int wmax;
+vector<int>edge[MAXN];
+int n;
+void dfs(int x, int o)
+{
+	w[x] = o;
+	wmax = max(wmax, o);
+	for (int i = 0; i < edge[x].size(); i++)
+	{
+		dfs(edge[x][i], o + 1);
+	}
+}
+int main()
+{
+	int k = 0;
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> a;
+		if (a == -1)
+		{
+			k = i;
+		}
+		else
+		{
+			edge[a].push_back(i);
+		}
+	}
+	dfs(k, 1);
+	cout << wmax << endl;
+	k = 0;
+	for (int i = 1; i <= n; i++)
+		if (wmax == w[i])
+		{
+			if (k == 0)
+			{
+				k++;
+				cout << i;
+			}
+			else cout << ' ' << i;
+		}
+	cout << endl;
+	return 0;
+}

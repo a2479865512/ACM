@@ -1,0 +1,38 @@
+#include<cstdio>
+#include<algorithm>
+#include<cmath>
+#include<bits/stdc++.h>
+using namespace std;
+int q[17] = { 7,9,10,5,8,4,2,1,6,3,7,9,10,5,8,4,2 };
+char m[12] = "10X98765432";
+char c[19];
+int main()
+{
+	int n, f1 = 0;
+	cin >> n;
+	while (n--)
+	{
+		cin >> c;
+		int f2 = 0;
+		for (int i = 0; i < 17; i++)
+			if (c[i]<'0' || c[i]>'9')
+			{
+				f1 = f2 = 1;
+			}
+		if (f2)cout << c << endl;
+		else
+		{
+			int s = 0;
+			for (int i = 0; i < 17; i++)
+				s += (c[i] - '0')*q[i];
+			s = s % 11;
+			if (m[s] != c[17])
+			{
+				f1 = 1;
+				cout << c << endl;
+			}
+		}
+	}
+	if (!f1)cout << "All passed" << endl;
+	return 0;
+}

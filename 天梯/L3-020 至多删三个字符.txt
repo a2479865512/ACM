@@ -1,0 +1,35 @@
+#include<cstdio>
+#include<algorithm>
+#include<cmath>
+#include<bits/stdc++.h>
+using namespace std;
+char c[1000005];
+long long dp[1000005][4];
+int main()
+{
+	cin >> c + 1;
+	int len = strlen(c + 1);
+	dp[0][0] = 1;
+	for (int i = 1; i <= len; i++)
+	{
+		for (int j = 0; j < 4; j++)
+		{
+			dp[i][j] = dp[i - 1][j];
+			if (j) dp[i][j] += dp[i - 1][j - 1];
+			for (int k = i - 1; k >= 1 && k >= i - j; k--)//i-k是重复字符的个数k>=i-j即(i-k)<=j;
+				if (c[i] == c[k])
+				{
+					dp[i][j] -= dp[k - 1][j - (i - k)];
+					//k-1是前串长 要减去 前串长中所有可能的情况
+					//因为对xxxx a yy a zzzzz来说删去ayy和yya后
+					//面都剩下azzzzz 重复的情况的个数是xxxx情况
+					//删去j-（i-k）的个数
+					break;
+				}
+		}
+	}
+	for (int i = 1; i < 4; i++)
+		dp[len][0] += dp[len][i];
+	cout << dp[len][0] << endl;
+	return 0;
+}

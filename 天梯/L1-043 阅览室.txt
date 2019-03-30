@@ -1,0 +1,55 @@
+#include<cstdio>
+#include<algorithm>
+#include<cmath>
+#include<bits/stdc++.h>
+using namespace std;
+struct aaaa
+{
+	int n;
+	int t;
+}a[1005];
+char c;
+int x, y, z, s = 0, k = 0;
+int main()
+{
+	int n;
+	cin >> n;
+	while (n--)
+	{
+		while (~scanf("%d %c %d:%d", &x, &c, &y, &z))
+		{
+			//printf("%d %c %d:%d\n",x,c,y,z);
+			if (x != 0) {
+				if (c == 'S')//以最后一次借书的时间为准
+				{
+					a[x].n = 1;
+					a[x].t = 60 * y + z;
+				}
+				else if (c == 'E'&&a[x].n == 1)
+				{
+					a[x].n = 0;
+					k++;
+					s += 60 * y + z - a[x].t;
+				}
+			}
+			else if (x == 0)
+			{
+				if (k != 0)
+				{
+					s = s * 1.0 / k + 0.5;
+					printf("%d %d\n", k, s);
+				}
+				else if (k == 0)
+				{
+					printf("0 0\n");
+				}
+				memset(a, 0, sizeof(a));
+				s = 0;
+				k = 0;
+				break;
+			}
+		}
+
+	}
+	return 0;
+}

@@ -1,0 +1,41 @@
+#include<cstdio>
+#include<algorithm>
+#include<cmath>
+#include<bits/stdc++.h>
+using namespace std;
+string c;
+int main()
+{
+	int max1 = 0;
+	getline(cin, c);
+	int len = c.size();
+	for (int i = 0; i < len; i++)
+	{
+		int l = i, r = i, s = -1;
+		while (l >= 0 && r < len)
+		{
+			if (c[l] == c[r])
+			{
+				l--;
+				r++;
+				s += 2;
+			}
+			else break;
+		}
+		max1 = max(max1, s);
+		l = i, r = i + 1, s = 0;
+		while (l >= 0 && r < len)
+		{
+			if (c[l] == c[r])
+			{
+				l--;
+				r++;
+				s += 2;
+			}
+			else break;
+		}
+		max1 = max(max1, s);
+	}
+	cout << max1;
+	return 0;
+}

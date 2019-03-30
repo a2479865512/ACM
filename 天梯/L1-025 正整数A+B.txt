@@ -1,0 +1,71 @@
+
+#include<stdio.h>
+char c[1000];
+int a = 0, b = 0, fa = 1, fb = 1;
+int main()
+{
+	gets(c);
+	int len = strlen(c);
+	int i = 0;
+	for (i = 0; c[i] != ' '; i++)
+	{
+		if (c[i]<'0' || c[i]>'9')
+		{
+			fa = 0;
+		}
+		else if (fa) {
+			a = a * 10;
+			a += c[i] - '0';
+		}
+	}
+	i++;
+	while (i < len)
+	{
+		if (c[i]<'0' || c[i]>'9')
+		{
+			fb = 0;
+		}
+		else if (fb) {
+			b = b * 10;
+			b += c[i] - '0';
+		}
+		i++;
+	}
+	if (fa)
+	{
+		if (a < 1 || a>1000)
+			fa = 0;
+	}
+	if (fb)
+	{
+		if (b < 1 || b>1000)
+			fb = 0;
+	}
+	if (fa)
+	{
+		printf("%d", a);
+	}
+	else
+	{
+		printf("?");
+	}
+	printf(" + ");
+	if (fb)
+	{
+		printf("%d", b);
+	}
+	else
+	{
+		printf("?");
+	}
+	printf(" = ");
+	if (fa&fb)
+	{
+		printf("%d\n", a + b);
+	}
+	else
+	{
+		printf("?\n");
+	}
+	return 0;
+}

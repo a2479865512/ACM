@@ -1,0 +1,64 @@
+#include <iostream>
+#include<cstdio>
+#include<algorithm>
+#include <queue>
+#include<cmath>
+#include<bits/stdc++.h>
+using namespace std;
+int fa[1001];
+int s[1001];
+int n, a, b;
+int findfa(int h)
+{
+	if (h != fa[h])
+		return fa[h] = findfa(fa[h]);
+	return h;
+}
+int main()
+{
+	scanf("%d", &n);
+	for (int i = 1; i < 1001; ++i)
+	{
+		fa[i] = i;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		int t;
+		scanf("%d:", &t);
+		t--;
+		scanf("%d", &a);
+		int q = findfa(a);
+		while (t--)
+		{
+			scanf("%d", &b);
+			int p = findfa(b);
+			if (q != p)
+			{
+				fa[p] = q;
+				s[q] += s[p];
+				s[p] = 0;
+			}
+		}
+		s[q]++;
+
+	}
+	int k = 0;
+	for (int i = 1; i <= 1000; ++i)
+	{
+		if (s[i])
+		{
+			s[k] = s[i];
+			k++;
+		}
+	}
+	printf("%d\n", k);
+	sort(s, s + k);
+	printf("%d", s[k - 1]);
+	for (int i = k - 2; i >= 0; i--)
+	{
+		printf(" %d", s[i]);
+	}
+	printf("\n");
+	return 0;
+
+}

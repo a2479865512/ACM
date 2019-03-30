@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<string.h>
+#include<cstdio>
+#include<algorithm>
+#include<cmath>
+#include<bits/stdc++.h>
+using namespace std;
+int a[101];
+int a1[101];
+int b[1005][11];
+int main()
+{
+	int n;
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> a[i];
+		a1[i] = a[i];
+		a[i] += a[i - 1];
+	}
+	sort(a1 + 1, a1 + n + 1);
+	int max1 = a1[n - 1];
+	int k = 1, m = 1;
+	while (m <= max1)
+	{
+		for (int i = 1; i <= 10; i++)
+		{
+			for (int j = 0; j < n; j++)
+			{
+				if (a[j] + m <= a[j + 1])
+				{
+					b[a[j] + m][i] = k;
+					k++;
+				}
+			}
+		}
+		m++;
+	}
+	for (int i = 0; i < n; i++)
+	{
+		cout << '#' << i + 1 << endl;
+		for (int j = a[i] + 1; j <= a[i + 1]; j++)
+		{
+			if (b[j][1])
+			{
+				cout << b[j][1];
+				for (int c = 2; c <= 10; c++)
+					cout << ' ' << b[j][c];
+				cout << endl;
+			}
+			else {
+				if (k != 1)
+					b[j][1] = max(b[j - 1][10] + 2, k);
+				else b[j][1] = 1;
+				cout << b[j][1];
+				for (int c = 2; c <= 10; c++)
+				{
+					b[j][c] = b[j][c - 1] + 2;
+					cout << ' ' << b[j][c];
+				}
+				cout << endl;
+			}
+		}
+	}
+	return 0;
+}

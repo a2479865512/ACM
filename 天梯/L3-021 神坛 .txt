@@ -1,0 +1,53 @@
+#include <cstdio>
+#include<iostream>
+#include<algorithm>
+using namespace std;
+const int MAXN = 5000 + 10;
+
+int n, x, y;
+struct Spot
+{
+	long long x, y;
+}a[MAXN];
+struct tor
+{
+	long long x, y;
+}b[MAXN];
+double s = 100000000;
+
+bool cmp(tor aa, tor bb)
+{
+	if (aa.x*bb.y == aa.y*bb.x)return aa.x < bb.x;
+	return aa.x * bb.y > bb.x * aa.y;
+}
+void  Search()
+{
+	for (int i = 0; i < n; i++)
+	{
+		int k = 0;
+		for (int j = 0; j < n; j++)
+		{
+			if (j != i) {
+				b[k].x = a[j].x - a[i].x;
+				b[k++].y = a[j].y - a[i].y;
+			}
+		}
+		sort(b, b + k, cmp);
+		for (int j = 1; j < k; j++) {
+			s = min(s, abs(b[j - 1].x*b[j].y - b[j].x*b[j - 1].y) / 2.0);
+		}
+	}
+	//return s;
+}
+int main()
+{
+	scanf("%d", &n);
+	for (int i = 0; i < n; i++)
+	{
+		scanf("%lld %lld", &a[i].x, &a[i].y);
+	}
+	Search();
+	printf("%.3f\n", s);
+
+
+}

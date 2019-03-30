@@ -1,0 +1,112 @@
+#include<cstdio>
+#include<algorithm>
+#include<cmath>
+#include<bits/stdc++.h>
+using namespace std;
+char c[2001];
+char a[101][201], k;
+char f[101];
+int b[201];
+int len, ki, kj;
+int main()
+{
+
+	while (cin >> c)
+	{
+		memset(a, '0', sizeof(a));
+		len = strlen(c);
+		f[0] = '+';
+		ki = 0; kj = 0;
+		for (int i = 0; i < len; i++)
+		{
+			if (c[i] == '+' || c[i] == '=')
+			{
+				a[ki][kj] = '\0';
+				for (int j = 0, j1 = kj - 1; j <= j1; j++, j1--)
+				{
+					k = a[ki][j];
+					a[ki][j] = a[ki][j1];
+					a[ki][j1] = k;
+				}
+				kj = 0;
+				ki++;
+				f[ki] = '+';
+			}
+			else if (c[i] == '-')
+			{
+				a[ki][kj] = '\0';
+				for (int j = 0, j1 = kj - 1; j <= j1; j++, j1--)
+				{
+					k = a[ki][j];
+					a[ki][j] = a[ki][j1];
+					a[ki][j1] = k;
+				}
+				kj = 0;
+				ki++;
+				f[ki] = '-';
+			}
+			else a[ki][kj++] = c[i];
+		}
+		int s = 0;
+		kj = 0;
+		for (int i = 0; i <= 200; i++)
+		{
+			for (int j = 0; j < ki; j++)
+			{
+				if (a[j][i] != '\0')
+					if (f[j] == '+')s += a[j][i] - '0';
+					else if (f[j] == '-')s -= a[j][i] - '0';
+				//cout<<a[j][i]<<' ';
+			}
+			//cout<<endl;
+			b[i] = s % 10;
+			s = s / 10;
+		}
+		for (int i = 200; i >= 0; i--)
+			if (b[i] < 0)
+			{
+				for (int j = 0; j <= i - 1; j++)
+					if (b[j] > 0)
+					{
+						b[j] -= 10;
+						b[j + 1]++;
+					}
+				break;
+			}
+			else if (b[i] > 0)
+			{
+				for (int j = 0; j <= i - 1; j++)
+					if (b[j] < 0)
+					{
+						b[j] += 10;
+						b[j + 1]--;
+					}
+				break;
+			}
+		for (int i = 200; i >= 0; i--)
+			if (b[i] < 0)
+			{
+
+				cout << b[i];
+				for (int j = i - 1; j >= 0; j--)
+					cout << -b[j];
+				cout << endl;
+				kj = 1;
+				break;
+			}
+			else if (b[i] > 0)
+			{
+				for (int j = i; j >= 0; j--)
+					cout << b[j];
+				cout << endl;
+				kj = 1;
+				break;
+			}
+		if (!kj)
+		{
+			cout << 0 << endl;
+		}
+
+	}
+	return 0;
+}

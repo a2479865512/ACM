@@ -1,0 +1,70 @@
+#include <iostream>
+#include<cstdio>
+#include<algorithm>
+#include <queue>
+#include<cmath>
+#include<bits/stdc++.h>
+using namespace std;
+int dp[10001][101];
+int a[10001];
+int b[10001];
+int n, m;
+int main()
+{
+	scanf("%d %d", &n, &m);
+	for (int i = 1; i <= n; i++)
+		scanf("%d", &a[i]);
+	sort(a + 1, a + n + 1);
+	for (int i = 1; i <= n; i++)
+	{
+		if (a[i] > m)break;
+		dp[i][a[i]] = max(1, dp[i - 1][a[i]]);
+		for (int j = a[0]; j <= m - a[i]; j++)
+		{
+			if (dp[i - 1][j])
+			{
+				dp[i][j] = max(dp[i - 1][j], dp[i][j]);
+				if (j + a[i] == m)
+					dp[i][m] = dp[i - 1][j] + 1;
+				else
+					dp[i][j + a[i]] = max(dp[i - 1][j + a[i]], dp[i - 1][j] + 1);
+
+			}
+		}
+	}
+	int flag = 0, k = 0, ma = 0;
+	for (int i = n; i > 0; i--)
+	{
+		if (ma < dp[i][m])
+		{
+			flag = i;
+			ma = dp[i][m];
+		}
+	}
+	if (flag)
+	{
+		b[k++] = a[flag];
+		m -= a[flag];
+		ma--;
+		while (ma)
+		{
+			for (int i = 1; i <= flag; i++)
+			{
+				if (dp[i][m] == ma)
+				{
+					b[k++] = a[i];
+					m -= a[i];
+					ma--;
+					break;
+				}
+			}
+		}
+		printf("%d", b[k - 1]);
+		for (int i = k - 2; i >= 0; i--)
+			printf(" %d", b[i]);
+		printf("\n");
+	}
+	else printf("No Solution\n");
+	return 0;
+
+}

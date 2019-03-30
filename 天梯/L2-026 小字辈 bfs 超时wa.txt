@@ -1,0 +1,66 @@
+#include<stdio.h>
+#include<string.h>
+#include<cstdio>
+#include<algorithm>
+#include<cmath>
+#include<bits/stdc++.h>
+using namespace std;
+const int MAXN = 1e5 + 5;
+int a[MAXN];
+int w[MAXN];
+int vis[MAXN];
+int n;
+int p;
+void bfs(int x) {
+	queue<int>q;
+	vis[x] = 1;
+	w[x] = 1;
+	q.push(x);
+	while (!q.empty())
+	{
+		p = q.front();
+		q.pop();
+		for (int i = 1; i <= n; i++)
+		{
+			if (!vis[i] && p == a[i])
+			{
+				vis[i] = 1;
+				w[i] = w[p] + 1;
+				q.push(i);
+			}
+		}
+	}
+}
+int main()
+{
+	int k = 0;
+	cin >> n;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> a[i];
+		if (a[i] == -1)
+			k = i;
+	}
+	w[k] = 1;
+	vis[k] = 1;
+	bfs(k);
+	int max1 = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		max1 = max(max1, w[i]);
+	}
+	cout << max1 << endl;
+	k = 0;
+	for (int i = 1; i <= n; i++)
+		if (max1 == w[i])
+		{
+			if (k == 0)
+			{
+				k++;
+				cout << i;
+			}
+			else cout << ' ' << i;
+		}
+	cout << endl;
+	return 0;
+}

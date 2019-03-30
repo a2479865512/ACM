@@ -1,0 +1,19 @@
+#include<stdio.h>
+int main()
+{
+	int n, k = 0, i = 0, f = 0, s = 0;
+	scanf("%d", &n);
+	do
+	{
+		k++;
+		s = (i * 10 + 1) / n;
+		if (f || s != 0)
+		{
+			f = 1;
+			printf("%d", s);
+		}
+		i = (i * 10 + 1) % n;
+	} while (i != 0);
+	printf(" %d\n", k);
+	return 0;
+}
