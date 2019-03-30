@@ -5,36 +5,52 @@ using namespace std;
 const int MAXN = 1e6 + 5;
 int fa[MAXN];
 int num[MAXN];
-int n,t,m,a,k=0;
-int main(){
-    scanf("%d",&n);
-    for(int i=0;i<n;++i){
-            scanf("%d",&t);
-           for(int j=0;j<t;++j)
-            {
-                scanf("%d",&a);
-                if(fa[a]<=1)//»òt!=1
-                fa[a]=t;
-            }
-    }
-    scanf("%d",&t);
-    while(t--)
-    {
-        scanf("%d",&a);
-        if(fa[a]<=1)
-        {
-            num[k++]=a;
-            fa[a]=2;
-        }
-    }
-    if(k)
-    {
-        printf("%.5d",num[0]);
-        for(int i=1;i<k;i++)
-            printf(" %.5d",num[i]);
-        printf("\n");
-    }
-    else printf("No one is handsome\n");
-   // printf("\n");
-    return 0;
+int n, t, m, a, k = 0;
+int main() {
+	scanf("%d", &n);
+	for (int i = 0; i < n; ++i) {
+		scanf("%d", &t);
+		for (int j = 0; j < t; ++j)
+		{
+			scanf("%d", &a);
+			if (fa[a] <= 1)//»òt!=1
+				fa[a] = t;
+		}
+	}
+	scanf("%d", &t);
+	while (t--)
+	{
+		scanf("%d", &a);
+		if (fa[a] <= 1)
+		{
+			num[k++] = a;
+			fa[a] = 2;
+		}
+	}
+	if (k)
+	{
+		printf("%.5d", num[0]);
+		for (int i = 1; i < k; i++)
+			printf(" %.5d", num[i]);
+		printf("\n");
+	}
+	else printf("No one is handsome\n");
+	// printf("\n");
+	return 0;
 }
+
+
+3
+3 11111 22222 55555
+2 33333 44444
+4 55555 66666 99999 77777
+8
+55555 44444 10000 88888 22222 11111 23333 88888
+
+
+3
+3 11111 22222 55555
+2 33333 44444
+4 55555 66666 99999 77777
+4
+55555 44444 22222 11111

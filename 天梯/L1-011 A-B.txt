@@ -23,3 +23,6 @@ int main()
 	return 0;
 
 }
+
+I love GPLT!  It's a fun game!
+aeiou

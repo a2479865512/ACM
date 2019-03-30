@@ -39,3 +39,5 @@ int main()
 	cout << max1;
 	return 0;
 }
+
+Is PAT&TAP symmetric?

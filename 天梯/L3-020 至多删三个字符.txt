@@ -33,3 +33,4 @@ int main()
 	cout << dp[len][0] << endl;
 	return 0;
 }
+ababcc

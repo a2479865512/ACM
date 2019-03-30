@@ -36,3 +36,7 @@ int main()
 	printf("%d %.4d", i, y);
 	return 0;
 }
+
+1988 4
+
+1 2
