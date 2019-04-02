@@ -1,0 +1,47 @@
+#include<bits/stdc++.h>
+using namespace std;
+int x[1001];
+int main()
+{
+	int n, m, k, m1, n1, a, f;
+	cin >> n >> m >> k;
+	while (k--)
+	{
+		n1 = f = 1; m1 = 0;
+		for (int i = 0; i < n; i++)
+		{
+			cin >> a;
+			if (f)
+			{
+				if (n1 == a)
+				{
+					n1++;
+					while (m1&&x[m1 - 1] == n1)
+					{
+						m1--;
+						n1++;
+					}
+				}
+				else
+				{
+					x[m1++] = a;
+					if (m1 > m)
+						f = 0;
+
+				}
+			}
+		}
+		if (f&&n1 == n + 1)
+			cout << "YES" << endl;
+		else cout << "NO" << endl;
+
+	}
+	return 0;
+}
+
+
+
+7 5 3
+7 6 1 3 2 5 4
+3 1 5 4 2 6 7
+7 6 5 4 3 2 1
