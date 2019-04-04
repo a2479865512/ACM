@@ -1,0 +1,148 @@
+#include<queue>
+#include<iostream>
+#include<cstring>
+#include<cstdio>
+using namespace std;
+const int MAXN = 205;
+const int INF = 0x7fffffff;
+
+int r[MAXN][MAXN]; //残留网络，初始化为原图
+int rc[MAXN][MAXN];//拷贝
+int w[MAXN];
+bool vis[MAXN];
+int pre[MAXN];//记录上一节点
+int m, n;
+struct Node
+{
+	int in[MAXN], out[MAXN];
+}a[MAXN];
+bool pd(Node x, Node y)
+{
+	for (int i = 0; i < m; i++)
+	{
+		if (x.out[i] != y.in[i] && y.in[i] != 2)
+			return false;
+	}
+	return true;
+};
+bool bfs(int s, int t)  //寻找一条从s到t的增广路，若找到返回true
+{
+	int p;
+	queue<int > q;
+	memset(pre, -1, sizeof(pre));
+	memset(vis, false, sizeof(vis));
+	pre[s] = s;
+	vis[s] = true;
+	q.push(s);
+	while (!q.empty())
+	{
+
+		p = q.front();
+		q.pop();
+		for (int i = 0; i <= n + 1; i++)
+		{
+			if (r[p][i] > 0 && !vis[i])
+			{
+				pre[i] = p;
+				vis[i] = true;
+				if (i == t) return true;
+				q.push(i);
+			}
+		}
+	}
+	return false;
+}
+
+int EdmondsKarp(int s, int t)
+{
+	int flow = 0, d, i;
+	while (bfs(s, t))
+	{
+		d = INF;
+		int km = 0;
+		for (i = t; i != s; i = pre[i])//回溯路径
+			d = d < r[pre[i]][i] ? d : r[pre[i]][i];//得到最小残量，即
+		for (i = t; i != s; i = pre[i])
+		{
+			r[pre[i]][i] -= d;//残留网络更新；
+			r[i][pre[i]] += d;//返回的负权边；
+		}
+		flow += d;//最大流更新
+	}
+	return flow;
+}
+
+
+int main()
+{
+	while (~scanf("%d%d", &m, &n))
+	{
+		int u, v, ww;
+		memset(r, 0, sizeof(r));
+		memset(rc, 0, sizeof(rc));
+		for (int i = 1; i <= n; i++)
+		{
+			scanf("%d", &ww);
+			for (int j = 0; j < m; j++)
+				scanf("%d", &a[i].in[j]);
+			for (int j = 0; j < m; j++)
+				scanf("%d", &a[i].out[j]);
+			w[i] = ww;
+		}
+		for (int i = 0; i < m; i++)
+			a[n + 1].out[i] = a[n + 1].in[i] = 1;
+		for (int i = 0; i < m; i++)
+			a[0].out[i] = a[0].in[i] = 0;
+		for (int i = 0; i <= n + 1; i++)
+			for (int j = 0; j <= n + 1; j++)
+				if (i != j && pd(a[i], a[j]))
+				{
+					if (i == 0) {
+						r[i][j] += w[j];
+						rc[i][j] = r[i][j];
+					}
+					else
+					{
+						r[i][j] += w[i];
+						rc[i][j] = r[i][j];
+					}
+				}
+		int k = EdmondsKarp(0, n + 1);
+		if (k) {
+			int sum = 0;
+			for (int i = 1; i <= n; i++)
+				for (int j = 1; j <= n; j++)
+					if (r[i][j] < rc[i][j])
+					{
+						a[sum].in[0] = i;
+						a[sum].out[0] = j;
+						w[sum++] = rc[i][j] - r[i][j];
+					}
+			printf("%d %d\n", k, sum);
+			for (int i = 0; i < sum; i++)
+				printf("%d %d %d\n", a[i].in[0], a[i].out[0], w[i]);
+		}
+		else printf("0 0\n");
+	}
+	return 0;
+}
+
+
+
+
+3 4
+15  0 0 0  0 1 0
+10  0 0 0  0 1 1
+30  0 1 2  1 1 1
+3   0 2 1  1 1 1
+
+3 5
+5   0 0 0  0 1 0
+100 0 1 0  1 0 1
+3   0 1 0  1 1 0
+1   1 0 1  1 1 0
+300 1 1 2  1 1 1
+
+2 2
+100  0 0  1 0
+200  0 1  1 1
