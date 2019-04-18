@@ -1,0 +1,33 @@
+·ÇµÝ¹é
+ll extend_gcd(ll a, ll b, ll &x, ll &y) {
+	if (b == 0) {
+		x = 1, y = 0;
+		return a;
+	}
+	else {
+		ll r = extend_gcd(b, a % b, y, x);
+		y -= x * (a / b);
+		return r;
+	}
+}
+ll inv(ll a, ll n) {
+	ll x, y;
+	extend_gcd(a, n, x, y);
+	x = (x % n + n) % n;
+	return x;
+}
+
+
+
+µÝ¹é
+void gcd(LL a, LL b, LL &d, LL &x, LL &y)
+{
+	if (!b) { d = a; x = 1; y = 0; }
+	else { gcd(b, a%b, d, y, x); y -= x * (a / b); }
+}
+LL finv(LL a, LL n)
+{
+	LL d, x, y;
+	gcd(a, n, d, x, y);
+	return d == 1 ? (x + n) % n : -1;
+}

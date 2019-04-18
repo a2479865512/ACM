@@ -1,0 +1,95 @@
+给你n个物品，m个连锁项，要买至少k个物品
+再给你n个物品的价格，和m个连锁的对象，问至少要多少钱可以买走k个物品
+
+
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define LL long long
+#define INF 0x3f3f3f3f3f3f3f3f
+const int MAXN = 2e5 + 5;
+LL fa[MAXN];
+LL w[MAXN];
+LL val[MAXN];
+LL dp[2 * 2001];
+LL n, m, k, now = 0, x, y;
+int findfa(int h)
+{
+	if (h != fa[h])
+		return fa[h] = findfa(fa[h]);
+	return h;
+}
+int main()
+{
+	cin >> n >> m >> k;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> val[i];
+		fa[i] = i;
+		w[i] = 1;
+	}
+	while (m--)
+	{
+		cin >> x >> y;
+		int q = findfa(x);
+		int p = findfa(y);
+		if (q != p)
+		{
+			fa[q] = p;
+			val[p] = min(val[p], val[q]);
+			w[p] += w[q];
+		}
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		if (fa[i] == i)
+		{
+			val[now] = val[i];
+			w[now++] = min(k, w[i]);
+		}
+	}
+	memset(dp, INF, sizeof(dp));
+	dp[0] = 0;
+	for (int i = 0; i < now; i++)
+	{
+
+		if (w[i] < k)
+		{
+			for (int j = 2 * k; j >= w[i]; j--)
+				dp[j] = min(dp[j - w[i]] + val[i], dp[j]);
+		}
+		else dp[k] = min(dp[k], val[i]);
+	}
+	for (int i = 2 * k; i > k; i--) dp[k] = min(dp[i], dp[k]);
+	cout << dp[k] << endl;
+}
+
+7 4 5
+2 5 4 2 6 3 1
+2 1
+6 5
+2 1
+3 1
+
+
+9 4 8
+6 8 5 1 8 1 1 2 1
+9 2
+8 4
+5 3
+9 7
+
+
+
+5 1 4
+2 5 7 4 6
+5 4

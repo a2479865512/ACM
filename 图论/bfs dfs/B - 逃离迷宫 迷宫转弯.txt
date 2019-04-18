@@ -12,7 +12,7 @@ struct  Node
 	int k;
 }pos,q;
 int vis[110][110];
-int dir[4][2]={{0,1},{1,0},{0,-1},{-1,0},};
+int dir[4][2]={{0,1},{1,0},{0,-1},{-1,0}};
 int bfs(int x1,int y1,int x2,int y2,int sum){
 	queue<Node>que;
 	pos.k = -1;

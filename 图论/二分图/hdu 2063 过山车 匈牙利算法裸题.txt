@@ -8,16 +8,16 @@
 using namespace std;
 const int MAXN = 505;
 int line[MAXN][MAXN];//二分连线
-int boy[MAXN], vis[MAXN];//boy 储存和男生匹配的女生,vis 本次男生是否被搜索过
+int boy[MAXN], vis[MAXN];//boy 储存和男生i匹配的女生boy[i],vis 本次男生是否被搜索过
 int k, m, n;//k线数,m女生人数,n男生人数
-bool found(int x)
+bool found(int x)//x为女生
 {
 	for (int i = 1; i <= n; i++)//遍历男生
 	{
 		if (line[x][i] && !vis[i])
 		{
 			vis[i] = 1;
-			if (boy[i] == 0 || found(boy[i]))//未匹配直接匹配;如果男生生已经匹配,尝试可否腾挪
+			if (boy[i] == 0 || found(boy[i]))//未匹配直接匹配;如果男生已经匹配,尝试可否腾挪
 			{
 				boy[i] = x;
 				return 1;
@@ -59,3 +59,24 @@ int main()
 2 3
 3 1
 0
+
+
+
+int gril[MAXN], vis[MAXN];//gril 储存和女生i匹配的男生gril[i],vis 本次女生是否被搜索过
+int k, m, n;//k线数,m女生人数,n男生人数
+bool found(int x)//x为男生
+{
+	for (int i = 1; i <= m; i++)//遍历女生
+	{
+		if (line[x][i] && !vis[i])
+		{
+			vis[i] = 1;
+			if (gril[i] == 0 || found(gril[i]))//未匹配直接匹配;如果女生已经匹配,尝试可否腾挪
+			{
+				gril[i] = x;
+				return 1;
+			}
+		}
+	}
+	return 0;
+}

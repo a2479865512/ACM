@@ -17,8 +17,8 @@ int main()
 	long long a, b, g;
 	while (scanf("%lld %lld %lld %lld %lld", &x, &y, &m, &n, &l) != EOF)
 	{
-		a = m - n;
-		b = y - x;
+		a = m - n;//a  b=l
+		b = y - x;//c
 		if (a < 0)
 		{
 			a = -a;

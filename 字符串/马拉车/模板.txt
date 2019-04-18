@@ -1,0 +1,40 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#define Max 110005
+using namespace std;
+char Ma[Max * 2];
+int Mp[Max * 2];
+void Manacher(char s[], int len)
+{
+	int l = 0;
+	Ma[l++] = '$';
+	Ma[l++] = '#';
+	for (int i = 0; i < len; i++) {
+		Ma[l++] = s[i];
+		Ma[l++] = '#';
+	}
+	Ma[l] = 0;
+	int mx = 0, id = 0;
+	for (int i = 0; i < l; i++) {
+		Mp[i] = mx > i ? min(Mp[2 * id - i], mx - i) : 1;
+		while (Ma[i + Mp[i]] == Ma[i - Mp[i]])Mp[i]++;
+		if (i + Mp[i] > mx) {
+			mx = i + Mp[i];
+			id = i;
+		}
+	}
+}
+char s[Max];
+int main()
+{
+	while (scanf("%s", s) != EOF) {
+		int len = strlen(s), ans = 0;
+		Manacher(s, len);
+		for (int i = 0; i < 2 * len + 2; i++) {
+			ans = max(ans, Mp[i] - 1);
+		}
+		cout << ans << endl;
+	}
+	return 0;
+}

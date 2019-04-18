@@ -1,0 +1,79 @@
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+const int MAXN = 1e5 + 5;
+int n, max1, min1 = 0x7fffffff;
+double s;
+int t[MAXN], c[MAXN];
+int main() {
+	scanf("%d", &n);
+	scanf("%d %lf", &t[0], &s);
+	int sum = 0, ss = s;
+	for (int i = 1; i <= n; i++)
+	{
+		scanf("%d %d", &t[i], &c[i]);
+		max1 = max(t[i], max1);
+		min1 = min(t[i], min1);
+		sum += c[i];
+	}
+	int f = 1;
+	if (t[0] > max1)
+	{
+		for (int i = 1; i <= n; i++)
+			if (max1 != t[0])
+			{
+				double x = (double)c[i] * (max1 - t[i]) / (t[0] - max1);
+				s -= x;
+				if (s < 0)
+				{
+					f = 0;
+					break;
+				}
+			}
+		if (f)
+		{
+			double x = max1;
+			sum = sum + ss - s;
+			if (s > 0)x = (x*sum + s * t[0]) / (sum + s);
+			printf("Possible\n%.4f\n", x);
+		}
+		else printf("Impossible\n");
+	}
+	else if (t[0] < min1)
+	{
+		for (int i = 1; i <= n; i++)
+			if (min1 != t[0])
+			{
+				s -= (double)c[i] * (min1 - t[i]) / (t[0] - min1);
+				if (s < 0)
+				{
+					f = 0;
+					break;
+				}
+			}
+		if (f)printf("Possible\n%.4f\n", (double)min1);
+		else printf("Impossible\n");
+	}
+	else if (max1 == t[0] || min1 == t[0])
+	{
+		for (int i = 1; i <= n; i++)
+			if (t[i] != t[0])
+			{
+				f = 0;
+				break;
+			}
+		if (f)printf("Possible\n%.4f\n", (double)t[0]);
+		else printf("Impossible\n");
+	}
+	else printf("Impossible\n");
+	return 0;
+}
+
+
+
+3
+10 2
+20 1
+25 1
+30 1

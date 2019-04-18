@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int maxn = 50010;//边数的最大值
+struct Edge
+{
+	int to, next;
+}edge[maxn];
+//to 是该边指向的点 next是这个点上次用的边的编号，用来找到这个点上次和其他点维持的边关系 edge的下标代表边的编号
+int head[maxn], tot;
+void init()
+{
+	tot = 0;
+	memset(head, -1, sizeof(head));
+}//初始化函数
+void addedge(int u, int v)
+{
+	edge[tot].to = v;//对边进行编号
+	edge[tot].next = head[u];//将U这个点上一次连接的点记录如果没有即为-1
+	head[u] = tot++;//等于边的编号，之后edge[head[u]]即可调用这个边
+}//加边函数
+int linker[maxn];
+bool used[maxn];
+int uN;
+bool dfs(int u)
+{
+	for (int i = head[u]; i != -1; i = edge[i].next)//顺着边过去，一直遍历和这个点连接过的点和边
+	{
+		int v = edge[i].to;
+		if (!used[v])
+		{
+			used[v] = true;
+			if (linker[v] == -1 || dfs(linker[v]))
+			{
+				linker[v] = u;
+				return true;
+			}
+		}
+	}
+	return false;
+}
+int hungary()
+{
+	int res = 0;
+	memset(linker, -1, sizeof(linker));
+	for (int u = 0; u < uN; u++)
+	{
+		memset(used, false, sizeof(used));
+		if (dfs(u)) res++;
+	}
+	return res;
+}
+int main()
+{
+
+}

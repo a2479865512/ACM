@@ -24,3 +24,17 @@ long long quick_pow(long long a , long long b , long long m)
     }
     return ans ;
 }
+
+
+
+ll quickpow(ll a, ll b) {
+    if (b < 0) return 0;
+    ll ret = 1;
+    a %= mod;
+    while(b) {
+        if (b & 1) ret = (ret * a) % mod;
+        b >>= 1;
+        a = (a * a) % mod;
+    }
+    return ret;
+}

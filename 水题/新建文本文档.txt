@@ -1,0 +1,77 @@
+#include"stdio.h"
+#include<bits/stdc++.h>
+using namespace std;
+int c[200];
+char s[200];
+int a[200];
+int b[200];
+int aa[200];
+int main()
+{
+	int n;
+	cin>>n;
+	while(n--)
+	{
+	    memset(a,0,sizeof(a));
+	    cin>>s;
+	    int len=strlen(s);
+	    for(int i=0;i<len;i++)
+            c[i]=s[i]-'0';
+        int f=0;
+        a[len-1]=1;
+        while(1)
+        {
+            int i=0;
+            while(i<len)
+            {
+                if(a[i]>c[i])
+                {
+                    f=1;
+                    break;
+                }
+                else if(a[i]==c[i])
+                    i++;
+                else if(a[i]<c[i])
+                    break;
+            }
+            if(f)break;
+            else if(i==len){f=2;break;}
+            for( i=len-1;i>=0;i--)
+            {
+                aa[i]=a[i];
+                a[i]*=2;
+                if(a[i]>=10)
+                {
+                    if(i!=0)
+                    {
+                        a[i]-=10;
+                        b[i-1]++;
+                    }
+                    else f=1;
+                }
+            }
+            for( i=len-1;i>=0;i--)
+            {
+                if(b[i]!=0)
+                {
+                    a[i]+=b[i];
+                    b[i]=0;
+                }
+            }
+            if(f)break;
+        }
+        if(f==1)
+        {
+            for(int i=0;i<len;i++)
+            if(i!=0||aa[0]!=0)
+            printf("%d",aa[i]);
+        }
+        else if(f==2)
+          {
+               for(int i=0;i<len;i++)
+            printf("%d",c[i]);
+          }
+        cout<<endl;
+	}
+	return 0;
+}

@@ -1,0 +1,15 @@
+const int MOD= 1e9+7;
+long long quickpow(long long a, long long b) {
+	if (b < 0) return 0;
+	long long ret = 1;
+	a %= MOD;
+	while (b) {
+		if (b & 1) ret = (ret * a) % MOD;
+		b >>= 1;
+		a = (a * a) % MOD;
+	}
+	return ret;
+}
+long long inv(long long a) {
+	return quickpow(a, MOD - 2);
+}

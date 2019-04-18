@@ -1,0 +1,23 @@
+template<typename T>
+inline T read(T&x){
+    x=0;int f=0;char ch=getchar();
+    while (ch<'0' || ch>'9') f|=(ch=='-'),ch=getchar();
+    while (ch>='0' && ch<='9') x=x*10+ch-'0',ch=getchar();
+    return x=f?-x:x;
+}
+
+inline ll read()
+{
+    register ll x=0,f=1;char ch=getchar();
+    while(!isdigit(ch)){if(ch=='-')f=-1;ch=getchar();}
+    while(isdigit(ch)){x=(x<<3)+(x<<1)+ch-'0';ch=getchar();}
+    return (f==1)?x:-x;
+}
+
+inline ll read()
+{
+    ll x=0,f=1;char ch=getchar();
+    while(ch<'0'||ch>'9'){if(ch=='-')f=-1;ch=getchar();}
+    while(ch>='0'&&ch<='9'){x=(x<<3)+(x<<1)+ch-'0';ch=getchar();}
+    return x*f;
+}

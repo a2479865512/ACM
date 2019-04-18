@@ -1,0 +1,87 @@
+#include <cstdio>
+#include <cstring>
+#include <iostream>
+
+const int MAXN = 500001;
+int n, m, cnt, s;
+int next[2 * MAXN], to[2 * MAXN], head[2 * MAXN], deep[MAXN], p[MAXN][21];
+
+inline void add(int x, int y)
+{
+	to[cnt] = y;
+	next[cnt] = head[x];
+	head[x] = cnt++;
+}
+
+inline void dfs(int i)
+{
+	int j;
+	for (j = head[i]; j != -1; j = next[j])
+		if (!deep[to[j]])
+		{
+			deep[to[j]] = deep[i] + 1;
+			p[to[j]][0] = i;
+			dfs(to[j]);
+		}
+}
+
+inline void init()
+{
+	int i, j;
+	for (j = 1; (1 << j) <= n; j++)
+		for (i = 1; i <= n; i++)
+			p[i][j] = p[p[i][j - 1]][j - 1];
+}
+
+inline int lca(int a, int b)
+{
+	int i, j;
+	if (deep[a] < deep[b]) std::swap(a, b);
+	for (i = 0; (1 << i) <= deep[a]; i++);
+	i--;
+	for (j = i; j >= 0; j--)
+		if (deep[a] - (1 << j) >= deep[b])
+			a = p[a][j];
+	if (a == b) return a;
+	for (j = i; j >= 0; j--)
+		if (p[a][j] != p[b][j])
+		{
+			a = p[a][j];
+			b = p[b][j];
+		}
+	return p[a][0];
+}
+
+int main()
+{
+	int i, j, x, y;
+	memset(head, -1, sizeof(head));
+	scanf("%d %d %d", &n, &m, &s);
+	for (i = 1; i <= n - 1; i++)
+	{
+		scanf("%d %d", &x, &y);
+		add(x, y);
+		add(y, x);
+	}
+	deep[s] = 1;
+	dfs(s);
+	init();
+	for (i = 1; i <= m; i++)
+	{
+		scanf("%d %d", &x, &y);
+		printf("%d\n", lca(x, y));
+	}
+	return 0;
+}
+
+
+5 5 4
+3 1
+2 4
+5 1
+1 4
+2 4
+3 2
+3 5
+1 2
+4 5

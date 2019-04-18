@@ -1,11 +1,14 @@
 #include<queue>
+#include<iostream>
+#include<cstring>
+#include<cstdio>
 using namespace std;
-const int maxn = 205;
-const int inf = 0x7fffffff;
+const int MAXN = 205;
+const int INF = 0x7fffffff;
 
-int r[maxn][maxn]; //残留网络，初始化为原图
-bool vis[maxn];
-int pre[maxn];//记录上一节点
+int r[MAXN][MAXN]; //残留网络，初始化为原图
+bool vis[MAXN];
+int pre[MAXN];//记录上一节点
 int m, n;
 
 bool bfs(int s, int t)  //寻找一条从s到t的增广路，若找到返回true
@@ -41,7 +44,7 @@ int EdmondsKarp(int s, int t)
 	int flow = 0, d, i;
 	while (bfs(s, t))
 	{
-		d = inf;
+		d = INF;
 		for (i = t; i != s; i = pre[i])//回溯路径
 			d = d < r[pre[i]][i] ? d : r[pre[i]][i];//得到最小残量，即本次更新流量
 		for (i = t; i != s; i = pre[i])
