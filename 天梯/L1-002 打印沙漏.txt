@@ -9,14 +9,15 @@ int main()
 	int a, i;
 	char c;
 	scanf("%d %c", &a, &c);
-	for (i = 0; i < 100; i++)
-	{
-		if (a < i*i * 2 - 1)
-		{
-			i--;
-			break;
-		}
-	}
+	//for (i = 0; i < 100; i++)
+	//{
+	//	if (a < i*i * 2 - 1)
+	//	{
+	//		i--;
+	//		break;
+	//	}
+	//}
+	i=sqrt((a+1)/2);
 	for (int j = i; j > 0; j--)
 	{
 		int k;

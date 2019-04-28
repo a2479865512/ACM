@@ -1,0 +1,28 @@
+//O(n)
+bool vis[N];
+int primes[N], miu[N];
+int init(int n) {
+	int tot = 0;
+	miu[1] = 1;
+	for (int i = 2; i <= n; i++) {
+		if (!vis[i]) {
+			primes[tot++] = i;
+			miu[i] = -1;
+		}
+		for (int j = 0; j < tot; j++) {
+			int k = i * primes[j];
+			if (k > n)break;
+			vis[k] = true;
+			if (i % primes[j])  miu[k] = -miu[i];
+			else break;
+		}
+	}
+}
+//O(nlogn)
+void init(int n) {
+	miu[1] = 1;
+	int t = n >> 1;
+	for (int i = 1; i <= t; i++) if (miu[i]) {
+		for (int j = i << 1; j <= n; j += i) miu[j] -= miu[i];
+	}
+}

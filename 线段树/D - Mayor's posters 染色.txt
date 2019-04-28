@@ -1,0 +1,140 @@
+#include <stdio.h>
+#include <iostream>
+#include <algorithm>
+#include <cstdlib>
+#include <sstream>
+#include <cstring>
+#include <bitset>
+#include <string>
+#include <deque>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <set>
+#include <map>
+using namespace std;
+#define INF 0x3f3f3f3f
+#define CLR(x,y) memset(x,y,sizeof(x))
+#define FAST_IO ios::sync_with_stdio(false);cin.tie(0);
+#define LC(x) (x<<1)
+#define RC(x) ((x<<1)+1)
+#define MID(x,y) ((x+y)>>1)
+typedef pair<int, int> pii;
+typedef long long LL;
+const double PI = acos(-1.0);
+const int N = 10010;
+struct seg
+{
+	int l, mid, r;
+	bool single;
+	int color;
+};
+struct info
+{
+	int l, r;
+};
+seg T[N << 4];
+info pos[N];
+vector<int>xpos;
+set<int>Color;
+
+void init()
+{
+	xpos.clear();
+	Color.clear();
+}
+void pushdown(int k)
+{
+	if (T[k].single)
+	{
+		T[LC(k)].single = T[RC(k)].single = true;
+		T[LC(k)].color = T[RC(k)].color = T[k].color;
+		T[k].single = false;
+	}
+}
+void build(int k, int l, int r)
+{
+	T[k].l = l;
+	T[k].r = r;
+	T[k].mid = MID(l, r);
+	T[k].color = 0;
+	T[k].single = true;
+	if (l == r)
+		return;
+	build(LC(k), l, T[k].mid);
+	build(RC(k), T[k].mid + 1, r);
+}
+void update(int k, int l, int r, int color)
+{
+	if (l <= T[k].l&&T[k].r <= r)
+	{
+		T[k].color = color;
+		T[k].single = true;
+	}
+	else
+	{
+		pushdown(k);
+		if (r <= T[k].mid)
+			update(LC(k), l, r, color);
+		else if (l > T[k].mid)
+			update(RC(k), l, r, color);
+		else
+			update(LC(k), l, T[k].mid, color), update(RC(k), T[k].mid + 1, r, color);
+	}
+}
+void query(int k)
+{
+	if (T[k].l == T[k].r || T[k].single)
+	{
+		if (T[k].color)
+			Color.insert(T[k].color);
+		return;
+	}
+	else
+	{
+		pushdown(k);
+		query(LC(k));
+		query(RC(k));
+	}
+}
+int main(void)
+{
+	int tcase, n, i;
+	scanf("%d", &tcase);
+	while (tcase--)
+	{
+		init();
+		scanf("%d", &n);
+		for (i = 1; i <= n; ++i)
+		{
+			scanf("%d%d", &pos[i].l, &pos[i].r);
+			xpos.push_back(pos[i].l);
+			xpos.push_back(pos[i].r);
+		}
+		sort(xpos.begin(), xpos.end());
+		int sz = xpos.size();
+		for (i = 1; i < sz; ++i)
+			if (xpos[i] - xpos[i - 1] > 1)
+				xpos.push_back(xpos[i - 1] + 1);
+		sort(xpos.begin(), xpos.end());
+		xpos.erase(unique(xpos.begin(), xpos.end()), xpos.end());
+		build(1, 1, xpos.size());
+		for (i = 1; i <= n; ++i)
+		{
+			pos[i].l = lower_bound(xpos.begin(), xpos.end(), pos[i].l) - xpos.begin() + 1;
+			pos[i].r = lower_bound(xpos.begin(), xpos.end(), pos[i].r) - xpos.begin() + 1;
+			update(1, pos[i].l, pos[i].r, i);
+		}
+		query(1);
+		printf("%d\n", Color.size());
+	}
+	return 0;
+}
+
+1
+5
+1 4
+2 6
+8 10
+3 4
+7 10

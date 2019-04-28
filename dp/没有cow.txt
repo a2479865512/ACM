@@ -1,0 +1,136 @@
+#include<bits/stdc++.h>
+#define pb push_back
+#define fi first
+#define se second
+using namespace std;
+typedef long long ll;
+const int maxn = 1e5 + 233;
+const int mod = 1e9 + 7;
+int n, m;
+int digit[maxn], dp[maxn][2][2][2];
+int tc = 'c' - 'a', to = 'o' - 'a', tw = 'w' - 'a';
+ll dfs(ll pos, bool c, bool o, bool w) {
+	if (pos == 0)return 1;
+	if (dp[pos][c][o][w] != -1)return dp[pos][c][o][w];
+	ll ans = 0;
+	int cc, oo, ww;
+	for (int i = 0; i < 26; i++) {
+		cc = c == 0 ? c + (i == tc) : 1;
+		oo = o == 0 ? o + (i == to) : 1;
+		ww = w == 0 ? w + (i == tw) : 1;
+		if (cc + oo + ww == 3)continue;
+		ans = (ans + dfs(pos - 1, cc, oo, ww)) % mod;
+	}
+	dp[pos][c][o][w] = ans;
+	return ans;
+}
+ll f(ll x) {
+	memset(dp, -1, sizeof(dp));
+	memset(digit, 0, sizeof(digit));
+	return dfs(n, 0, 0, 0);
+}
+int main()
+{
+	scanf("%d", &n);
+	printf("%lld\n", f(n));
+	return 0;
+}
+
+
+3 
+
+我25^n*3-24^n*3+23^n
+#include<algorithm>
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include<vector>
+#include<map>
+#include<string>
+#include<queue>
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int MAXN = 1e5 + 5;
+const int mod = 1e9+7;
+long long n;
+//快速乘法
+ll quickpow(ll a, ll b) {
+    if (b < 0) return 0;
+    ll ret = 1;
+    a %= mod;
+    while(b) {
+        if (b & 1) ret = (ret * a) % mod;
+        b >>= 1;
+        a = (a * a) % mod;
+    }
+    return ret;
+}
+ 
+int main()
+{
+    cin>>n;
+    cout<<((quickpow(25,n)*3%mod-quickpow(24,n)*3%mod+mod)%mod+quickpow(23,n))%mod<<endl;
+}
+
+
+
+退役选手
+
+
+#pragma comment(linker, "/STACK:102400000,102400000")
+#include<cstdio>
+#include<cstring>
+#include<iostream>
+using namespace std;
+typedef long long ll;
+const ll MOD = 1e9 + 7;
+const int maxn = 1e5 + 10;
+ll dp[maxn][2][2][2];//从左到右依次为len，是否含2，是否含0，是否含1，是否含4
+ll num[maxn];
+ll l, r;
+int dfs(ll pos, ll s2, ll s0, ll s1, bool limit) {
+	if (pos == -1)return s2 && s0&&s1;
+	if (!limit&&~dp[pos][s2][s0][s1])return dp[pos][s2][s0][s1];
+	ll end = limit ? num[pos] : 25;
+	ll ans = 0;
+	for (ll i = 0; i <= end; ++i) {
+		ll now2 = s2, now0 = s0, now1 = s1;
+		if (s2 == 0) {
+			if (i == 2)now2 = 1;
+		}
+		if (s0 == 0) {
+			if (i == 0)now0 = 1;
+		}
+		if (s1 == 0) {
+			if (i == 1)now1 = 1;
+		}
+		ans = (ans + dfs(pos - 1, now2, now0, now1, limit&&i == end) % MOD);
+	}
+	ans %= MOD;
+	return (((limit) ? ans : dp[pos][s2][s0][s1] = ans) % MOD);
+}
+ll cal(ll n) {
+	for (ll i = 0; i < n; i++) {
+		num[i] = 25;
+	}
+	return (dfs(n - 1, 0, 0, 0, 1)) % MOD;
+}
+ll mod_pow(ll x, ll y, ll mod) {
+	ll res = 1;
+	while (y > 0) {
+		if (y & 1) res = res * x % mod; //如果二进制最低位为1、则乘上x^(2^i)
+		x = x * x % mod;  // 将x平方
+		y >>= 1;
+	}
+	return res;
+}
+int main() {
+	memset(dp, -1, sizeof(dp));
+	scanf("%lld", &r);
+	ll w = mod_pow(26, r, 1e9 + 7);
+	ll ww = cal(r);
+	ll ans = (w - ww + MOD) % MOD;
+	cout << ans << endl;
+	return 0;
+}
