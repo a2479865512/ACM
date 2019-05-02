@@ -1,0 +1,65 @@
+#include<iostream>
+#include<cstdio>
+using namespace std;
+const int MAXN = 3 * 1e6 + 10;
+inline int read() {
+	char c = getchar(); int x = 0, f = 1;
+	while (c < '0' || c > '9') { if (c == '-') f = -1; c = getchar(); }
+	while (c >= '0' && c <= '9') x = x * 10 + c - '0', c = getchar();
+	return x * f;
+}
+int N, a[MAXN], lim;
+int ls[MAXN], rs[MAXN], sum[MAXN], tot, root[MAXN];
+void insert(int &k, int p, int l, int r, int pos) {
+	k = ++tot;
+	ls[k] = ls[p]; rs[k] = rs[p]; sum[k] = sum[p] + pos;
+	if (l == r) return;
+	int mid = l + r >> 1;
+	if (pos <= mid) insert(ls[k], ls[p], l, mid, pos);
+	else insert(rs[k], rs[p], mid + 1, r, pos);
+}
+int Query(int k, int p, int l, int r, int val) {
+	if (l > val) return 0;
+	if (r <= val) return sum[k] - sum[p];
+	int mid = l + r >> 1;
+	int suml = sum[ls[k]] - sum[ls[p]];
+	if (val > mid) return suml + Query(rs[k], rs[p], mid + 1, r, val);
+	else return Query(ls[k], ls[p], l, mid, val);
+}
+int solve(int l, int r) {
+	int nxt = 0;
+	for (int i = 1; ; i = nxt + 1) {
+		nxt = Query(root[r], root[l - 1], 1, lim, i);
+		if (nxt < i) return i;
+	}
+}
+int main() {
+	N = read();
+	for (int i = 1; i <= N; i++) a[i] = read(), lim = max(a[i], lim);
+	for (int i = 1; i <= N; i++) insert(root[i], root[i - 1], 1, lim, a[i]);
+	int Q = read();
+	while (Q--) {
+		int l = read(), r = read();
+		printf("%d\n", solve(l, r));
+	}
+	return 0;
+}
+
+
+10
+
+1 1 4 1 9 2 6 5 1 4
+
+6
+
+1 2
+
+1 4
+
+1 3
+
+6 10
+
+10 10
+
+1 10

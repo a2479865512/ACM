@@ -18,7 +18,7 @@ bool Bellman_ford(int s, int n)
 {
 	for (int i = 0; i < n; i++) dis[i] = INF;
 	dis[s] = 0;
-	for (int k = 1; k < n; k++) //从u~v点经过k条边
+	for (int k = 1; k < n; k++) //更新n-1次
 		for (int i = 0; i < edge.size(); i++)
 		{
 			int u = edge[i].u;

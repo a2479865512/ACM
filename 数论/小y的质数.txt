@@ -1,0 +1,45 @@
+#include <iostream>
+#include <stdio.h>
+#include <string.h>
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int MAXN = 1e5 + 5;
+ll p[MAXN];
+int main()
+{
+	ll l, r, k, cnt = 0, sum = 0;
+	cin >> l >> r >> k;
+	ll k2 = k << 1;
+	if (!(k2 % 2)) {
+		p[cnt++] = 2;
+		while (!(k2 % 2))k2 /= 2;
+	}
+	for (ll i = 3; i*i <= k2; i += 2) {
+		if (!(k2%i)) {
+			p[cnt++] = i;
+			while (!(k2%i))k2 /= i;
+		}
+	}
+	if (k2 > 1)p[cnt++] = k2;
+	k2 = 1 << cnt;
+	for (ll i = 0; i < k2; i++) {
+		ll t = 1, s = 0;
+		for (ll j = 0; j < cnt; j++) {
+			if (i&(1 << j)) {
+				s++;
+				t *= p[j];
+			}
+		}
+		if (r / t > (l + 2 * k - 1) / t) {
+			if (s % 2)sum -= r / t - (l + 2 * k - 1) / t;
+			else sum += r / t - (l + 2 * k - 1) / t;
+		}
+	}
+	cout << sum << endl;
+}
+
+5 10 1
+
+
+287 11633 10

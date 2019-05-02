@@ -1,0 +1,41 @@
+#include <bits/stdc++.h>
+using namespace std;
+const int N = 5e3 + 7, mod = 1e9 + 7;
+bool vis[N];
+int num[N];
+long long dp[N];
+int main() {
+	int n, k, val, cnt = 0;
+	scanf("%d %d", &n, &k);
+	for (int i = 0; i < n; i++) {
+		scanf("%d", &val);
+		if (vis[val])continue;
+		vis[val] = 1;
+		num[++cnt] = val;
+	}
+	dp[0] = 1;
+	for (int i = 1; i <= cnt; i++) {
+		for (int j = i; j >= 1; j--) {
+			dp[j] = (dp[j] + (num[i] * dp[j - 1]) % mod) % mod;
+		}
+	}
+	long long ans = 0;
+	for (int i = 0; i <= min(k, cnt); i++) { ans += dp[i]; ans %= mod; }
+	printf("%lld\n", ans);
+}
+
+3 0
+1 2 3
+
+
+3 0
+1 2 3
+
+3 2
+1 2 3
+
+3 3
+1 2 3
+
+8 1
+1 6 35 45 65 3 56 8

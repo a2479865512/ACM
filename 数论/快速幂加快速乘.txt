@@ -30,11 +30,11 @@ long long quick_pow(long long a , long long b , long long m)
 ll quickpow(ll a, ll b) {
     if (b < 0) return 0;
     ll ret = 1;
-    a %= mod;
+    a %= MOD;
     while(b) {
-        if (b & 1) ret = (ret * a) % mod;
+        if (b & 1) ret = (ret * a) % MOD;
         b >>= 1;
-        a = (a * a) % mod;
+        a = (a * a) % MOD;
     }
     return ret;
 }
