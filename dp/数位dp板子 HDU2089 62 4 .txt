@@ -1,0 +1,65 @@
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+using namespace std;
+typedef long long ll;
+int a[20];
+int dp[20][2];//dp[i][0]1ei+1,d[i][1]9ei;1去掉了2ei(会变成62)；
+int dfs(int pos, int sta, bool limit)//pos位长  pre上一位 sta当前位是否为6 limit是否超过数范围
+{
+	if (pos == -1) return 1;
+	if (!limit && dp[pos][sta] != -1) return dp[pos][sta];
+	int up = limit ? a[pos] : 9;
+	int tmp = 0;
+	for (int i = 0; i <= up; i++)
+	{
+		if (sta  && i == 2) continue;
+		if (i == 4) continue;
+		tmp += dfs(pos - 1, i == 6, limit&&i == a[pos]);
+	}
+	if (!limit) dp[pos][sta] = tmp;//if可以去掉
+	return tmp;
+}
+
+int solve(int x)//得位数
+{
+	int pos = 0;
+	while (x)
+	{
+		a[pos++] = x % 10;
+		x /= 10;
+	}
+	return dfs(pos - 1, 0, true);//上一位是0不是6，所以传0
+}
+
+int main()
+{
+	int l, r;
+	memset(dp, -1, sizeof(dp));
+	while (scanf("%d%d", &l, &r) != EOF && (l + r))
+	{
+		printf("%d\n", solve(r) - solve(l - 1));
+	}
+	return 0;
+}
+
+
+
+
+
+
+
+
+
+int dfs(int i, int s, int e) {
+	if (i == -1) return 1;
+	if (!e && ~dp[i][s]) return dp[i][s];//~x=-x-1
+	int res = 0;
+	int u = e ? num[i] : 9;
+	for (int d = 0; d <= u; ++d) {
+		if (d == 4) continue;
+		if (s && (d == 2)) continue;
+		res += dfs(i - 1, d == 6, e&&d == u);
+	}
+	return e ? res : dp[i][s] = res;
+}

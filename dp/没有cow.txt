@@ -39,7 +39,9 @@ int main()
 
 3 
 
-Œ“25^n*3-24^n*3+23^n
+Œ“
+
+25^n*3-24^n*3+23^n
 #include<algorithm>
 #include <iostream>
 #include <cstdio>
