@@ -2,57 +2,57 @@
 #include"cstring"
 #include"iostream"
 using namespace std;
-char c1[1000001],c2[10001];
+char c1[1000001], c2[10001];
 int next1[10001];
-int len1,len2;
+int len1, len2;
 void getNext(char *p) {
-    next1[0] = -1;
-    int j = 0;
-    int k = -1;
-    while (j < len2 ) {
-       if (k == -1 || p[j] == p[k]) {
-				k++;
-				j++;
-				next1[j]=k;
-       } 
-	   else {
-           k = next1[k];
+	next1[0] = -1;
+	int j = 0;
+	int k = -1;
+	while (j < len2) {
+		if (k == -1 || p[j] == p[k]) {
+			k++;
+			j++;
+			next1[j] = k;
 		}
-    }
-} 
-int KMP(char *S, char *P)
-{   
-	int s=0;
-    int i = 0;
-    int j = 0; 
-    while (i < len1)
-    {
-        if (j == -1 || S[i] == P[j])  // P 的第一个字符不匹配或 S[i] == P[j]
-        {
-            i++;
-            j++;
-        }
-        else
-            j = next1[j];
-    
-	if (j == len2)
-       {
-		   s++;
-		   j=0;
+		else {
+			k = next1[k];
 		}
 	}
-    return s;
+}
+int KMP(char *S, char *P)
+{
+	int s = 0;
+	int i = 0;
+	int j = 0;
+	while (i < len1)
+	{
+		if (j == -1 || S[i] == P[j])  // P 的第一个字符不匹配或 S[i] == P[j]
+		{
+			i++;
+			j++;
+		}
+		else
+			j = next1[j];
+
+		if (j == len2)
+		{
+			s++;
+			j = 0;
+		}
+	}
+	return s;
 }
 int main()
 {
-	while(cin>>c1&&c1[0]!='#'){
-		cin>>c2;
-		len1=strlen(c1);
-		len2=strlen(c2);
+	while (cin >> c1 && c1[0] != '#') {
+		cin >> c2;
+		len1 = strlen(c1);
+		len2 = strlen(c2);
 		getNext(c2);
-		printf("%d\n",KMP(c1,c2));
+		printf("%d\n", KMP(c1, c2));
 	}
-return 0;
+	return 0;
 }
 
 

@@ -2,65 +2,61 @@
 #include"cstring"
 #include"iostream"
 using namespace std;
-char c1[1000001],c2[10001];
+char c1[1000001], c2[10001];
 int next1[10001];
 void getNext(char *p) {
-	int len=strlen(p);
-    next1[0] = -1;
-    int j = 0;
-    int k = -1;
-    while (j < len - 1) {
-       if (k == -1 || p[j] == p[k]) {
-           if (p[++j] == p[++k]) { // 当两个字符相等时要跳过
-              next1[j] = next1[k];
-           } 
-		   else {
-              next1[j] = k;
-		   }
-       } 
-	   else {
-           k = next1[k];
+	next1[0] = -1;
+	int j = 0;
+	int k = -1;
+	while (j < len2) {
+		if (k == -1 || p[j] == p[k]) {
+			k++;
+			j++;
+			next1[j] = k;
 		}
-    }
-} 
+		else {
+			k = next1[k];
+		}
+	}
+}
 int KMP(char *S, char *P)
 {
-    int i = 0;  // S 的下标
-    int j = 0;  // P 的下标
-    int slen = strlen(S);
-    int plen = strlen(P);
-    while (i < slen && j < plen)
-    {
-        if (j == -1 || S[i] == P[j])  // P 的第一个字符不匹配或 S[i] == P[j]
-        {
-            i++;
-            j++;
-        }
-        else
-            j = next1[j];  // 当前字符匹配失败，进行跳转
-    }
-	if (j == plen)// 匹配成功
-       {
-			return i - j+1;//完全匹配时的开始下标，下标从0开始
+	int i = 0;  // S 的下标
+	int j = 0;  // P 的下标
+	int slen = strlen(S);
+	int plen = strlen(P);
+	while (i < slen && j < plen)
+	{
+		if (j == -1 || S[i] == P[j])  // P 的第一个字符不匹配或 S[i] == P[j]
+		{
+			i++;
+			j++;
 		}
-    return -1;//不存在匹配情况 
+		else
+			j = next1[j];  // 当前字符匹配失败，进行跳转
+	}
+	if (j == plen)// 匹配成功
+	{
+		return i - j + 1;//完全匹配时的开始下标，下标从0开始
+	}
+	return -1;//不存在匹配情况 
 }
 int main()
 {
 	int t;
-	cin>>t;
-	while(t--){
-		int lc1,lc2;
-		cin>>lc1>>lc2;
-		for(int i=0;i<lc1;i++){
-			cin>>c1[i];
+	cin >> t;
+	while (t--) {
+		int lc1, lc2;
+		cin >> lc1 >> lc2;
+		for (int i = 0; i < lc1; i++) {
+			cin >> c1[i];
 		}
-		for(int i=0;i<lc2;i++){
-			cin>>c2[i];
+		for (int i = 0; i < lc2; i++) {
+			cin >> c2[i];
 		}
 		getNext(c2);
-		printf("%d\n",KMP(c1,c2));
+		printf("%d\n", KMP(c1, c2));
 	}
 
-return 0;
+	return 0;
 }
