@@ -1,0 +1,89 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int MAXN = 3e5 + 5;
+char a[10][10][10];
+struct Poi {
+	int t, x, y;
+	void add(Poi &A, Poi & B)
+	{
+		A.x += B.x;
+		A.y += B.y;
+		A.t += B.t;
+	}
+}q;
+Poi mov[10] = { {1,0,0},
+{1,0,1},{1,1,0},{1,1,1},
+{1,1,-1},{1,-1,1},{1,-1,-1},
+{1,0,-1},{1,-1,0},
+};
+int bfs(int x1, int y1, int t)
+{
+	queue<Poi>p;
+	p.push(Poi{ t,x1,y1 });
+	while (!p.empty())
+	{
+		q = p.front();
+		p.pop();
+		if (q.t == 8)return 1;
+		for (int i = 0; i < 9; i++)
+		{
+			Poi x(q);
+			x.add(x, mov[i]);
+			if (x.x > 7 || x.x < 0 || x.y>7 || x.y < 0)
+			{
+
+			}
+			else if (a[x.t][x.x][x.y] != 'S'&&a[x.t - 1][x.x][x.y] != 'S')
+			{
+				if (x.t == 8 || (x.x == 0 && x.y == 7))return 1;
+				p.push(x);
+			}
+		}
+	}
+	return 0;
+}
+int main() {
+	memset(a, '.', sizeof(a));
+	for (int i = 0; i < 8; i++)
+		for (int j = 0; j < 8; j++)
+		{
+			cin >> a[0][i][j];
+			if (a[0][i][j] == 'S')
+				for (int k = 1; k < 8; k++)
+					if (i + k < 8)
+						a[k][i + k][j] = 'S';
+		}
+	if (bfs(7, 0, 0))
+		printf("WIN\n");
+	else printf("LOSE\n");
+	return 0;
+}
+
+
+.......A
+........
+........
+........
+........
+........
+........
+M.......
+
+.......A
+........
+........
+........
+........
+........
+SS......
+M.......
+
+.......A
+........
+........
+........
+........
+.S......
+S.......
+MS......
