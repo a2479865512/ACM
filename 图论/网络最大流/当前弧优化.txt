@@ -1,0 +1,54 @@
+int deep[N + 1];
+int q[N + 1] = { 0 }, h, t;
+int cur[N + 1];
+bool bfs(int S, int T)
+{
+	for (int i = 0; i <= n; i++) deep[i] = 0;    //初始化深度为0
+	h = t = 1;
+	q[1] = S;
+	deep[S] = 1;
+	while (h <= t)
+	{
+		for (int i = lin[q[h]]; i; i = e[i].next)
+			if (!deep[e[i].y] && e[i].v)       //若未计算过深度且这条边不能是空的
+			{
+				q[++t] = e[i].y;      //入队一个节点
+				deep[q[t]] = deep[q[h]] + 1;      //计算深度
+			}
+		++h;
+	}
+	if (deep[T]) return true;
+	else return false;
+}
+int dfs(int start, int T, int minf)
+{
+	if (start == T) return minf;      //若到了汇点直接返回前面流过来的流量
+	int sum = 0, flow = 0;
+	for (int &i = cur[start]; i; i = e[i].next)    //当前弧优化，运用指针在修改i的同时，将cur[start]顺便修改
+		if (e[i].v&&deep[start] + 1 == deep[e[i].y])
+		{
+			flow = dfs(e[i].y, T, min(minf, e[i].v));      //继续找增广路
+			if (!flow) deep[e[i].y] = 0;      //去掉已经增广完的点
+			sum += flow;      //统计最大流
+			minf -= flow;      //剩余容量
+			e[i].v -= flow;
+			e[i ^ 1].v += flow;      //更新剩余容量
+			if (!minf) return sum;      //若前面已经流完了，直接返回
+		}
+	return sum;      //返回最大流量
+}
+int maxflow(int S, int T)
+{
+	int sum = 0, minf;
+	while (1)       //while(1) 控制循环
+	{
+		if (!bfs(S, T)) return sum;      //bfs求出分层图，顺便判断是否有增广路
+		for (int i = 1; i <= n; i++)
+			cur[i] = lin[i];      //当前弧的初始化
+		minf = dfs(S, T, INF);      //dfs求出流量
+		if (minf) sum += minf;      //若流量不为0，加入
+		else return sum;      //流量为0，说明没有增广路，返回最大流
+	}
+}
+
+代码

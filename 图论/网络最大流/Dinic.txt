@@ -1,0 +1,83 @@
+#include <iostream>
+#include <cstring>
+#include <cstdio>
+#include <queue>
+using namespace std;
+#define inf 0x7fffffff
+int head[10010], tot;
+struct ahah {
+	int nxt, to, w;
+}edge[100010];
+void add(int x, int y, int z)
+{
+	edge[tot].nxt = head[x];
+	edge[tot].to = y;
+	edge[tot].w = z;
+	head[x] = tot++;
+}
+
+int n, m, x, y, z;
+int ans, flow;
+int dis[10010];
+queue <int> Q;
+int S, T;
+
+int bfs()
+{
+	memset(dis, -1, sizeof(dis));
+	dis[S] = 0;
+	Q.push(S);
+	while (!Q.empty())
+	{
+		int u = Q.front();
+		Q.pop();
+		for (int i = head[u]; i != -1; i = edge[i].nxt)
+		{
+			int v = edge[i].to;
+			if (dis[v] == -1 && edge[i].w > 0)
+			{
+				dis[v] = dis[u] + 1;    //更新 
+				Q.push(v);
+			}
+		}
+	}
+	return dis[T] != -1;    //判断是否联通。 
+}
+
+bool dfs(int u, int exp)
+{
+	if (u == T)return exp;    //到达重点，全部接受。 
+	int flow = 0, tmp = 0;
+	for (int i = head[u]; i != -1; i = edge[i].nxt)
+	{
+		int v = edge[i].to;    //下一个点。 
+		if (dis[v] == dis[u] + 1 && edge[i].w > 0)
+		{
+			tmp = dfs(v, min(exp, edge[i].w));    //往下进行 
+			if (!tmp)continue;
+
+			exp -= tmp;    //流量限制-流量，后边有判断。 
+			flow += tmp;
+
+			edge[i].w -= tmp;        //路径上的边残量减少 
+			edge[i ^ 1].w += tmp;    //流经的边的反向边残量增加。 
+			if (!exp)break;    //判断是否在限制边缘 
+		}
+	}
+	return flow;
+}
+
+int main()
+{
+	memset(head, -1, sizeof(head));
+	scanf("%d%d%d%d", &n, &m, &S, &T);
+	for (int i = 1; i <= m; i++)
+	{
+		scanf("%d%d%d", &x, &y, &z);
+		add(x, y, z); add(y, x, 0);    //相邻建边。 
+	}
+	while (bfs())ans += dfs(S, inf);
+	printf("%d", ans);
+}
+
+网络最大流模板
