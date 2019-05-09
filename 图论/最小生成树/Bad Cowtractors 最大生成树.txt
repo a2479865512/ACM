@@ -3,88 +3,88 @@
 #include <cstring>
 #include <algorithm>
 using namespace std;
-const int N=100+20000;
+const int N = 100 + 20000;
 struct Node
 {
-    int u;
-    int v;
-    long long w;
+	int u;
+	int v;
+	long long w;
 }s[N];
 int ran[N];
 int fa[N];
-bool cmp(struct Node a,struct Node b)  //按权值由大到小排序
+bool cmp(struct Node a, struct Node b)  //按权值由大到小排序
 {
-    return a.w>b.w;
+	return a.w > b.w;
 }
 void makeset(int n)   //并查集初始化
 {
-    for(int i=1;i<=n;i++)
-        fa[i]=i,ran[i]=0;
+	for (int i = 1; i <= n; i++)
+		fa[i] = i, ran[i] = 0;
 }
 int find(int x)   // 循环实现路基压缩
 {
-    int r=x,t;
-    while(r!=fa[r])
-       r=fa[r];
-    while(x!=r)
-    {
-        t=fa[x];
-        fa[x]=r;
-        x=t;
-    }
-    return x;
+	int r = x, t;
+	while (r != fa[r])
+		r = fa[r];
+	while (x != r)
+	{
+		t = fa[x];
+		fa[x] = r;
+		x = t;
+	}
+	return x;
 }
 /*int find(int x)
 {
-    if(x!=uset[x])
-        uset[x]=find(uset[x]);
-    return uset[x];
+	if(x!=uset[x])
+		uset[x]=find(uset[x]);
+	return uset[x];
 }*/    //递归实现路径压缩
-void unionset(int x,int y)   //按秩合并
+void unionset(int x, int y)   //按秩合并
 {
-    int  a=find(x),b=find(y);
-    if(a==b)
-        return ;
-    if(ran[a]>ran[b])
-        fa[b]=a;
-    else
-    {
-        if(ran[a]==ran[b])
-            ran[b]++;
-        fa[a]=b;
-    }
+	int  a = find(x), b = find(y);
+	if (a == b)
+		return;
+	if (ran[a] > ran[b])
+		fa[b] = a;
+	else
+	{
+		if (ran[a] == ran[b])
+			ran[b]++;
+		fa[a] = b;
+	}
 }
-long long Kruskal(int n,int m)  //Kruskal生成最小生成树
+long long Kruskal(int n, int m)  //Kruskal生成最小生成树
 {
-    int i,nedge=0; //nedge 记录边的数量 最大为谷仓总数减1 为n-1
-    long long res=0;
-    sort(s+1,s+1+m,cmp);
-    for(i=1;i<=m&&nedge!=n-1;i++)
-    {
-        if(find(s[i].u)!=find(s[i].v))
-        {
-            unionset(s[i].u,s[i].v);
-            res+=s[i].w;
-            nedge++;
-        }
-    }
-    if(nedge<n-1)
-        res=-1;
-    return res;
+	int i, nedge = 0; //nedge 记录边的数量 最大为谷仓总数减1 为n-1
+	long long res = 0;
+	sort(s + 1, s + 1 + m, cmp);
+	for (i = 1; i <= m && nedge != n - 1; i++)
+	{
+		if (find(s[i].u) != find(s[i].v))
+		{
+			unionset(s[i].u, s[i].v);
+			res += s[i].w;
+			nedge++;
+		}
+	}
+	if (nedge < n - 1)
+		res = -1;
+	return res;
 }
 int main()
 {
-    int n,m;
-    while(~scanf("%d %d",&n,&m))
-    {
-        long long ans=0;
-        for(int i=1;i<=m;i++)
-            scanf("%d %d %lld",&s[i].u,&s[i].v,&s[i].w);
-        makeset(n);
-        ans=Kruskal(n,m);
-        printf("%lld",ans);
-    }
-    return 0;
+	int n, m;
+	while (~scanf("%d %d", &n, &m))
+	{
+		long long ans = 0;
+		for (int i = 1; i <= m; i++)
+			scanf("%d %d %lld", &s[i].u, &s[i].v, &s[i].w);
+		makeset(n);
+		ans = Kruskal(n, m);
+		printf("%lld", ans);
+	}
+	return 0;
 }
 
 

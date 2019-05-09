@@ -1,0 +1,42 @@
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#include<iostream>
+using namespace std;
+int k, m;
+int num[8][105], x[8];
+long long p[8], s;
+void dfs(int n, int sum)//物品个数，和现在的值
+{
+	if (n > k)return;
+	for (int i = 0; i <= x[n]; i++)
+	{
+		if (sum + num[n][i] > m)
+		{
+			s += p[n + 1] * (x[n] - i + 1);
+			return;
+		}
+		dfs(n + 1, sum + num[n][i]);
+	}
+	//return ;
+}
+int main()
+{
+	while (~scanf("%d %d", &k, &m))
+	{
+		for (int i = 1; i <= k; i++)
+		{
+			scanf("%d", &x[i]);
+			for (int j = 1; j <= x[i]; j++)
+				scanf("%d", &num[i][j]);
+			sort(num[i] + 1, num[i] + 1 + x[i]);
+		}
+		s = 0;
+		p[k + 1] = 1;
+		for (int i = k; i >= 1; i--)
+			p[i] = p[i + 1] * (x[i] + 1);
+		dfs(1, 0);
+		printf("%lld\n", s);
+	}
+	return 0;
+}
