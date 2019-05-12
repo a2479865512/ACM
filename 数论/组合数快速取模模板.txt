@@ -7,7 +7,7 @@ int inv(int a)
 {
 	return a == 1 ? 1 : (long long)(MOD - MOD / a)*inv(MOD%a) % MOD;
 }
-ll C(ll n, ll m)
+ll C(ll n, ll m)//n´óÓÚm
 {
 	if (m < 0)return 0;
 	if (n < m)return 0;

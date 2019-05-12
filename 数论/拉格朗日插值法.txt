@@ -1,0 +1,63 @@
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#define O 1ll
+using namespace std;
+const int N = 2005, mod = 998244353;
+int n, k, x[N], y[N], num[N], tmp[N], res[N], inv[N];
+void Add(int &x, int y)
+{
+	x += y;
+	if (x >= mod) x -= mod;
+}
+void exGCD(int a, int b, int &x, int &y)
+{
+	if (!b) x = 1, y = 0;
+	else exGCD(b, a%b, y, x), y -= a / b * x;
+}
+int Inv(int x)
+{
+	int xx, yy;
+	exGCD(x, mod, xx, yy);
+	Add(xx, mod); return xx;
+}
+void Lagrange()
+{
+	for (int i = 1; i <= n; i++)
+	{
+		int den = 1, lst = 0;
+		for (int j = 1; j <= n; j++)
+			if (i != j) den = O * den*(x[i] - x[j] + mod) % mod;
+		den = O * y[i] * Inv(den) % mod;
+		for (int j = 0; j < n; j++)
+		{
+			tmp[j] = O * (num[j] - lst + mod)*inv[i] % mod;
+			Add(res[j], O*den*tmp[j] % mod), lst = tmp[j];
+		}
+	}
+}
+void Pre()
+{
+	num[0] = 1;
+	for (int i = 1; i <= n; swap(num, tmp), i++)
+	{
+		tmp[0] = 0; inv[i] = Inv(mod - x[i]);
+		for (int j = 1; j <= i; j++) tmp[j] = num[j - 1];
+		for (int j = 0; j <= i; j++) Add(tmp[j], O*num[j] * (mod - x[i]) % mod);
+	}
+}
+int Calc(int x)
+{
+	int ret = 0, var = 1;
+	for (int i = 0; i < n; var = O * var*x%mod, i++)
+		Add(ret, O*var*res[i] % mod);
+	return ret;
+}
+int main()
+{
+	scanf("%d%d", &n, &k);
+	for (int i = 1; i <= n; i++)
+		scanf("%d%d", &x[i], &y[i]);
+	Pre(), Lagrange(), printf("%d", Calc(k));
+	return 0;
+}

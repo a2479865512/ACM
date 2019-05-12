@@ -1,0 +1,80 @@
+版本1//附：
+根号10 = 3.16227766
+1e0 1	                   1
+1e1 10             3.16227766
+1e2 100                    10
+1e3 1000	          31.6227766
+1e4 10000                 100
+1e5 100000         316.227766
+1e6 1000000              1000
+1e7 10000000       3162.27766
+1e8 100000000           10000
+1e9 1000000000     31622.7766
+#define MAXN 1000000
+long long int a[MAXN];
+void Prime()
+{
+	a[0] = 1; a[1] = 1;
+	for (int i = 2; i <= sqrt((double)MAXN); i++) {
+		if (!a[i]) {
+			int t = i * i;
+			while (t <= MAXN) {
+				if (!a[t]) {
+					a[t] = 1;
+				}
+				t = t + i;
+			}
+		}
+	}
+}
+版本2
+void Prime()
+{
+	a[0] = 1; a[1] = 1;
+	for (int i = 4; i <= MAXN; i += 2)
+		a[i] = 1;
+	for (int i = 3; i <= sqrt((double)MAXN); i += 2) {
+		if (!a[i]) {
+			int t = i * i;
+			while (t <= MAXN) {
+				if (!a[t]) {
+					a[t] = 1;
+				}
+				t = t + 2 * i;
+			}
+		}
+	}
+}
+版本3
+void Prime()
+{
+	a[0] = 1; a[1] = 2;
+	for (int i = 4; i <= MAXN; i += 2)
+		a[i] = 1;
+	for (int i = 3; i <= sqrt((double)MAXN); i += 2) {
+		if (!a[i]) {
+			a[++a[0]] = i;
+			int t = i * i;
+			while (t <= MAXN) {
+				if (!a[t]) {
+					a[t] = 1;
+				}
+				t = t + 2 * i;
+			}
+		}
+	}
+	for (int i = sqrt((double)MAXN) + 2; i <= MAXN; i += 2) {
+		if (!a[i])a[++a[0]] = i;
+	}
+}
+这个版本a[1]到a[a[0] - 1]存放素数，但因为循环变成了1到n所以会变慢
+版本4别人的
+void Prime() {
+	for (int i = 2; i <= MAXN; i++) {
+		if (!a[i])a[++a[0]] = i;
+		for (int j = 1; j <= a[0] && a[j] <= MAXN / i; j++) {
+			a[a[j] * i] = 1;
+			if (i%a[j] == 0)break;
+		}
+	}
+}
