@@ -1,104 +1,104 @@
 #include <stdio.h>
 #define MID (node[h].lson + node[h].rson) >> 1
-const int maxn = 5e4 + 10 ;
-int T ;
-int n ;
-int num[maxn] ;
+const int maxn = 5e4 + 10;
+int T;
+int n;
+int num[maxn];
 
 struct Node
 {
-    int lson , rson ;
-    int val ;
+	int lson, rson;
+	int val;
 }node[maxn << 2];
 
-int Build (int l , int r , int h)
+int Build(int l, int r, int h)
 {
-    node[h].lson = l ;
-    node[h].rson = r ;
-    if (l == r)
-    {
-        return node[h].val = num[l] ;
-    }
-    else
-    {
-        int mid = (l + r) >> 1 ;
-        return node[h].val = Build (l , mid , h << 1) + Build (mid + 1 , r , h << 1 | 1) ;
-    }
+	node[h].lson = l;
+	node[h].rson = r;
+	if (l == r)
+	{
+		return node[h].val = num[l];
+	}
+	else
+	{
+		int mid = (l + r) >> 1;
+		return node[h].val = Build(l, mid, h << 1) + Build(mid + 1, r, h << 1 | 1);
+	}
 }
 
-void Update(int k , int val , int h)
+void Update(int k, int val, int h)
 {
-    node[h].val += val ;
-    if (node[h].lson == node[h].rson)
-    {
-        return ;
-    }
-    else
-    {
-        int mid = MID ;
-        if (k <= mid)
-            Update(k , val , h << 1) ;
-        else
-            Update(k , val , h << 1 | 1 ) ;
-    }
+	node[h].val += val;
+	if (node[h].lson == node[h].rson)
+	{
+		return;
+	}
+	else
+	{
+		int mid = MID;
+		if (k <= mid)
+			Update(k, val, h << 1);
+		else
+			Update(k, val, h << 1 | 1);
+	}
 }
 
-int Query(int l , int r , int h)
+int Query(int l, int r, int h)
 {
-    if (node[h].lson == l && node[h].rson == r)
-    {
-        return node[h].val ;
-    }
-    else
-    {
-        int mid = MID ;
-        if (r <= mid)
-        {
-            return Query(l , r , h << 1 ) ;
-        }
-        else if ( l > mid )
-        {
-            return Query(l , r , h << 1 | 1 ) ;
-        }
-        else
-            return Query (l , mid , h << 1) + Query(mid + 1 , r , h << 1 | 1) ;
-    }
+	if (node[h].lson == l && node[h].rson == r)
+	{
+		return node[h].val;
+	}
+	else
+	{
+		int mid = MID;
+		if (r <= mid)
+		{
+			return Query(l, r, h << 1);
+		}
+		else if (l > mid)
+		{
+			return Query(l, r, h << 1 | 1);
+		}
+		else
+			return Query(l, mid, h << 1) + Query(mid + 1, r, h << 1 | 1);
+	}
 }
 
-char str[20] ;
-int a , b ;
+char str[20];
+int a, b;
 
-int main ()
+int main()
 {
-    scanf ("%d" , &T) ;
-    for (int x = 1 ; x <= T ; ++x)
-    {
-        printf("Case %d:\n" , x) ;
-        scanf ("%d" , &n) ;
-        for (int i = 1 ; i <= n ; ++i)
-        {
-            scanf ("%d" , &num[i]) ;
-        }
-        Build (1 , n , 1) ;
-        while ( scanf ("%s" , str) )
-        {
-            if (str[0] == 'E')
-                break ;
-            scanf ("%d%d" , &a , &b) ;
-            if (str[0] == 'A')
-            {
-                Update(a , b , 1) ;
-            }
-            else if (str[0] == 'Q')
-            {
-                printf ("%d\n" , Query(a , b , 1)) ;
-            }
-            else if (str[0] == 'S')
-            {
-                Update(a , -b , 1) ;
-            }
-        }
-    }
+	scanf("%d", &T);
+	for (int x = 1; x <= T; ++x)
+	{
+		printf("Case %d:\n", x);
+		scanf("%d", &n);
+		for (int i = 1; i <= n; ++i)
+		{
+			scanf("%d", &num[i]);
+		}
+		Build(1, n, 1);
+		while (scanf("%s", str))
+		{
+			if (str[0] == 'E')
+				break;
+			scanf("%d%d", &a, &b);
+			if (str[0] == 'A')
+			{
+				Update(a, b, 1);
+			}
+			else if (str[0] == 'Q')
+			{
+				printf("%d\n", Query(a, b, 1));
+			}
+			else if (str[0] == 'S')
+			{
+				Update(a, -b, 1);
+			}
+		}
+	}
 }
 
 
@@ -111,4 +111,4 @@ Query 2 7
 Sub 10 2
 Add 6 3
 Query 3 10
-End 
+End

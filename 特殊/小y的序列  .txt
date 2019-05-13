@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+using namespace std;
+const int MAXN = 1e5 + 5;
+int a[MAXN], n, m, s = -1, vis[MAXN];
+int main()
+{
+	scanf("%d %d", &n, &m);
+	memset(vis, 0, sizeof(vis));
+	for (int i = 1; i <= n; ++i) {
+		scanf("%d", &a[i]);
+		if (!vis[a[i]])vis[a[i]] = i;
+	}
+	for (int i = 1; i <= m; i++) {
+		if (vis[i]) {
+			s += 2;
+			for (int j = n; j >= 1; j--) {
+				if (a[j] == i) {
+					while (s--)
+						printf("%d %d\n", vis[i], j);
+					break;
+				}
+			}
+		}
+		else s++;
+	}
+	return 0;
+}
+
+
+
+3 3
+1 2 3
