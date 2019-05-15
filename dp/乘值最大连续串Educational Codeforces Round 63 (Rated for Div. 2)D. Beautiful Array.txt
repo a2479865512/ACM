@@ -1,0 +1,24 @@
+#include <bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int MAXN = 3e5 + 3;
+ll a[MAXN];
+ll dp[3][MAXN];
+//d[0][i]：以a[i]结尾的最大子段和
+//d[1][i]：a[i]被乘以m且以a[i]结尾的最大子段和
+//d[2][i]：a[i]没有被乘以m，但在a[i]之前有一个区间被乘以m，以a[i]结尾且包含该区间的最大子段和
+int m, n;
+int main() {
+	scanf("%d%d", &n, &m);
+	ll max1 = 0;
+	for (int i = 1; i <= n; ++i)
+	{
+		scanf("%lld", &a[i]);
+		dp[0][i] = a[i] + max(0ll, dp[0][i - 1]);
+		dp[1][i] = a[i] * m + max(0ll, max(dp[1][i - 1], dp[0][i - 1]));
+		dp[2][i] = a[i] + max(0ll, max(dp[2][i - 1], dp[1][i - 1]));
+		max1 = max(max1, max(dp[2][i], max(dp[1][i], dp[0][i])));
+	}
+	cout << max1 << endl;
+	return 0;
+}
