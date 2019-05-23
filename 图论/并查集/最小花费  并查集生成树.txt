@@ -1,0 +1,50 @@
+#include<bits/stdc++.h>
+#include<cstdio>
+#include<cstring>
+#include<iostream>
+#include<algorithm>
+using namespace std;
+const int MAXN = 1e5 + 5;
+int n, m, c, a;
+int fa[MAXN];
+struct Edge {
+	int u, v, w;
+	bool operator <(const Edge&A)const
+	{
+		return A.w > w;
+	}
+}edge[2 * MAXN];
+int findfa(int o)
+{
+	if (fa[o] == o)return o;
+	else {
+		return fa[o] = findfa(fa[o]);
+	}
+}
+int main()
+{
+	scanf("%d %d %d %d", &n, &m, &c, &a);
+	int u, v, w;
+	for (int i = 1; i <= n; i++)fa[i] = i;
+	for (int i = 0; i < m; i++)
+	{
+		scanf("%d %d %d", &u, &v, &w);
+		edge[i] = Edge{ u,v,w };
+	}
+	sort(edge, edge + m);
+	for (int i = 0; i < n; i++)
+	{
+		int q = findfa(edge[i].u), p = findfa(edge[i].v);
+		if (q != p) {
+			fa[q] = p;
+		}
+		if (findfa(1) == findfa(n)) { printf("%d\n", (edge[i].w + a - 1) / a * c); return 0; }
+	}
+	return 0;
+}
+
+
+3 3 1 1
+1 2 5
+2 3 1
+1 3 4

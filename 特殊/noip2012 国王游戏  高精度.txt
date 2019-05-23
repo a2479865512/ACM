@@ -1,0 +1,76 @@
+//#include<bits/stdc++.h>
+
+#include<cstdio>
+#include<cstring>
+#include<iostream>
+#include<algorithm>
+#define len 10000
+using namespace std;
+
+const int MAXN = 1e4 + 5;
+struct NODE {
+	int l, r;
+	bool operator<(const NODE&A)const {
+		return (A.l*A.r != l * r) ? A.l*A.r > l*r :A.r > r;
+	}
+}a[1005];
+int ans[1020], p[1020], g[1020];
+void div(int x)
+{
+	int i, j, k, last = 0;
+	if (p[p[0]] >= x)g[0] = p[0];
+	else g[0] = p[0] - 1;
+
+	for (i = p[0]; i >= 1; i--)
+	{
+		g[i] = p[i] + last * len;
+		last = g[i] % x;
+		g[i] /= x;
+	}
+}
+void MAX()
+{
+	int i, j, k;
+	if (ans[0] > g[0])return;
+	if (ans[0] == g[0])
+	{
+		for (i = ans[0]; i >= 1; i--)
+		{
+			if (ans[i] > g[i])return;
+			if (ans[i] < g[i])break;
+		}
+		if (i == 0)return;
+	}
+	for (i = 0; i <= g[0]; i++)ans[i] = g[i];
+}
+
+void multi(int x)
+{
+	int i, j, k, last = 0;
+	for (i = 1; i <= p[0]; i++)
+	{
+		p[i] = p[i] * x + last;
+		last = p[i] / len;
+		p[i] %= len;
+	}
+	if (last > 0)p[++p[0]] = last;
+}
+int main()
+{
+	int n, x, y;
+	p[0] = 1;
+	cin >> n >> p[1] >> y;
+	for (int i = 0; i < n; i++)
+		cin >> a[i].l >> a[i].r;
+	sort(a, a + n);
+	for (int i = 0; i < n; i++)
+	{
+		div(a[i].r);
+		MAX();
+		multi(a[i].l);
+		//x*=a[i].l;
+	}
+	printf("%d", ans[ans[0]]);
+	for (int i = ans[0] - 1; i >= 1; i--)printf("%04d", ans[i]);
+	return 0;
+}

@@ -1,0 +1,55 @@
+#include<bits/stdc++.h>
+using namespace std;
+const int MAXN = 2e4 + 5;
+
+long long a[MAXN];
+int cnt;
+
+void init(int x, int k)
+{
+
+	a[cnt++] = x * 10 + 7;
+	a[cnt++] = x * 10 + 4;
+	k++;
+	if (k == 10)return;
+	init(x * 10 + 7, k);
+	init(x * 10 + 4, k);
+}
+
+long long solve(int l, int r)
+{
+	long long s = 0;
+	for (int i = 0; i < cnt; i++)
+	{
+		if (a[i] >= l)
+		{
+			if (r <= a[i])
+			{
+				s += 1ll * (r - l + 1)*a[i];
+
+				return s;
+			}
+			else {
+				s += 1ll * (a[i] - l + 1)*a[i];
+				l = a[i] + 1;
+			}
+
+		}
+	}
+	return s;
+}
+int main()
+{
+	init(0, 1);
+	sort(a, a + cnt);
+	a[cnt++] = 4444444444;
+	int l, r;
+	while (~scanf("%d %d", &l, &r))
+	{
+		cout << solve(l, r) << endl;
+	}
+	return 0;
+}
+
+
+2 7
