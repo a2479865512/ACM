@@ -1,0 +1,23 @@
+#include<iostream>
+using namespace std;
+int main() {
+	int a, b, c;//a\b,c 小数位数
+	cin >> a >> b >> c;
+	for (int i = 0; i <= c; i++)
+	{
+		if (i == c) {
+			if (a%b * 10 / b >= 5)
+				cout << a / b + 1 << endl;
+			else cout << a / b << endl;
+		}
+		else {
+			cout << a / b;
+			if (i == 0)cout << '.';
+			a %= b;
+			a *= 10;
+		}
+
+	}
+
+	return 0;
+}

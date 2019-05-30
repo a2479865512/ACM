@@ -1,0 +1,134 @@
+// luogu-judger-enable-o2
+#include<bits/stdc++.h>
+using namespace std;
+int read() {
+	int x = 0, f = 1; char ch = getchar();
+	while (ch<'0' || ch>'9') { if (ch == '-') f = -1; ch = getchar(); }
+	while (ch >= '0' && ch <= '9') { x = x * 10 + ch - '0'; ch = getchar(); }
+	return x * f;
+}
+const int MAXN = 310;
+const int MAXM = 40005;
+const int INF = 0x3f3f3f3f;
+struct Edge {
+	int to, next, cap, flow, cost;
+}edge[MAXM];
+int head[MAXN], tol;
+int pre[MAXN], dis[MAXN], dis1[MAXN][MAXN];
+bool vis[MAXN];
+int N;//节点总个数，节点编号从 0 ～ N-1
+void init(int n) {
+	N = n;
+	tol = 0;
+	memset(head, -1, sizeof(head));
+}
+void addedge(int u, int v, int cap, int cost) {
+	edge[tol].to = v;
+	edge[tol].cap = cap;
+	edge[tol].cost = cost;
+	edge[tol].flow = 0;
+	edge[tol].next = head[u];
+	head[u] = tol++;
+	edge[tol].to = u;
+	edge[tol].cap = 0;
+	edge[tol].cost = -cost;
+	edge[tol].flow = 0;
+	edge[tol].next = head[v];
+	head[v] = tol++;
+}
+bool spfa(int s, int t) {
+	queue<int>q;
+	for (int i = s; i <= t; i++) {
+		dis[i] = INF;
+		//vis[i] = false;
+		pre[i] = -1;
+	}
+	dis[s] = 0;
+	vis[s] = true;
+	q.push(s);
+	while (!q.empty()) {
+		int u = q.front();
+		q.pop();
+		vis[u] = false;
+		for (int i = head[u]; i != -1; i = edge[i].next) {
+			int v = edge[i].to;
+			if (edge[i].cap > edge[i].flow && dis[v] > dis[u] + edge[i].cost)
+			{
+				dis[v] = dis[u] + edge[i].cost;
+				//flow[v]=min(flow[u],edge[i].)
+				pre[v] = i;
+				if (!vis[v]) {
+					vis[v] = true;
+					q.push(v);
+				}
+			}
+		}
+	}
+	if (pre[t] == -1)return false;
+	else return true;
+}
+//返回的是最大流，cost 存的是最小费用
+int minCostMaxflow(int s, int t, int &cost) {
+	int flow = 0;
+	cost = 0;
+	while (spfa(s, t)) {
+		int Min = INF;
+		for (int i = pre[t]; i != -1; i = pre[edge[i ^ 1].to]) {
+			if (Min > edge[i].cap - edge[i].flow)
+				Min = edge[i].cap - edge[i].flow;
+		}
+		for (int i = pre[t]; i != -1; i = pre[edge[i ^ 1].to]) {
+			edge[i].flow += Min;
+			edge[i ^ 1].flow -= Min;
+			cost += edge[i].cost * Min;
+		}
+		flow += Min;
+	}
+	return flow;
+}
+
+int main() {
+	int n, m, k;
+	n = read() + 1, m = read(), k = read();
+	init(n);
+	int t = 2 * n + 1;
+	int u, v, f;
+	for (int i = 1; i <= n; ++i) {
+		for (int j = 1; j <= n; ++j) {
+			dis1[i][j] = INF;
+		}
+		dis1[i][i] = 0;
+	}
+	for (int i = 1; i <= m; i++) {
+		u = read() + 1, v = read() + 1, f = read();//, w = 1;
+		dis1[u][v] = dis1[v][u] = min(dis1[u][v], f);
+	}
+	for (int k1 = 1; k1 <= n; k1++)
+	{
+		for (int i = 1; i <= n; i++)
+		{
+			for (int j = 1; j <= n; j++)
+			{
+				if (k1 < max(i, j))
+					dis1[i][j] = min(dis1[i][j], dis1[i][k1] + dis1[k1][j]);
+			}
+		}
+	}
+	for (int i = 1; i <= n; i++) {
+		for (int j = i + 1; j <= n; j++)
+			if (dis1[i][j] != INF)
+				addedge(i, j + n, 1, dis1[i][j]);
+	}
+	for (int i = 2; i <= n; i++)
+		addedge(0, i, 1, 0), addedge(i + n, t, 1, 0);
+	addedge(0, 1, k, 0);
+	minCostMaxflow(0, t, u);
+	printf("%d\n", u);
+	return 0;
+}
+
+3 4 2
+0 1 1
+1 2 1
+2 3 100
+0 3 1
