@@ -1,0 +1,96 @@
+K题
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+#define lson root<<1,l,mid
+#define rson root<<1|1,mid+1,r
+const int maxn = 1e5 + 10;
+ll a[maxn];
+ll change(ll x) {
+	ll w = 0;
+	while (x > 0) {
+		w += (x % 10);
+		x /= 10;
+	}
+	return w;
+}
+struct Node {
+	ll l, r;
+	ll sum, maxx;     //特征值
+	ll lazy;
+}tree[maxn << 2];              //开四倍空间
+
+void build(ll i, ll l, ll r) {
+	tree[i].l = l;
+	tree[i].r = r;
+	if (l == r) {
+		tree[i].maxx = a[l];
+		tree[i].sum = a[l];
+		return;
+	}
+	ll mid = (l + r) >> 1;
+	build(i << 1, l, mid);
+	build(i << 1 | 1, mid + 1, r);
+
+	tree[i].sum = tree[i << 1].sum + tree[i << 1 | 1].sum;
+	tree[i].maxx = max(tree[i << 1].maxx, tree[i << 1 | 1].maxx);
+}
+
+void update(ll i, ll l, ll r) {
+	ll mid = (tree[i].l + tree[i].r) >> 1;
+
+	if (tree[i].maxx < 10)
+		return;
+	if (tree[i].l == tree[i].r) {
+		tree[i].maxx = change(tree[i].maxx);
+		tree[i].sum = change(tree[i].sum);
+		return;
+	}
+
+	if (r <= mid) update(i << 1, l, r);
+	else if (l > mid) update(i << 1 | 1, l, r);
+	else {
+		update(i << 1, l, mid);
+		update(i << 1 | 1, mid + 1, r);
+	}
+
+	tree[i].sum = tree[i << 1].sum + tree[i << 1 | 1].sum;
+	tree[i].maxx = max(tree[i << 1].maxx, tree[i << 1 | 1].maxx);
+}
+
+ll query(ll i, ll l, ll r) {
+	if (tree[i].l == l && tree[i].r == r)
+		return  tree[i].sum;
+
+	ll mid = (tree[i].l + tree[i].r) >> 1;
+
+	if (r <= mid) return query(i << 1, l, r);
+	else if (l > mid) return query(i << 1 | 1, l, r);
+	else return query(i << 1, l, mid) + query(i << 1 | 1, mid + 1, r);
+}
+
+int main() {
+	ll n, m;
+	scanf("%lld%lld", &n, &m);
+	for (ll i = 1; i <= n; i++) scanf("%lld", &a[i]);
+	build(1, 1, n);
+	for (ll i = 1; i <= m; i++) {
+		ll x, y;
+		scanf("%lld%lld", &x, &y);
+	}
+	int q;
+	cin >> q;
+	while (q--) {
+		ll op, l, r;
+		scanf("%lld%lld%lld", &op, &l, &r);
+		if (op == 1) {
+			update(1, l, r);
+		}
+		else {
+			ll ans = 0;
+			ans = query(1, l, r);
+			printf("%lld\n", ans);
+		}
+	}
+	return 0;
+}
