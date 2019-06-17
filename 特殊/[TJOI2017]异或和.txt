@@ -1,0 +1,56 @@
+#include<iostream>
+#include<cstdio>
+#include<algorithm>
+#include<cstring>
+using namespace std;
+int c[1000001][2], s[100001], a[100001], ans;
+int pw[21], n;
+void add(int x, int y)
+{
+	while (x <= 1000000)
+	{
+		c[x][y]++;
+		x += (x&(-x));
+	}
+}
+int query(int x, int y)
+{
+	int sum = 0;
+	while (x)
+	{
+		sum += c[x][y];
+		x -= (x&(-x));
+	}
+	return sum;
+}
+int main()
+{
+	int i, j, flag, cnt;
+	cin >> n;
+	for (i = 1; i <= n; i++)
+	{
+		scanf("%d", &s[i]);
+		s[i] += s[i - 1];
+	}
+	pw[0] = 1;
+	for (i = 1; i <= 20; i++)
+		pw[i] = pw[i - 1] * 2;
+	for (i = 0; i <= 20; i++)
+		if (pw[i] <= s[n])
+		{
+			memset(c, 0, sizeof(c));
+			flag = 0;
+			add(1, 0);
+			for (j = 1; j <= n; j++)
+			{
+				int tmp = s[j] & pw[i];
+				if (tmp) cnt = query(a[j] + 1, 0) + query(1000001, 1) - query(a[j] + 1, 1);
+				else cnt = query(a[j] + 1, 1) + query(1000001, 0) - query(a[j] + 1, 0);
+				if (cnt % 2 == 1) flag ^= 1;
+				add(a[j] + 1, (bool)tmp);
+				if (tmp) a[j] |= pw[i];
+			}
+			if (flag) ans |= (pw[i]);
+		}
+	cout << ans;
+}
