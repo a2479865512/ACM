@@ -1,0 +1,37 @@
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+using namespace std;
+typedef long long ll;
+const int MAXN = 100 + 10;
+const ll MOD = 1e9 + 7;
+int n;
+ll quickpow(ll a, ll b) {
+	if (b < 0) return 0;
+	ll ret = 1;
+	a %= MOD;
+	while (b) {
+		if (b & 1) ret = (ret * a) % MOD;
+		b >>= 1;
+		a = (a * a) % MOD;
+	}
+	return ret % MOD;
+}
+int main()
+{
+	string s;
+	cin >> s;
+	ll sum = 0;
+	for (int i = 0; i < s.length(); i++)
+	{
+		if (s[i] == '0') {
+			sum = sum * 4 % MOD;
+		}
+		else {
+			sum = (sum * 4 + quickpow(2, i)) % MOD;
+		}
+	}
+	cout << sum << endl;
+	return 0;
+}

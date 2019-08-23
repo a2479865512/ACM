@@ -1,9 +1,10 @@
 #include"stdio.h"
 int main()
 {
-	int a, b, k = 0, t;
-	int c[20] = { 0 };
-	scanf("%d %d", &a, &b);
+	long long a, b, k = 0, t;
+	long long c[20] = { 0 };
+	scanf("%lld %lld", &a, &b);
+	if(a==0){printf("0=0(base%lld)\n",b);return 0;}
 	b = -b;
 	printf("%d=", a);
 	while (a != 0)
@@ -35,9 +36,9 @@ int main()
 
 	for (int i = k - 1; i >= 0; i--)
 	{
-		if (c[i] < 10)printf("%d", c[i]);
+		if (c[i] < 10)printf("%lld", c[i]);
 		else printf("%c", c[i] + 55);
 	}
-	printf("(base-%d)\n", b);
+	printf("(base-%lld)\n", b);
 	return 0;
 }

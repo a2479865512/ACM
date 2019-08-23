@@ -1,0 +1,77 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+
+typedef long long ll;
+const int MAXN = 1e5 + 10;
+const ll INF = 0x3f3f3f3f3f3f3f3f;
+ll x, y;
+ll  n;
+ll v[100];
+ll v2[100];
+int main() {
+	ll k = 1;
+	for (int i = 1; i < 64; i++)
+	{
+		v[i] = k;
+		v2[i] = v2[i - 1] + v[i];
+		k <<= 1;
+	}
+	cin >> n;
+	while (n--)
+	{
+		cin >> x >> y;
+		if (y > x)swap(x, y);
+		ll sum = 0;
+		while (1) {
+			int i = 0;
+			while (i < 64)
+			{
+				if (v[i] > x) {
+					break;
+				}
+				i++;
+			}
+			i--;
+			int j = 0;
+			while (j < 64)
+			{
+				if (v[j] > y) {
+					break;
+				}
+				j++;
+			}
+			j--;
+			if (i > j) {
+				cout << sum + v2[i] << endl;
+				break;
+			}
+			else if (i == j) {
+				if (i == 0) { cout << sum << endl; break; }
+				x -= v[i];
+				y -= v[i];
+				sum += v[i];
+			}
+		}
+	}
+	return 0;
+}
+
+
+/*
+5
+1 10
+0 1
+1023 1024
+233 322
+1000000000000000000 1000000000000000000
+*/

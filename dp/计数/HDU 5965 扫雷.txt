@@ -1,0 +1,52 @@
+
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const int MAXN = 11111;
+const int MOD = 1e8 + 7;
+char s[MAXN];
+int num[MAXN], dp[MAXN];
+int main()
+{
+	int T;
+	scanf("%d", &T);
+	while (T--)
+	{
+		scanf("%s", s);
+		int n = strlen(s);
+		memset(dp, 0, sizeof(dp));
+		for (int i = 0; i < n; i++)
+			num[i + 1] = s[i] - '0';
+		memset(dp, 0, sizeof(dp));
+		ll ans = 0;
+		for (int i = 0; i <= num[1]; i++)
+		{
+			dp[1] = i;
+			if (i > 2)break;
+			int j;
+			for (j = 2; j <= n; j++)
+			{
+				int k = num[j - 1] - dp[j - 1] - dp[j - 2];
+				if (k > 2 || k < 0)break;
+				dp[j] = k;
+			}
+			if (j <= n)continue;
+			if (dp[n - 1] + dp[n] != num[n])continue;
+			ll res = 1;
+			for (int i = 1; i <= n; i++)
+			{
+				if (dp[i] == 1)res = res * 2 % MOD;
+			}
+			ans += res;
+		}
+		printf("%d\n", ans);
+	}
+	return 0;
+}
+
+
+/*
+2
+22
+000
+*/

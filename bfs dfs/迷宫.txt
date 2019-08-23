@@ -1,0 +1,154 @@
+小Q在一个n*m个格子组成的迷宫里，他想从迷宫里走出来，但是迷宫里有一些障碍物，而且迷宫还有一些传送装置，小Q不知道自己能否走出迷宫，所以向你求助。
+
+小Q目前所在位置是S，迷宫出口位置是E，并且不能走出迷宫的边界。
+
+可以走的路是’.’，不能走的障碍物是’#’。
+
+迷宫中还有K个传送装置，在同一行或者同一列的传送装置之间可以相互传送且在一瞬间即可达到，但是每次启动传送装置需要消耗的时间为1。
+
+小Q可以往上下左右四个方向走，且每走一步消耗的时间为1。
+
+问是否有一条从S到E的路可走？如果有这样的路请输出小Q从S走到E所花费的最小时间是多少？
+输入
+
+有多组测试数据。
+
+第一行输入两个正整数H（0 < H <= 1000）和W（0 < W <= 1000），分别表示迷宫的高和宽。
+
+接下来H行，每行W个字符（其中‘.’表示路，‘#’表示障碍物，‘S’表示小Q的位置，‘E’表示迷宫出口，地图中‘S’有且仅有一个）。
+
+接下来一行输入一个整数K（0<=K<=H*W）表示有K个传送装置，接下来K行每一行输入两个整数xi，yi(1<=i<=K,1<=xi<=H,1<=yi<=W)表示传送装置的位置。
+输出
+
+输出小Q走到迷宫出口最少需要花费多少秒，如果永远无法走到出口则输出“-1”。
+
+
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+//#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const long long MOD = 1e9 + 7;
+int n, m;
+char c[1005][1005];
+char cc[1005][1005];
+int vis[1005][1005];
+vector<int >h[1005], w[1005];
+//map<int >h[1005],w[1005];
+struct  Node
+{
+	int x;
+	int y;
+	int t;
+}pos, q;
+int dir[4][2] = { {0,1},{1,0},{0,-1},{-1,0} };
+int bfs(int x1, int y1) {
+	queue<Node>que;
+	pos.x = x1;
+	pos.y = y1;
+	pos.t = 0;
+	vis[pos.x][pos.y] = 1;
+	que.push(pos);
+	while (!que.empty())//起点就是传送门考虑
+	{
+
+		pos = que.front();
+		que.pop();
+		for (int i = 0; i < 4; i++)
+		{
+			q.x = pos.x + dir[i][0];
+			q.y = pos.y + dir[i][1];
+			q.t = pos.t + 1;
+			if (q.x == 0 || q.y == 0 || q.x == n + 1 || q.y == m + 1)continue;
+			if (c[q.x][q.y] == 'E') { return q.t; }
+			else if (c[q.x][q.y] == '.')
+			{
+				if (vis[q.x][q.y] == 0)
+				{
+					vis[q.x][q.y] = 1;
+					que.push(q);
+				}
+			}
+		}
+		if (cc[pos.x][pos.y] == 'k')
+		{
+			for (int i = h[pos.x].size() - 1; i >= 0; i--)
+			{
+				if (vis[pos.x][h[pos.x][i]] == 0)
+				{
+					if (c[pos.x][h[pos.x][i]] == 'E') { return pos.t + 1; }
+					vis[pos.x][h[pos.x][i]] = 1;
+					que.push(Node{ pos.x,h[pos.x][i],pos.t + 1 });
+				}
+			}
+			for (int i = w[pos.y].size() - 1; i >= 0; i--)
+			{
+				if (vis[w[pos.y][i]][pos.y] == 0)
+				{
+					if (c[w[pos.y][i]][pos.y] == 'E') { return pos.t + 1; }
+					vis[w[pos.y][i]][pos.y] = 1;
+					que.push(Node{ w[pos.y][i],pos.y,pos.t + 1 });
+				}
+			}
+		}
+
+	}
+	return -1;
+}
+int main() {
+	//freopen("D:\\1.txt", "r", stdin);
+	//freopen("D:\\3.txt", "w", stdout);
+	while (cin>>n>>m)
+	{
+		int x1 = -1, y1 = -1;
+		for(int i)
+		for (int i = 1; i <= n; i++)
+		{
+			for (int j = 1; j <= m; j++)
+			{
+				cin>>c[i][j];
+				if (x1 == -1 && c[i][j] == 'S')
+				{
+					x1 = i;
+					y1 = j;
+				}
+			}
+		}
+		int k, a, b;
+		scanf("%d", &k);
+		while (k--)
+		{
+			scanf("%d %d", &a, &b);
+			if (a <= 0 || b <= 0 || a >= n + 1 || b >= m + 1)continue;
+			if (c[a][b] != '#')
+			{
+				h[a].push_back(b);
+				w[b].push_back(a);
+				cc[a][b] = 'k';
+			}
+			//c[a][b]='k';
+		}
+		printf("%d\n", bfs(x1, y1));
+		for (int i = 1; i <= n; i++)h[i].clear();
+		for (int i = 1; i <= m; i++)w[i].clear();
+		memset(vis, 0, sizeof(vis));
+		memset(cc, 0, sizeof(cc));
+	}
+	//fclose(stdin);
+	//fclose(stdout);
+	return 0;
+}
+2 2
+S#
+.E
+1
+2 1

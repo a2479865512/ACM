@@ -1,0 +1,32 @@
+#include <iostream>
+#include <cstdio>
+#include <cmath>
+#define ll long long
+using namespace std;
+
+int main()
+{
+	ll n, m, k;
+	while (scanf("%lld %lld %lld", &n, &m, &k) != -1)
+	{
+		if (k < 4) cout << "0" << endl;
+		else
+		{
+			if (n > m) swap(n, m);
+			ll ans = 0;
+			for (ll x = 1; x <= n; x++)
+			{
+				ll y = min(m, (k - 2 * x) / 2);
+				if (y < 0) break;
+				ans = ans + ((n - x + 1)*(2 * m - y + 1)*y) / 2;
+			}
+			cout << ans << endl;
+		}
+	}
+	return 0;
+}
+/*
+2 2 6
+1 1 0
+50000 50000 1000000000
+*/

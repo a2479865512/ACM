@@ -1,0 +1,52 @@
+#include<iostream>
+#include<cstdio>
+#include<cstdlib>
+#define FOR(i,a,b) for(register int i=a;i<=b;i++)
+#define ROF(i,a,b) for(register int i=a;i>=b;i--)
+using namespace std;
+const int N = 5010;
+typedef long long int ll;
+const ll INF = 0x7fffffffff;///注意，此处INF值一定要极大
+ll h[N], n;//并且变量开longlong，否则会RE
+inline ll read()
+{
+	ll x = 0, t = 1; char ch = getchar();
+	while ((ch<'0' || ch>'9') && ch != '-')ch = getchar();
+	if (ch == '-')t = -1, ch = getchar();
+	while (ch >= '0' && ch <= '9')x = (x << 3) + (x << 1) + (ch ^ 48), ch = getchar();
+	return x * t;
+}//如果要打快读，记得开longlong函数。。惨痛的教训。
+ll slove(int l, int r, ll hi)//l为左边界，r为右边界，hi为已经涂掉的高度
+{
+	ll minh = INF;
+	FOR(i, l, r)minh = min(minh, h[i]);//当前区间最低高度
+	if (l == r)return 1;//边界条件
+	ll ans = minh - hi;//如果全部横着涂
+	int j;//j在循环外面定义，因为跳出循环后还要调用它进行分治
+	FOR(i, l, r)//横着涂时要加上被分离的小区间
+	{
+		if (h[i] == minh)continue;//如果该点没有露出部分则跳过
+								//以此确定露出部分左边界
+		for (j = i; j <= r; j++)
+			if (h[j + 1] == minh || j == r)break;//当右边没有露出或已到右边界跳出循环，确定有边界
+		ans += slove(i, j, minh);//加上切露出部分的费用
+		i = j + 1;//i从之前的右边界开始，虽然两层循环复杂度实际只有O（n）
+	}
+	return min(ans, ll(r - l + 1));//横着涂与竖着涂取最小值
+}
+int main()
+{
+	n = read();
+	FOR(i, 1, n)h[i] = read();
+	cout << slove(1, n, 0) << endl;
+	return 0;
+}
+
+5
+2 2 1 2 1
+
+2
+2 2
+
+1
+5

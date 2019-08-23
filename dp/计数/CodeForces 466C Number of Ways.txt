@@ -1,0 +1,54 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+#define ll long long
+using namespace std;
+const ll MAXN = 5e5 + 5;
+ll a[MAXN];
+ll sum[MAXN], n;
+ll dp[MAXN];
+
+int main()
+{
+	cin >> n;
+	for (int i = 1; i <= n; ++i) {
+		scanf("%lld", &a[i]);
+		sum[i] = sum[i - 1] + a[i];
+	}
+	if (n < 3 || sum[n] % 3 != 0) {
+		cout << 0 << endl;
+		return 0;
+	}
+	ll av = sum[n] / 3, k = 0;
+	for (int i = 1; i <= n - 2; ++i) {
+		dp[i] = dp[i - 1];
+		if (sum[i] == av) {
+			dp[i]++;
+		}
+	}
+	for (int i = n - 1; i >= 2; --i) {
+		if (sum[n] - sum[i] == av) {
+			k += dp[i - 1];
+		}
+	}
+	cout << k << endl;
+	return 0;
+}
+
+
+5
+1 2 3 0 3
+
+4
+0 1 -1 0
+
+2
+4 1

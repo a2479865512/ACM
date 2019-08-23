@@ -14,7 +14,7 @@ long long quick_mul(long long a , long long b , long long m)
 //¿ìËÙÃİ
 long long quick_pow(long long a , long long b , long long m)
 {
-    long long ans = 1 ;
+    long long ans = 1%MOD ;
     while (b)
     {
         if (b & 1)
@@ -36,5 +36,5 @@ ll quickpow(ll a, ll b) {
         b >>= 1;
         a = (a * a) % MOD;
     }
-    return ret;
+    return ret%MOD;
 }

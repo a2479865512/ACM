@@ -1,0 +1,86 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+
+typedef long long ll;
+const int MAXN = 1e5 + 10;
+const ll INF = 0x3f3f3f3f3f3f3f3f;
+ll  n, m;
+int x, y, z;
+int main() {
+	ios::sync_with_stdio(false);
+
+	ll t;
+	cin >> t;
+	char c;
+	while (t--)
+	{
+		map<int, int >e[40005];
+		int id[40005] = { 0 };
+		cin >> n >> m;
+		for (int i = 0; i < n - 1; i++)
+		{
+
+			cin >> x >> y >> z;
+			e[x][y] = e[y][x] = z;
+			id[x] += z; id[y] += z;
+		}
+		while (m--)
+		{
+			cin >> x;
+			if (x == 0) {
+				cin >> y;
+				if (id[y] % 2 == 0) {
+					cout << "Boys win!" << endl;
+				}
+				else {
+					cout << "Girls win!" << endl;
+				}
+			}
+			else {
+				cin >> x >> y >> z;
+				if (e[x][y] != z) {
+					id[x] += z - e[x][y];
+					id[y] += z - e[x][y];
+					e[x][y] = e[y][x] = z;
+				}
+			}
+		}
+	}
+	return 0;
+}
+
+
+
+/*
+2
+2 3
+1 2 0
+0 1
+1 2 1 1
+0 2
+4 11
+1 2 1
+2 3 1
+3 4 0
+0 1
+0 2
+0 3
+0 4
+1 2 1 0
+0 1
+0 2
+0 3
+1 3 4 1
+0 3
+0 4
+*/

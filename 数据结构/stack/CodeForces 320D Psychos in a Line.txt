@@ -1,0 +1,88 @@
+#include<stdio.h>
+#include<string.h>
+#include<stack>
+using namespace std;
+struct node
+{
+	int num, val;
+}now, nex;
+int a[150000];
+int main()
+{
+	int n;
+	while (~scanf("%d", &n))
+	{
+		for (int i = 1; i <= n; i++)scanf("%d", &a[i]);
+		stack<node>s;
+		int ans = 0;
+		for (int i = 1; i <= n; i++)
+		{
+			int sum = 0;
+			while (s.size() > 0)
+			{
+				now = s.top();
+				if (now.num < a[i])
+				{
+					s.pop();
+					sum = max(sum, now.val);
+				}
+				else break;
+			}
+			now.num = a[i]; now.val = sum + 1;
+			if (s.size() == 0)now.val = 0;
+			ans = max(ans, now.val);
+			s.push(now);
+		}
+		printf("%d\n", ans);
+	}
+}
+所以我们每次操作的时候，先将栈内老元素弹出，同时维护弹出的元素的最大价值（maxn），那么我们此时再加入栈内的元素的价值就是这个最大价值+1（maxn+1），表示我们这个当前数字操作的次数是要接着之前几个数进行的。如果没有弹出操作，那么对应maxn就是0.
+
+
+
+
+
+
+
+
+
+
+
+
+
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+using namespace std;
+typedef long long ll;
+const int MAXN = 1e5 + 10;
+const ll MOD = 1e9 + 7;
+int n;
+int a[MAXN], b[MAXN];
+int cnt;
+int main()
+{
+	cin >> n;
+
+	int ans = 0;
+	while (n--) {
+		int x;
+		cin >> x;
+		int sum = 0;
+		while (cnt) {
+			if (a[cnt] < x) {
+				sum = max(sum, b[cnt--]);
+			}
+			else break;
+		}
+
+		if (!cnt)b[++cnt] = 0;
+		else b[++cnt] = sum + 1;
+		a[cnt] = x;
+		ans = max(ans, b[cnt]);
+		//sum=max(sum,b[cnt]);
+	}
+	cout << ans << endl;
+	return 0;
+}
