@@ -1,0 +1,33 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int MAXN = 2e6 + 5;
+ll n, mod;
+ll a[MAXN], b[MAXN];
+void ss()
+{
+	for (int i = 1; i <= n; i++)
+		for (int j = i; j <= n; j += i)
+			b[j] += a[i];
+}
+int main()
+{
+
+	cin >> n >> a[1] >> mod;
+	ll k = 0;
+	for (int i = 2; i <= n; i++)
+	{
+		a[i] = (a[i - 1] + 7 * i) % mod;
+	}
+	ss();
+	for (int i = 1; i <= n; i++)
+	{
+		k ^= b[i];
+	}
+	cout << k << endl;
+
+
+}
+
+
+10 10 313

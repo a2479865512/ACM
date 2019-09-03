@@ -1,0 +1,76 @@
+#include <bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const int MAXN = 1e5 + 10;
+char s[200];
+int n, m;
+int sum;
+int x = 1, y = 0;
+int main()
+{
+	cin >> n >> m;
+	for (int i = 1; i <= n; ++i)
+	{
+		cin >> s;
+		if (i % 2) {
+			for (int j = 0; j < m; ++j)
+			{
+				if (s[j] == 'W')
+				{
+					sum += abs(j - y) + i - x;
+					x = i;
+					y = j;
+					break;
+				}
+			}
+			for (int j = m - 1; j >= 0; --j)
+			{
+				if (s[j] == 'W')
+				{
+					sum += abs(j - y) + i - x;
+					x = i;
+					y = j;
+					break;
+				}
+			}
+
+		}
+		else {
+			for (int j = m - 1; j >= 0; --j)
+			{
+				if (s[j] == 'W')
+				{
+					sum += abs(j - y) + i - x;
+					x = i;
+					y = j;
+					break;
+				}
+			}
+			for (int j = 0; j < m; ++j)
+			{
+				if (s[j] == 'W')
+				{
+					sum += abs(j - y) + i - x;
+					x = i;
+					y = j;
+					break;
+				}
+			}
+		}
+	}
+	cout << sum << endl;
+	return 0;
+}
+
+4 5
+GWGGW
+GGWGG
+GWGGG
+WGGGG
+
+
+
+3 3
+GWW
+WWW
+WWG

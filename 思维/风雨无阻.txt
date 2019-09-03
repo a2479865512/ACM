@@ -1,0 +1,54 @@
+#include <iostream>
+#include <algorithm>
+#include <cstdio>
+#include <cstring>
+using namespace std;
+const int MAXN = 1e6 + 5;
+long long n;
+char s[MAXN];
+int main()
+{
+	cin >> n;
+	cin >> s;
+	int len = strlen(s);
+	long long ans = 0;
+	int f = 0;
+	for (int i = 0; i < len; i++)
+	{
+		if (s[i]<'0' || s[i]>'9')
+			switch (f)
+			{
+			case 1:n *= ans; ans = 0; break;
+			case 2:n += ans; ans = 0; break;
+			case 3:n -= ans; ans = 0; break;
+			case 4:n %= ans; ans = 0; break;
+			case 5:n *= n; ans = 0; break;
+			default:break;
+			}
+		switch (s[i])
+		{
+		case '*':f = 1; break;
+		case '+':f = 2; break;
+		case '-':f = 3; break;
+		case '%':f = 4; break;
+		case '^':f = 5; break;
+		default:ans = ans * 10 + s[i] - '0'; break;
+		}
+	}
+	switch (f)
+	{
+	case 1:n *= ans; ans = 0; break;
+	case 2:n += ans; ans = 0; break;
+	case 3:n -= ans; ans = 0; break;
+	case 4:n %= ans; ans = 0; break;
+	case 5:n *= n; ans = 0; break;
+	default:break;
+	}
+	cout << abs(n) << endl;
+	return 0;
+}
+
+
+
+5
+-7*3

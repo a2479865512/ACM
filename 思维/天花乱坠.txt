@@ -1,0 +1,33 @@
+#include<cstdio>
+#include<iostream>
+#include<cstring>
+#include<algorithm>
+#include<queue>
+#include<stack>
+#include<set>
+#include<map>
+#include<vector>
+#include<cmath>
+const int maxn = 1e5 + 5;
+typedef long long ll;
+using namespace std;
+int n;
+const double PI = acos(-1);
+int main() {
+	while (~scanf("%d", &n)) {
+		double angle = (PI*(n - 2)) / n;//用内角和公式求出每个角的角度
+		angle = angle / 2;
+		double tmp = 100.0;
+		double sum = tmp * n;
+		while (tmp > 1e-9) {//!!!!!!!!!!
+			tmp = (tmp / 2)*sin(angle) * 2;//新的边长
+			sum += tmp * n;
+		}
+		printf("%.2lf\n", sum);
+	}
+	return 0;
+}
+
+3
+4
+50

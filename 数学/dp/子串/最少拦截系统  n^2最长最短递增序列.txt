@@ -1,0 +1,28 @@
+#include"stdio.h"
+int max(int a, int b)
+{
+	if (a > b)return a;
+	else return b;
+}
+int n = 0, arr[100000], d[100000], l[100000];
+int main()
+{
+
+	while (scanf("%d", &arr[n]) != EOF) {
+		d[n] = 1; l[n] = 1;
+		for (int j = n - 1; j >= 0; j--) {
+			if (arr[n] <= arr[j])d[n] = max(d[j] + 1, d[n]);
+			else l[n] = max(l[j] + 1, l[n]);
+		}
+		n++;
+	}
+	int max1 = 0, min1 = 0;
+	for (int i = 0; i < n; i++) {
+		max1 = max(max1, d[i]);
+		min1 = max(min1, l[i]);
+	}
+	printf("%d\n%d\n", max1, min1);
+	return 0;
+}
+
+389 207 155 300 299 170 158 65

@@ -1,0 +1,29 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+//#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const long long MOD = 1e9 + 7;
+ll n, x;
+int main() {
+	cin >> n;
+	ll t = n;
+	while (t) {
+		x = x * 10 + t % 10;
+		t /= 10;
+	}
+	//cout<<x<<endl;
+	cout << n + x << endl;
+	return 0;
+}
+
+9730

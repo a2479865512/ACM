@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+const int MOD = 998244353;
+const int MAXN = 1e5 + 5;
+long long n, k, ans;
+ll quickpow(ll a, ll b) {
+	if (b < 0) return 0;
+	ll ret = 1;
+	a %= MOD;
+	while (b) {
+		if (b & 1) ret = (ret * a) % MOD;
+		b >>= 1;
+		a = (a * a) % MOD;
+	}
+	return ret;
+}
+long long inv(long long a) {
+	return quickpow(a, MOD - 2);
+}
+int main() {
+	cin >> n >> k;
+	if (k % 2 == 1)
+		cout << (quickpow(n - 1, k) - n + 1 + MOD) % MOD*inv(n) % MOD << endl;
+	else  cout << (quickpow(n - 1, k) - 1 + n + MOD) % MOD*inv(n) % MOD << endl;
+}
+//cout<<((quickpow(n-1,k-1)-n+1+MOD)%MOD*inv(n)%MOD+1)*(n-1)%MOD<<endl;//
+
+
+1 1

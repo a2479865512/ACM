@@ -1,0 +1,83 @@
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#include<bits/stdc++.h>
+using namespace std;
+const int MAXN = 5e4 + 5;
+char a[5005];
+int dp[5005];
+int len;
+int l, r;
+int main()
+{
+	cin >> a;
+	len = strlen(a);
+	for (int i = 0; i < len; i++)
+	{
+		if (a[i] == 'Q')
+			dp[i] = dp[i - 1] + 1;
+		else dp[i] = dp[i - 1];
+	}
+	long long ans = 0;
+	for (int i = 0; i < len; i++)
+	{
+		if (a[i] == 'A')
+		{
+			l = dp[i];
+			r = dp[len - 1] - dp[i];
+			if (a[i - 1] == 'Q')l--;
+			if (a[i + 1] == 'Q')r--;
+			//cout<<l<<ends<<r<<endl;
+			ans += l * r;
+		}
+	}
+	cout << ans << endl;
+	return 0;
+}
+
+
+
+
+
+
+
+#include<cstdio>
+#include<cstring>
+#include<algorithm>
+#include<bits/stdc++.h>
+using namespace std;
+const int MAXN = 5e4 + 5;
+char a[MAXN];
+int len, s = 0;
+int l, r;
+int main()
+{
+	cin >> a;
+	len = strlen(a);
+	for (int i = 0; i < len; i++)
+	{
+		if (a[i] == 'Q')
+			s++;
+	}
+	long long sum = 0, ss = 0;
+	for (int i = 0; i < len; i++)
+	{
+		if (a[i] == 'Q')
+			sum++;
+		else if (a[i] == 'A')
+		{
+			l = sum;
+			r = s - sum;
+			if (a[i - 1] == 'Q')l--;
+			if (a[i + 1] == 'Q')r--;
+			//cout<<l<<ends<<r<<endl;
+			ss += l * r;
+		}
+	}
+	cout << ss << endl;
+	return 0;
+}
+
+
+
+QQAQQ

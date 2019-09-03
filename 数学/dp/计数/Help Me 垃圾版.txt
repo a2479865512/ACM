@@ -1,0 +1,38 @@
+#include <bits/stdc++.h>
+using namespace std;
+const int MAXN = 5e4 + 5;
+long long a[MAXN], dp[MAXN];
+int main()
+{
+	int n;
+	cin >> n;
+	while (n--)
+	{
+		int m;
+		cin >> m;
+		long long sum = 0;
+		for (int i = 1; i <= m; i++)
+		{
+			scanf("%lld", &a[i]);
+			sum += (m - 1)*a[i] * a[i];
+			dp[i] = dp[i - 1] + a[i];
+		}
+		for (int i = m; i >= 2; i--)
+			sum -= 2 * a[i] * dp[i - 1];
+		cout << sum << endl;
+	}
+}
+
+
+2
+3
+1 4 2
+2
+10 20
+
+
+
+
+1
+4
+5 6 8 7

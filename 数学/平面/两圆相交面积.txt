@@ -1,0 +1,29 @@
+struct Circle
+{
+	double x, y;
+	double r;
+}ca, cb;
+const double PI = acos(-1.0);
+double intersection_area(Circle c1, Circle c2)//求两圆相交面积的函数
+{
+	double d;
+	double angle1, angle2, s1, s2, s3;
+	d = sqrt((c1.x - c2.x)*(c1.x - c2.x) + (c1.y - c2.y)*(c1.y - c2.y));
+	//cout << d << endl;
+	if (d >= c1.r + c2.r)
+		return 0;
+	if (c1.r - c2.r >= d)
+		return PI * c2.r*c2.r;
+	if (c2.r - c1.r >= d)
+		return PI * c1.r*c1.r;
+	angle1 = acos((c1.r*c1.r + d * d - c2.r*c2.r) / (2 * c1.r*d));
+	angle2 = acos((c2.r*c2.r + d * d - c1.r*c1.r) / (2 * c2.r*d));
+	s1 = c1.r*c1.r*angle1;
+	s2 = c2.r*c2.r*angle2;
+	s3 = c1.r*d*sin(angle1);
+	//cout << c1.r << " " << d << ' ' << sin(angle1) << endl;
+	//cout << angle1 << " " << angle2 << " " << s1 << " " << s2 << " " << s3 << endl;
+	//double hf = (c1.r + c2.r + d) / 2.0;
+	//acos((c1.r*c1.r + d * d ? c2.r*c2.r) / (2.0*c1.r*d))*c1.r*c1.r + acos((c2.r*c2.r + d * d ? c1.r*c1.r) / (2.0*c2.r*d))*c2.r*c2.r - 2 * sqrt(hf*(hf ? c1.r)*(hf ? c2.r)*(hf ? d));
+	return s1 + s2 - s3;
+}

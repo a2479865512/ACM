@@ -1,0 +1,39 @@
+#include<iostream>
+#include<cstdio>
+#define inf 0x7fffffff
+using namespace std;
+inline int read()
+{
+	int x = 0; char ch = getchar();
+	while (ch<'0' || ch>'9')ch = getchar();
+	while (ch >= '0'&&ch <= '9') { x = x * 10 + ch - '0'; ch = getchar(); }
+	return x;
+}
+int f[105][105];
+int mp[105][105];
+int main()
+{
+	int n = read(), m = read();
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= m; j++)
+		{
+			mp[i][j] = read();
+			f[i][j] = -inf;
+		}
+	f[1][1] = mp[1][1];
+	for (int j = 2; j <= m; j++)
+		for (int i = 1; i <= n; i++)
+		{
+			if (i - 1 >= 1)f[i][j] = max(f[i][j], f[i - 1][j - 1]);
+			f[i][j] = max(f[i][j], f[i][j - 1]);
+			if (i + 1 <= n)f[i][j] = max(f[i][j], f[i + 1][j - 1]);
+			f[i][j] += mp[i][j];
+		}
+	printf("%d", f[n][m]);
+	return 0;
+}
+
+3 7
+6 5 3 7 9 2 7
+2 4 3 5 6 8 6
+4 9 9 9 1 5 8

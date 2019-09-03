@@ -1,0 +1,72 @@
+#include<bits/stdc++.h>
+using namespace std;
+
+typedef long long ll;
+map<int, string>mp;
+vector<ll>vec;
+const int L = 33, R = 126;
+ll p, m;
+string str;
+
+//97^3组哈希值，达到sqrt(m)
+void dfs(int pos, ll v, ll pw, string s)
+{
+	//printf("pos:%d  s:%s\n", pos, s);
+	if (pos >= 4)
+	{
+		mp[v] = s;  //hash(s)=v
+		vec.push_back(v);
+		return;
+	}
+	for (int i = L; i <= R; i++)  dfs(pos + 1, (v + i * pw) % m, (pw * p) % m, s + (char)(i));
+}
+
+//查找哈希值x是否存在
+bool find(ll x)
+{
+	auto it = lower_bound(vec.begin(), vec.end(), x);
+	return it != vec.end() && (*it == x);
+}
+
+//求hash(s)
+ll Hash(string s)
+{
+	ll ans = 0;
+	ll pw = 1;
+	for (auto ch : s)
+	{
+		ans += (ll)ch * pw;
+		ans %= m;
+		pw = pw * p % m;
+	}
+	return ans;
+}
+
+int main()
+{
+	cin >> p >> m >> str;
+	ll h = Hash(str); //printf("hash: %lld\n", h);
+	dfs(1, 0, 1, "");
+	//printf("dfs over\n");
+
+	sort(vec.begin(), vec.end());
+
+	ll pw = 1;
+	for (int i = 1; i <= 3; i++)  pw = pw * p % m;
+	for (auto i : vec)
+	{
+		//printf("%lld\n", i);
+		ll v = (h - (i * pw) % m + m) % m;
+		if (find(v))
+		{
+			//printf("hash2: %lld\n", Hash(t));
+			cout << mp[v] << mp[i] << endl;
+			return 0;
+		}
+	}
+	//assert(0);
+}
+
+
+233 19260817
+trxnb

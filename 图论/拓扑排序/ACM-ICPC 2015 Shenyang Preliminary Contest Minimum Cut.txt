@@ -1,0 +1,97 @@
+
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <stack>
+#include<string>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+#define ll long long
+using namespace std;
+const int MAXN = 2e4 + 5;
+const int INF = 0x3f3f3f3f;
+
+ll n, a, b, m;
+int tid[MAXN];
+int id[MAXN];
+bool vis[MAXN];
+vector<int>edge[MAXN], tedge[MAXN];
+int fa[MAXN];
+int Find(int x)
+{
+	if (x != fa[x])
+	{
+		fa[x] = Find(fa[x]);
+	}
+	return fa[x];
+}
+int main() {
+	int t;
+	ios::sync_with_stdio(false);
+	cin >> t;
+	for (int kk = 1; kk <= t; kk++) {
+		memset(id, 0, sizeof(id));
+		memset(tid, 0, sizeof(tid));
+		memset(vis, 0, sizeof(vis));
+		cin >> n >> m;
+		for (int i = 1; i <= m; i++)
+		{
+			cin >> a >> b;
+			if (n > i) {
+				tid[a]++; tid[b]++;
+				tedge[a].push_back(b);
+				tedge[b].push_back(a);
+			}
+			else {
+				edge[a].push_back(b);
+				edge[b].push_back(a);
+				id[a]++; id[b]++;
+			}
+		}
+		int ans = INF;
+		queue <int >q;
+		for (int i = 1; i <= n; i++) {
+			fa[i] = i;
+			if (tid[i] == 1) {
+				q.push(i);
+				vis[i] = 1;
+				ans = min(ans, id[i]);
+			}
+		}
+		while (!q.empty()) {
+			int p = q.front();
+			q.pop();
+			cout << p << ' ' << id[p] << endl;
+			int len = edge[p].size();
+			int tlen = tedge[p].size();
+			for (int i = 0; i < tlen; i++) {
+				int v = tedge[p][i];
+				tid[v]--;
+				if (!vis[v])fa[p] = v;
+				if (tid[v] == 1) {
+					q.push(v);
+					vis[v] = 1;
+				}
+			}
+			int fp = Find(p);
+			for (int i = 0; i < len; i++) {
+				int v = edge[p][i];
+				int fv = Find(v);
+				if (fv == fp) {
+					id[p] -= 2;
+				}
+			}
+			if (fp != p)id[fp] += id[p];
+			ans = min(ans, id[fp]);
+		}
+		for (int i = 1; i <= n; i++) { edge[i].clear(); tedge[i].clear(); }
+		cout << "Case #" << kk << ": " << ans + 1 << endl;
+	}
+	return 0;
+}
+
