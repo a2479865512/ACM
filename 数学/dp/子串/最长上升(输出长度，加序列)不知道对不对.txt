@@ -4,10 +4,10 @@
 
 
 using namespace std;
-const int MAX = 1e5 + 5;
-int dp[MAX];//1开始序列
-int a[MAX];//原数
-int pos[MAX];//序列号
+const int MAXN = 1e5 + 5;
+int dp[MAXN];//1开始序列
+int a[MAXN];//原数
+int pos[MAXN];//序列号
 int p = 1;//总数
 int main()
 {

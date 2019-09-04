@@ -1,0 +1,32 @@
+#include <bits/stdc++.h>
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+const int MAXN = 1e5 + 5;
+char str[1000][1000] = { "I" , "IV" ,"V" ,"IX" ,"X" ,"XL" ,"L" ,"XC" ,"C" ,"CD" ,"D" ,"CM" , "M" };
+int num[1000] = { 1 , 4 , 5 , 9 , 10 , 40 , 50 , 90 , 100 , 400 , 500 , 900 , 1000 };
+
+int n, sfgyug, a, b, c, d, e, f;
+int main()
+{
+	scanf("%d", &n);
+	for (int i = 12; i >= 0; --i)
+	{
+		while (n >= num[i])
+		{
+			cout << str[i];
+			n = n - num[i];
+		}
+		if (n == 0)
+			break;
+	}
+}

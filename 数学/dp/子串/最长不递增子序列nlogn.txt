@@ -1,0 +1,31 @@
+#include <iostream>
+#include<cstdio>
+#include<algorithm>
+#include<bits/stdc++.h>
+#include<functional>
+
+using namespace std;
+
+const int INF = 0x3f3f3f3f;
+const int MAXN = 1e5 + 5;
+int l[MAXN];//1开始 不递增序列
+int a[MAXN];//原数
+int p = 0;//总数
+int n;
+struct cmp { bool operator()(int a, int b) { return a > b; } };
+int main()
+{
+	cin >> n;
+	//l[++p]=INF;
+	scanf("%d", &a[0]);
+	l[++p] = a[0];
+	for (int i = 1; i < n; i++) {
+		scanf("%d", &a[i]);
+		if (a[i] <= l[p])//等于可以
+			l[++p] = a[i];
+		else
+			l[upper_bound(l + 1, l + p + 1, a[i], cmp()) - l] = a[i];
+	}
+	printf("%d\n", p);
+	return 0;
+}

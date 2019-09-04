@@ -1,0 +1,83 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define ll long long
+const double PI = acos(-1.0);
+const double eps = 1e-8;
+const int MAXN = 1e5 + 5;
+const int INF = 0x3f3f3f3f;
+const ll MOD = 1e9 + 7;
+int id[MAXN], n, k, a, b;
+int cnt;
+vector<int >edge[MAXN];
+int vis[MAXN];
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin >> n >> k;
+	for (int i = 1; i < n; i++)
+	{
+		cin >> a >> b;
+		id[a]++;
+		id[b]++;
+		edge[a].push_back(b);
+		edge[b].push_back(a);
+	}
+	int sum = n;
+	if (sum <= k) {
+		cout << 0 << endl;
+	}
+	queue<int>q;
+	for (int i = 1; i <= n; i++) {
+		if (id[i] == 1) {
+			q.push(i);
+			sum--;
+			vis[i] = 1;
+			if (sum <= k) {
+				cout << vis[i] << endl;
+				return 0;
+			}
+		}
+	}
+
+	while (!q.empty())
+	{
+		int p = q.front();
+		q.pop();
+		int len = edge[p].size();
+		for (int i = 0; i < len; i++)
+		{
+			int v = edge[p][i];
+			id[v]--;
+			if (id[v] == 1) {
+				q.push(v);
+				sum--;
+				vis[v] = vis[p] + 1;
+				if (sum <= k) {
+					cout << vis[v] << endl;
+					return 0;
+				}
+			}
+		}
+	}
+	return 0;
+}
+
+
+6 3
+1 2
+2 3
+2 4
+1 5
+5 6
+

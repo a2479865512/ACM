@@ -1,0 +1,74 @@
+#include<cstdio>
+#include<cstring>
+#include<iostream>
+#include<queue>
+#include<vector>
+#include<cmath>
+#include<algorithm>
+#include<bits/stdc++.h>
+using namespace std;
+const int MAXN = 10001;
+const int INF = 0x3f3f3f3f;
+const long long mod = 998244353;
+typedef long long ll;
+long long quick_mul(long long a, long long b, long long m)
+{
+	long long ans = 0;
+	while (b)
+	{
+		if (b & 1)
+			ans = (ans + a) % m;
+		a = (a + a) % m;
+		b >>= 1;
+	}
+	return ans;
+}
+//¿ìËÙÃÝ
+long long quick_pow(long long a, long long b, long long m)
+{
+	long long ans = 1;
+	while (b)
+	{
+		if (b & 1)
+			ans = quick_mul(ans, a, m);
+		a = quick_mul(a, a, m);
+		b >>= 1;
+	}
+	return ans;
+}
+ll extend_gcd(ll a, ll b, ll &x, ll &y) {
+	if (b == 0) {
+		x = 1, y = 0;
+		return a;
+	}
+	else {
+		ll r = extend_gcd(b, a % b, y, x);
+		y -= x * (a / b);
+		return r;
+	}
+}
+ll inv(ll a, ll n) {
+	ll x, y;
+	extend_gcd(a, n, x, y);
+	x = (x % n + n) % n;
+	return x;
+}
+int main()
+{
+	ll t;
+	ll n, x;
+	cin >> t;
+	x = inv(4, mod);
+	while (t--) {
+		cin >> n;
+		cout << (n - 1) % mod*(n%mod) % mod*x%mod << endl;
+	}
+	return 0;
+}
+
+
+
+3
+1
+3
+1000000000000000000

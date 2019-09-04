@@ -1,0 +1,4 @@
+int Find(int h)
+{
+	return (fa[h] == h) ? h: fa[h] = Find(fa[h]);
+}

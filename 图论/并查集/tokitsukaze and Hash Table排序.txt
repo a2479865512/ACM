@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define ll long long
+const double PI = acos(-1.0);
+const double eps = 1e-8;
+const int MAXN = 1e6 + 5;
+const int INF = 0x3f3f3f3f;
+const ll MOD = 1e9 + 7;
+int fa[MAXN];
+int a[MAXN];
+int Find(int h)
+{
+	return (fa[h] == h) ? h : fa[h] = Find(fa[h]);
+}
+int n, m;
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin >> n;
+	for (int i = 0; i < n; i++)fa[i] = i;
+	for (int i = 0; i < n; i++) {
+		cin >> m;
+		int t = Find(m%n);
+		a[Find(t)] = m;
+		fa[t] = fa[(t + 1) % n];
+	}
+	for (int i = 0; i < n; i++)
+		cout << a[i] << ' ';
+	cout << endl;
+	return 0;
+}

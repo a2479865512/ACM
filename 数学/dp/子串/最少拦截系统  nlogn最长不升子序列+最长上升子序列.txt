@@ -5,11 +5,11 @@
 #include<functional>
 
 using namespace std;
-const int MAX = 1e5 + 5;
-int f[MAX];//1开始 升序列
-int l[MAX];
-int a[MAX];//原数
-//int pos[MAX];//序列号
+const int MAXN = 1e5 + 5;
+int f[MAXN];//1开始 升序列
+int l[MAXN];
+int a[MAXN];//原数
+//int pos[MAXN];//序列号
 int p = 1;//总数
 int p2 = 1;
 struct cmp { bool operator()(int a, int b) { return a > b; } };

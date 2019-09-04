@@ -50,7 +50,7 @@ int main() {
 		printf("%d\n", dp[l1][l2]);
 	}
 	return 0;
-
+}
 
 
 abcfbc         abfcab
