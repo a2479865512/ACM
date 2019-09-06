@@ -1,0 +1,94 @@
+
+//std_slow
+#include <stdio.h>
+#include <string.h>
+#include <stdlib.h>
+#include <iostream>
+#include <algorithm>
+using namespace std;
+const int MOD = 998244353;
+long long f[2][(1 << 24)];
+//long long (*f)[(1 << 28)] = new long long [2][(1 << 28)];
+int n;
+long long quickmul(int a, int b)
+{
+	long long ret = 1;
+	for (; b; b >>= 1, a = (long long)a * a % MOD)
+		if (b & 1)
+			ret = ret * a % MOD;
+	return ret;
+}
+int main()
+{
+	//freopen("lis.in", "r", stdin);
+	//freopen("lis.out", "w", stdout);
+	scanf("%d", &n);
+	f[1][0] = 0;
+	f[1][1] = 1;
+	for (int i = 2; i <= n; i++)
+	{
+		memset(f[i & 1], 0, sizeof(long long) << i);
+		for (int S = 1; S < (1 << (i - 1)); S++)
+		{
+			int l = 0, r = S ^ (S & -S);
+			long long now = f[~i & 1][S];
+			for (int j = 0; j < i; j++)
+			{
+				f[i & 1][l | (1 << j) | (r << 1)] += now;
+				if (S & (1 << j))
+					l ^= (1 << j), r ^= (r & -r);
+			}
+		}
+		for (int S = 1; S < (1 << i); S++)
+			f[i & 1][S] %= MOD;
+	}
+	long long ans = 0;
+	for (int S = (1 << n) - 1; S >= 1; S--)
+	{
+		if (S & 1)
+			ans += f[n & 1][S];
+		f[n & 1][S >> 1] += f[n & 1][S];
+	}
+	ans %= MOD;
+	long long tmp = 1;
+	for (int i = 1; i <= n; i++)
+		tmp = tmp * i % MOD;
+	ans = ans * quickmul(tmp, MOD - 2) % MOD;
+	printf("%d\n", (int)ans);
+	return 0;
+}
+////
+
+
+
+
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+typedef long long ll;
+const int maxn = 1e5 + 10;
+
+int n, v[28] =
+{ 1,
+499122178,
+2,
+915057326,
+540715694,
+946945688,
+422867403,451091574,317868537,200489273,976705134,705376344,662845575,331522185,228644314,262819964,686801362,495111839,947040129,414835038,696340671,749077581,301075008,314644758,102117126,819818153,273498600,267588741 };
+int main() {
+	scanf("%d", &n); 
+	printf("%d", v[n - 1]);
+}
+
+//////

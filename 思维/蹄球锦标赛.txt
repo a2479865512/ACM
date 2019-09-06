@@ -1,0 +1,49 @@
+#include<iostream>
+#include<bits/stdc++.h>
+using namespace std;
+const int MAXN = 105;
+int a[MAXN];
+int s[MAXN];
+int l[MAXN], r[MAXN];//´ÓÄÄ±ß´«À´
+
+int main() {
+	int n;
+	scanf("%d", &n);
+	int t = 0;
+	for (int i = 1; i <= n; i++)scanf("%d", &a[i]);
+	sort(a + 1, a + n + 1);
+	for (int i = 1; i <= n; i++) {
+		s[i] = a[i] - a[i - 1];
+	}
+	l[2] = r[n - 1] = 1;
+	for (int i = 2; i < n; i++)
+	{
+		if (s[i] <= s[i + 1])
+		{
+			r[i - 1]++;
+		}
+		else {
+			l[i + 1]++;
+		}
+	}
+	for (int i = 1; i <= n; i++)
+	{
+		//cout<<l[i]<<' '<<r[i]<<' '<<i<<' '<<a[i]<<endl;
+		if (l[i] == 0 && r[i] == 0)t++;
+		else if (l[i] == 1 && r[i - 1] == 1 && r[i] && l[i - 1] == 0)t++;
+	}
+	printf("%d\n", t);
+}
+/*
+7
+1 7 27 41 55 69 71
+6
+1 2 4 7 10 13
+6
+1 2 3 5 7 11
+
+8
+9
+2 4 8 9 10
+3 14 32 454
+*/

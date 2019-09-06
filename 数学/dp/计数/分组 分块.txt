@@ -1,0 +1,30 @@
+#include<bits/stdc++.h>
+using namespace std;
+typedef long long ll;
+const int maxn = 1e4 + 10;
+int a[maxn];
+int dp[maxn];
+int n, k;
+int main() {
+	cin >> n >> k;
+	for (int i = 1; i <= n; i++) cin >> a[i];
+	int i;
+	for (i = 1; i <= n; i++) {
+		int temp = 0;
+		for (int j = i; j >= 1 && j > i - k; j--) {
+			temp = max(temp, a[j]);
+			dp[i] = max(dp[i], dp[j - 1] + temp * (i - j + 1));
+		}
+	}
+	cout << dp[n] << endl;
+	return 0;
+}
+
+7 3
+1
+15
+7
+9
+2
+5
+10

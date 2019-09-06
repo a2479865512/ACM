@@ -1,0 +1,74 @@
+#include<iostream>
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define ll long long
+const ll INF = 1e18;
+ll n, M;
+ll b[2005];
+ll col[2005][2005];
+ll  dis[2005];
+bool vis[2005];
+void prim()
+{
+
+	ll ans = 0;
+	ll  biao;
+	for (int i = 1; i <= n; i++)
+	{
+		if (col[1][i] == 0)
+			dis[i] = INF;
+		else
+			dis[i] = col[1][i];
+		vis[i] = false;
+	}
+	dis[1] = 0;
+	vis[1] = true;
+	for (int i = 2; i <= n; i++)
+	{
+		ll min1 = INF;
+		for (int j = 2; j <= n; j++)
+		{
+			if ((!vis[j]) && dis[j] < min1)
+			{
+				min1 = dis[j];
+				biao = j;
+			}
+		}
+		//cout<<min1<<endl;
+		ans += min1;
+		vis[biao] = true;
+		for (int j = 1; j <= n; j++)
+			if ((!vis[j]) && (col[j][biao] != 0) && dis[j] > col[j][biao])
+				dis[j] = col[j][biao];
+	}
+
+
+	for (int i = 1; i <= n; i++)
+		if (dis[i] >= INF)
+		{
+			cout << -1 << endl;
+			return;
+		}
+	cout << -ans << endl;
+}
+int main()
+{
+	cin >> n;
+	for (int i = 1; i <= n; i++)cin >> b[i];
+	for (int i = 1; i <= n; i++)
+		for (int j = i + 1; j <= n; j++)
+			col[j][i] = col[i][j] = -(b[i] ^ b[j]);
+	prim();
+	//cout << -sum << endl;
+	return 0;
+}

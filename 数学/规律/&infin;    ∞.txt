@@ -1,0 +1,48 @@
+#include<bits/stdc++.h>
+
+using namespace std;
+typedef long long ll;
+ll a[50], b[50];
+
+
+void init() {
+	a[1] = 0, a[2] = 10;
+	for (int i = 3; i <= 20; i++) a[i] = a[i - 1] * 10;
+	b[1] = 9;
+	for (int i = 2; i <= 19; i++) b[i] = (a[i + 1] - a[i])*i;
+}
+
+int main() {
+	init();
+	int t;
+	cin >> t;
+	while (t--) {
+		long long n;
+		scanf("%lld", &n);
+		if (n <= 9) { printf("%lld\n", n); continue; }
+		ll tmp = n, len = 1;
+		while (1) {
+			if (tmp - b[len] <= 0) break;
+			tmp -= b[len];
+			len++;
+		}
+		ll x = tmp / len, y = tmp % len;
+		if (y == 0) x--, y = len;
+		y = len - y + 1;
+		ll m = a[len] + x;
+		while (y) {
+			y--;
+			if (y == 0) printf("%d\n", m % 10);
+			m /= 10;
+		}
+	}
+	return 0;
+}
+
+
+5
+1
+10
+19
+66
+1000000000000000000
