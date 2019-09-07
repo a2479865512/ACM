@@ -38,6 +38,12 @@ https://github.com/用户账号/库名.git	仓库地址格式HTTPS
 git pull origin master		拉取最新文件(库里已经有东西的时候用)
 
 git push -u origin master		上传文件	需要账号密码
+
+git commit --amend			修改最近的注释
+i或c进入编辑 esc退出编辑 Z保存退出编辑 
+
+git push origin master --force   	强制推送
+
 *********************************************************************/
 
 /*********************************************************************
@@ -48,20 +54,27 @@ git status  		查看状态
 
 git --help			帮助命令
 
-git log			查看日志
+git log			查看日志git log -2
 如果log乱码,请输入
 git config --global i18n.commitencoding utf-8
 git config --global i18n.logoutputencoding utf-8
+
+git log 有几个常用的参数
+git log --oneline 简洁显示
+git log --all 显示所有分支
+git log xxx 显示xxx分支
+git log --graph 图形显示
 
 git diff			查看改变
 
 git checkout -- .		撤销更改
 
-git reflog 			查看之前版本
+git reflog 			查看之前版本(操作记录)
 
 git reset --hard 		版本号前7位	版本回退命令
 
 git clean -xf  		会删除未跟踪的文件 就是没有上传过的文件
+
 
 *************************************************************************/
 
@@ -75,3 +88,11 @@ dir  				查看有哪些文件夹
 git rm -r --cached Photo\ albums  
 删除Photo albums文件夹(这里的文件夹名有空格命令行需要用"\ "来拼接）
 *************************************************************************/
+
+
+
+echo "XXX" >> index.html  追加XXX到项目中的 index.html 文件下
+
+
+如果想撤销到暂存区, 就用 git reset --soft HEAD@{1} .
+如果想干掉这个修改, 就用 git reset --hard HEAD@{1} .
