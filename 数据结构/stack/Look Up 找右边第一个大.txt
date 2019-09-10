@@ -1,0 +1,49 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define ll long long
+const double PI = acos(-1.0);
+const double eps = 1e-8;
+const int MAXN = 1e5 + 5;
+const int INF = 0x3f3f3f3f;
+const ll MOD = 998244353;
+
+stack <int >x;
+int a[MAXN];
+int b[MAXN];
+int n;
+int main()
+{
+	cin >> n;
+	for (int i = 1; i <= n; i++)cin >> a[i];
+	for (int i = n; i >= 1; --i) {
+		while (!x.empty() && a[i] >= a[x.top()]) {
+			x.pop();
+		}
+		if (!x.empty())b[i] = x.top();//y.push(x.top());//printf("%d\n",x.top());
+		else b[i] = 0;//y.push(0);//cout<<0<<endl;
+		x.push(i);
+	}
+	for (int i = 1; i <= n; ++i)printf("%d\n", b[i]);
+	return 0;
+}
+
+
+
+6 
+3 
+2 
+6 
+1 
+1 
+2 

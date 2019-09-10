@@ -1,0 +1,35 @@
+#pragma optimize GCC ("O2")
+#include<bits/stdc++.h>
+using namespace std;
+
+const int N = 4e4 + 5;
+int p[N], last[N], pre[N], pos[N], nxt[N], cnt[N], dp[N];
+
+int read() {
+	int x = 0, f = 0; char c = getchar();
+	while (!isdigit(c)) f |= (c == '-'), c = getchar();
+	while (isdigit(c)) x = x * 10 + c - '0', c = getchar();
+	return f ? -x : x;
+}
+
+int main() {
+	int n = read(), m = read(), blo = sqrt(n + 0.5);
+	for (int i = 1; i <= n; i++) {
+		p[i] = read();
+		pre[i] = last[p[i]]; nxt[last[p[i]]] = i;
+		last[p[i]] = i; nxt[i] = n + 1;
+	}
+	memset(dp, 0x7f, sizeof(dp));
+	dp[0] = 0;
+	for (int i = 1; i <= blo; i++) pos[i] = 1;
+	for (int i = 1; i <= n; i++)
+		for (int j = 1; j <= blo; j++) {
+			if (pre[i] < pos[j]) cnt[j]++;
+			if (cnt[j] > j) {
+				while (nxt[pos[j]] < i) pos[j]++;
+				pos[j]++, cnt[j]--;
+			}
+			dp[i] = min(dp[i], dp[pos[j] - 1] + j * j);
+		}
+	return !printf("%d", dp[n]);
+}
