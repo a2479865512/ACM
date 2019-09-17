@@ -1,0 +1,56 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+typedef long long ll;
+const double eps = 1e-8;
+const int MAXN = 2e4 + 5;
+const int INF = 0x3f3f3f3f;
+const int MOD = 1e9 + 7;
+ll k1, b1, k2, c;
+
+ll quickpow(ll a, ll b, ll mod) {
+	if (b < 0) return 0;
+	ll ret = 1;
+	a %= mod;
+	while (b) {
+		if (b & 1) ret = (ret * a) % mod;
+		b >>= 1;
+		a = (a * a) % mod;
+	}
+	return ret % mod;
+}
+int main()
+{
+	ios::sync_with_stdio(false);
+	int cnt = 1;
+	while (cin >> c >> k1 >> b1 >> k2)
+	{
+		cout << "Case #" << cnt++ << ':' << endl;
+		int f = 1;
+		for (int i = 1; i < c; i++)
+		{
+			ll j = c - quickpow(i, k1 + b1, c);
+			if (quickpow(i, k1, c) == quickpow(j, k2, c))
+			{
+				f = 0;
+				cout << i << ' ' << j << endl;
+			}
+		}
+		if (f)
+			cout << -1 << endl;
+	}
+	return 0;
+}
+
+
+23 1 1 2
