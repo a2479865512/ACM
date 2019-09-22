@@ -33,3 +33,88 @@ int main() {
 		}
 	return !printf("%d", dp[n]);
 }
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////////
+
+//Âý
+
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define ll long long
+const int MAXN = 1e5 + 5;
+int n;
+int a[MAXN];
+int vis[MAXN];
+vector<int>pos;
+const int INF = 0x3f3f3f3f;
+struct Point {
+	int val, id, ran;
+} p[MAXN];
+
+bool cmpval(Point a, Point b) {
+	return a.val < b.val;
+}
+
+bool cmpid(Point a, Point b) {
+	return a.id < b.id;
+}
+
+int dp[MAXN];
+
+int main() {
+	while (~scanf("%d", &n)) {
+		for (int i = 1; i <= n; i++)
+			scanf("%d", &p[i].val);
+		int sum = 1;
+		for (int i = 2; i <= n; i++) {
+			if (p[i].val != p[i - 1].val)
+				p[++sum] = p[i];
+		}
+		n = sum;
+		for (int i = 1; i <= n; i++)p[i].id = i;
+		sort(p + 1, p + n + 1, cmpval);
+		p[1].ran = 0;
+		int s = 0;
+		for (int i = 2; i <= n; i++) {
+			if (p[i].val != p[i - 1].val)
+				++s;
+			p[i].ran = s;
+		}
+		sort(p + 1, p + n + 1, cmpid);
+		memset(dp, INF, sizeof(dp));
+		dp[0] = 0;
+		dp[n] = n;
+		for (int i = 0; i < n; i++) {
+			int cnt = 0;
+			if (dp[i] > dp[i + 1]) continue;
+			for (int j = i + 1; j <= n; j++) {
+				if (vis[p[j].ran] == 0) { pos.push_back(p[j].ran); cnt++; }
+				vis[p[j].ran] = 1;
+				if (dp[i] + cnt * cnt >= dp[n]) break;
+				dp[j] = min(dp[j], dp[i] + cnt * cnt);
+			}
+			for (int i = pos.size() - 1; i >= 0; --i)vis[pos[i]] = 0;
+			//memset(vis,0,sizeof(vis));
+			pos.clear();
+		}
+		printf("%d\n", dp[n]);
+	}
+	return 0;
+}

@@ -1,0 +1,42 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define ll long long
+const int MAXN = 2e5 + 5;
+const int INF = 0x3f3f3f3f;
+
+using namespace std;
+double n, m, a, b, l;
+int main()
+{
+	//ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	int t;
+	cin >> t;
+	for (int kk = 1; kk <= t; kk++) {
+		double xa, ya, xb, yb, xc, yc;
+		cin >> xa >> ya >> xb >> yb >> xc >> yc;
+		a = sqrt((xb - xc)*(xb - xc) + (yb - yc)*(yb - yc));
+		b = sqrt((xa - xc)*(xa - xc) + (ya - yc)*(ya - yc));
+		double len = sqrt(b*b - a * a / 4.0);
+		l = a * b / 2.0 / len;
+
+		cout << "Case #" << kk << ": ";//<<2*l*asin(a/2.0/l)<<endl;;
+		printf("%.4f\n", len + 2 * l*asin(a / 2.0 / l));
+	}
+
+	return 0;
+}
+
+
+1
+0 1 -1 0 1 0

@@ -15,8 +15,8 @@ mat mat_mul(mat x, mat y)
 ll mat_pow(ll n)
 {
 	mat c, res;
-	c.a[0][0] = 1;c.a[1][0] = 1;//   { fn     } = { 1 1 } * { fn-1 }
-	c.a[0][1] = 1;c.a[1][1] = 0;//   {  fn-1 } = { 1 0 } * { fn-2 }
+	c.a[0][0] = 1; c.a[1][0] = 1;//   { fn   } = { 1 1 } * { fn-1 }
+	c.a[0][1] = 1; c.a[1][1] = 0;//   { fn-1 } = { 1 0 } * { fn-2 }
 	memset(res.a, 0, sizeof(res.a));
 	for (int i = 0; i < 2; i++) res.a[i][i] = 1;
 	while (n)

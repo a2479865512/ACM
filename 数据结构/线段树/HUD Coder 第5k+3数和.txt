@@ -1,0 +1,117 @@
+Problem  4288 (Coder)Judge Status  Accepted
+RunId  11551798    Language  G++    Author  Burglar
+Code Render Status  Rendered By HDOJ G++ Code Render Version 0.01 Beta
+#includestdio.h
+#includealgorithm
+#includestring.h
+#includeiostream
+#define MAXN 100005
+#define lson l, m, rt  1
+#define rson m + 1, r, rt  1  1
+using namespace std;
+int n;
+int number[MAXN]; 记录输入中出现的数字，方便排序；
+struct Input输入
+{
+	char dos[4];
+	int nub;
+}input[MAXN];
+struct Tree线段树
+{
+	long long sum[5];
+	int num; 节点的数量；
+}tree[MAXN  2];
+void PushUp(int rt)用于更新时的回溯；
+{
+	for (int i = 0; i 5; i++)
+	{
+		tree[rt].sum[i] = tree[rt  1].sum[i] + tree[rt  1  1].sum[((i - tree[rt  1].num) % 5 + 5) % 5]; 难点就在于想右节点sum与跟检点sum的对应关系，其中加上一个5就是为了防止数组下标出现负数；
+	}
+}
+void BuildTree(int l, int r, int rt)建树
+{
+	memset(tree[rt].sum, 0, sizeof(tree[rt].sum));
+	tree[rt].num = 0;
+	if (l == r) return;
+	int m = (r + l)  1;
+	BuildTree(lson);
+	BuildTree(rson);
+}
+void Update(int value, int pos, int k, int l, int r, int rt)更新，pos表示这个数字应放置的位置；
+{
+	tree[rt].num += k;
+	if (l == r)
+	{
+		if (k == 1) tree[rt].sum[1] = value;
+		else
+			tree[rt].sum[1] = 0;
+		return;
+	}
+	int m = (l + r)  1;
+	if (pos = m)
+		Update(value, pos, k, lson);
+	else
+		Update(value, pos, k, rson);
+	PushUp(rt);
+}
+int main()
+{
+	while (scanf(%d, &n) != EOF)
+	{
+		int num_number = 1;
+		memset(number, 0, sizeof(number));
+		for (int i = 1; i = n; i++)
+		{
+			scanf(%s, input[i].dos);
+			if (!strcmp(input[i].dos, sum)) continue;
+			else
+			{
+				scanf(%d, &input[i].nub);
+				number[num_number++] = input[i].nub;
+			}
+		}
+		sort(number + 1, number + num_number); 通过排序之后方便下面的lower_bound函数，他的实现是利用二分搜索，必须要排序；
+			num_number = unique(number + 1, number + num_number) - (number + 1); 祛除序列中重复的数（应为number数组中是不区分删除和添加的要认为区分开），unique的返回值是一个指针；此时num_number变量表示的是序列中没有重复的数字的个数；
+			BuildTree(1, num_number, 1); 应为在添加的时候保证之前是没有这个数的，所以根据没有重复数字的个数建树；
+			for (int i = 1; i = n; i++)
+			{
+				if (!strcmp(input[i].dos, sum))询问操作；
+				{
+					printf(%I64dn,tree[1].sum[3]);
+				}
+				else
+				{
+					int pos = lower_bound(number + 1, number + num_number + 1, input[i].nub) - number; 找出数字的位置
+						if (!strcmp(input[i].dos, add))
+						{
+							Update(input[i].nub, pos, 1, 1, num_number, 1); 添加操作；
+						}
+						else
+						{
+							Update(input[i].nub, pos, -1, 1, num_number, 1); 删除操作；
+						}
+				}
+			}
+	}
+	return 0;
+}
+
+
+9
+add 1
+add 2
+add 3
+add 4
+add 5
+sum
+add 6
+del 3
+sum
+6
+add 1
+add 3
+add 5
+add 7
+add 9
+sum
+ 

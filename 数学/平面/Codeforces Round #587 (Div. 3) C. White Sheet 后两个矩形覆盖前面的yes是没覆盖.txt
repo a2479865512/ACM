@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+
+using namespace std;
+int x1, x2, yy, y2, X1, X2, Y1, Y2;
+int main() {
+	scanf("%d%d%d%d", &x1, &yy, &x2, &y2);
+	for (int o = 0; o < 2; o++) {
+		scanf("%d%d%d%d", &X1, &Y1, &X2, &Y2);
+		if (X1 <= x1 && X2 >= x2) {
+			if (yy >= Y1) yy = max(yy, Y2);
+			if (y2 <= Y2) y2 = min(y2, Y1);
+		}
+		if (Y1 <= yy && Y2 >= y2) {
+			if (x1 >= X1) x1 = max(x1, X2);
+			if (x2 <= X2) x2 = min(x2, X1);
+		}
+		if (x1 >= x2 && yy >= y2) break;
+	}
+	if (x1 >= x2 && yy >= y2) printf("NO");
+	else printf("YES");
+}
+
+
+
+
+2 2 4 4
+1 1 3 5
+3 1 5 5
+
+3 3 7 5
+0 0 4 6
+0 0 7 4
+
+5 2 10 5
+3 1 7 6
+8 1 11 7
+
+0 0 1000000 1000000
+0 0 499999 1000000
+500000 0 1000000 1000000

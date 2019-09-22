@@ -1,0 +1,44 @@
+#include<bits/stdc++.h>
+#define ll long long
+using namespace std;
+ll dp[10010], n, m, k, ans;
+ll w[10010];
+pair<ll, ll>p[101];
+int main()
+{
+	memset(dp, 128, sizeof(dp));
+	scanf("%lld%lld%lld", &n, &m, &k);
+	for (int i = 0; i <= k; i++)
+		scanf("%lld", &w[i]);
+	for (int i = 1; i <= m; i++)
+		scanf("%lld%lld", &p[i].first, &p[i].second);
+	dp[0] = 0;
+	for (int i = 1; i <= n; i++)
+	{
+		for (int j = 1; j <= m; j++)
+			for (int u = 2000; u >= 0; u--)
+				dp[u] = max(dp[u], dp[u + p[j].first] + p[j].second);
+		for (int u = 2000; u >= 0; u--)
+			dp[u + w[u]] = max(dp[u + w[u]], dp[u]);
+	}
+	for (int i = 0; i <= 2000; i++)
+		ans = max(ans, dp[i] + i);
+	printf("%lld", ans);
+	return 0;
+}
+
+
+2 1 2
+2 1 0
+1 1
+
+
+
+
+5 5 10
+30 29 29 28 28 27 26 26 25 24 24
+22 22
+26 15
+1 1
+22 14
+30 27
