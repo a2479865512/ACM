@@ -1,0 +1,68 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+#include<time.h>
+using namespace std;
+typedef long long ll;
+const int MAXN = 2e5 + 5;
+ll a[MAXN];
+int main() {
+	ios::sync_with_stdio(false);
+	int t, ti = 0;
+	cin >> t;
+	while (t--)
+	{
+		int n, k;
+		cin >> n >> k;
+		ll sum = 0;
+		for (int i = 0; i < n; i++) {
+			cin >> a[i];
+			sum += a[i];
+		}
+		if (sum%k) {
+			cout << "Case #" << ++ti << ": " << -1 << endl;
+			continue;
+		}
+		ll ave = sum / k;
+		ll cnt = 0;
+		for (int i = 0; i < n;)
+		{
+			if (a[i] > ave) {
+				cnt += (a[i] - 1) / ave;
+				a[i] = (a[i] % ave) ? (a[i] % ave) : ave;
+			}
+			else if (a[i] < ave) {
+				long long now = a[i];
+				int l = i + 1;
+				while (now < ave)
+				{
+					now += a[l];
+					cnt++;
+					l++;
+				}
+				a[l - 1] = now;
+				i = l - 1;
+			}
+			else i++;
+		}
+		cout << "Case #" << ++ti << ": " << cnt << endl;
+
+	}
+	return 0;
+}
+
+3
+1 3
+14
+3 1
+2 3 4
+3 6
+1 2 3

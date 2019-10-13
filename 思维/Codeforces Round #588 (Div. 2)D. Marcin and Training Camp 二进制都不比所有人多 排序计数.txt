@@ -1,0 +1,160 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define ll long long
+
+const int MAXN = 2e5 + 5;
+int n;
+ll a[7005];
+ll b;
+ll c[7005];
+ll d[7005];
+int cnt;
+map<ll, int>m;
+map<ll, ll>mm;
+map<ll, int >mmm;
+int main()
+{
+	ios::sync_with_stdio(false);
+	scanf("%d", &n);
+	for (int i = 0; i < n; ++i)
+	{
+		scanf("%lld", &a[i]);
+	}
+	for (int i = 0; i < n; ++i)
+	{
+		scanf("%lld", &b);
+		++m[a[i]];
+		mm[a[i]] += b;
+	}
+	for (map<ll, ll>::reverse_iterator it = mm.rbegin(); (it) != mm.rend(); it++) {
+		c[cnt] = it->first;
+		d[cnt++] = it->second;
+		//cout<<c[cnt-1]<<' '<<d[cnt-1]<<endl;
+	}
+	ll sum = 0;
+	for (int i = 0; i < cnt; i++)
+	{
+		if (mmm[c[i]])continue;
+		if (m[c[i]] <= 1)continue;
+		for (int j = i; j < cnt; j++)
+		{
+			if (mmm[c[j]])continue;
+			int f = 1;
+			for (int k = 0; k < 61; k++)
+			{
+				ll kk = 1ll << k;
+				if (kk > c[j])break;
+				if ((c[i] & kk) < (c[j] & kk))
+				{
+					f = 0;
+					break;
+				}
+			}
+			if (f) {
+				sum += d[j];
+				mmm[c[j]] = 1;
+			}
+		}
+	}
+	cout << sum << endl;
+	return 0;
+}
+/****************************************************************/
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define ll long long
+
+const int MAXN = 2e5 + 5;
+int n;
+ll a[7005];
+ll b;
+ll c[7005];
+ll d[7005];
+int cnt;
+map<ll, int>m;
+map<ll, ll>mm;
+map<ll, int >mmm;
+int main()
+{
+	ios::sync_with_stdio(false);
+	scanf("%d", &n);
+	for (int i = 0; i < n; ++i)
+	{
+		scanf("%lld", &a[i]);
+	}
+	for (int i = 0; i < n; ++i)
+	{
+		scanf("%lld", &b);
+		++m[a[i]];
+		mm[a[i]] += b;
+	}
+	ll sum = 0;
+	for (map<ll, ll>::reverse_iterator it = mm.rbegin(); it != mm.rend(); it++)
+	{
+		ll aa = it->first;
+		if (mmm[aa])continue;
+		if (m[aa] <= 1)continue;
+		for (map<ll, ll>::reverse_iterator itt = it; itt != mm.rend(); itt++)
+		{
+			ll bb = itt->first;
+			if (mmm[bb])continue;
+			int f = 1;
+			for (int i = 0; i < 61; i++)
+			{
+				ll j = 1ll << i;
+				if (j > bb)break;
+				if ((aa&j) < (bb&j))
+				{
+					f = 0;
+					break;
+				}
+			}
+			if (f) {
+				sum += itt->second;
+				mmm[bb] = 1;
+			}
+		}
+	}
+	cout << sum << endl;
+	return 0;
+}
+
+
+
+
+4
+3 2 3 6
+2 8 5 10
+
+
+
+3
+1 2 3
+1 2 3
+
+
+1
+0
+1

@@ -1,0 +1,82 @@
+#include <bits/stdc++.h>
+
+#define INF 0x3f3f3f3f
+#define PB emplace_back
+#define MP make_pair
+#define fi first
+#define se second
+#define rep(i,a,b) for(repType i=(a); i<=(b); ++i)
+#define per(i,a,b) for(repType i=(a); i>=(b); --i)
+#define ZERO(x) memset(x, 0, sizeof(x))
+#define MS(x,y) memset(x, y, sizeof(x))
+#define ALL(x) (x).begin(), (x).end()
+
+#define QUICKIO                  \
+    ios::sync_with_stdio(false); \
+    cin.tie(0);                  \
+    cout.tie(0);
+#define DEBUG(...) fprintf(stderr, __VA_ARGS__), fflush(stderr)
+
+using namespace std;
+using pi = pair<int, int>;
+using repType = int;
+using ll = long long;
+using ld = long double;
+using ull = unsigned long long;
+
+struct Node
+{
+	int x, y, z;
+	Node(int _x, int _y, int _z) :
+		x(_x), y(_y), z(_z) {}
+};
+vector<Node> vec;
+void init()
+{
+	for (int i = 1; i <= 8; ++i)
+		for (int j = 1; i + j <= 9; ++j)
+			vec.PB(i, j, i + j);
+}
+
+int brick[15], ans = 0;
+void dfs(int pnt, int nans)
+{
+	if (pnt == vec.size()) { ans = max(nans, ans); return; }
+	if (nans + vec.size() - pnt <= ans) return;
+	int x = vec[pnt].x, y = vec[pnt].y, z = vec[pnt].z;
+	brick[x]--; brick[y]--; brick[z]--;
+	if (brick[x] >= 0 && brick[y] >= 0 && brick[z] >= 0)dfs(pnt + 1, nans + 1);
+	brick[x]++; brick[y]++; brick[z]++;
+	dfs(pnt + 1, nans); // This is important!
+}
+
+int
+main()
+{
+	init(); //cout<<vec.size()<<endl;
+	int T; cin >> T;
+	rep(kase, 1, T)
+	{
+		int f = 1;
+		rep(i, 1, 9) {
+			cin >> brick[i];
+			if (brick[i] < 17 - i)
+			{
+				f = 0;
+			}
+		}
+		if (f) {
+			cout << "Case #" << kase << ": " << 36 << endl;
+			continue;
+		}
+		ans = 0;
+		dfs(0, 0);
+		cout << "Case #" << kase << ": " << ans << endl;
+	}
+
+	return 0;
+}
+3
+1 1 1 1 1 1 1 1 1
+2 2 2 2 2 2 2 2 2
+0 3 3 0 3 0 0 0 0
