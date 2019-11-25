@@ -1,0 +1,68 @@
+#include<iostream>
+#include<unordered_map>
+using namespace std;
+#define ll long long
+const int MAXN = 1e6 + 5;
+const int INF = 0x3f3f3f3f;
+const int MOD = 1e9 + 7;
+const int inv = (MOD + 1) / 3;
+unordered_map<int, int>m;
+unordered_map<int, int>::iterator it;
+template<typename T>
+inline T read(T&x) {
+	x = 0; int f = 0; char ch = getchar();
+	while (ch<'0' || ch>'9') f |= (ch == '-'), ch = getchar();
+	while (ch >= '0' && ch <= '9') x = x * 10 + ch - '0', ch = getchar();
+	return x = f ? -x : x;
+}
+inline void write(int x)
+{
+	if (x < 0)putchar('-'), x = -x;
+	if (x > 9)write(x / 10);
+	putchar(x % 10 + '0');
+}
+inline void pr(int x) { write(x), puts(""); }
+int g[MAXN];
+void init()
+{
+	//x^2+x
+	g[1] = 2;
+	for (int i = 2; i < MAXN; i++)
+	{
+		g[i] += (1ll * i*(i + 1) - g[1]) % MOD;
+		if (g[i] >= MOD)g[i] -= MOD;
+		for (int j = (i << 1); j < MAXN; j += i)
+		{
+			g[j] -= g[i];
+			if (g[j] < 0)g[j] += MOD;
+		}
+		g[i] += g[i - 1];
+		if (g[i] >= MOD)g[i] -= MOD;
+	}
+}
+int solve(int x)
+{
+	if (x < MAXN)return g[x];
+	it = m.find(x);
+	if (it != m.end())return it->second;
+	int sum = 1ll * x*(x + 1) % MOD*(x + 2) % MOD*inv%MOD;
+	for (int i = 2, next; i <= x; i = next)
+	{
+		next = x / (x / i) + 1;
+		sum += 1ll * (i - next)*solve(x / i) % MOD;
+		if (sum < 0)sum += MOD;
+	}
+	return m[x] = sum;
+}
+int main()
+{
+	int t, n;
+	init();
+	read(t);
+	while (t--)
+	{
+		read(n);
+		pr(solve(n));
+	}
+	return 0;
+}

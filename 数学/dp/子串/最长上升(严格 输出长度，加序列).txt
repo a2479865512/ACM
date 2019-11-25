@@ -1,0 +1,40 @@
+#include <bits/stdc++.h>
+using namespace std;
+const int MAXN = 1e5 + 5;
+const int INF = 0x3f3f3f3f;
+int a[MAXN];//数组
+int dp[MAXN];//可能序列
+int pos[MAXN];//每个数当时在序列的位置
+int cnt;
+int main()
+{
+	int n;
+	cin >> n;
+	a[0] = -INF;
+	for (int i = 1; i <= n; i++)
+	{
+		cin >> a[i];
+		if (a[i] > dp[cnt])
+		{
+			dp[++cnt] = a[i];
+			pos[i] = cnt;
+		}
+		else {
+			int x = upper_bound(dp + 1, dp + cnt + 1, a[i]) - dp;
+			dp[x] = a[i];
+			pos[i] = x;
+
+		}
+	}
+	cout << cnt << endl;
+	for (int i = n; i > 0; --i)
+	{
+		if (cnt == pos[i]) {
+			cout << a[i] << ' ';
+			--cnt;
+			if (!cnt)break;
+		}
+	}
+	cout << endl;
+	return 0;
+}

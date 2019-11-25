@@ -1,0 +1,16 @@
+const int MAXN = 100010;
+const int INF = 0x3f3f3f3f;
+struct Edge {
+	int to, next, w;
+}edge[MAXN * 2];
+int head[MAXN], tot;
+void init() {
+	tot = 0;
+	memset(head, -1, sizeof(head));
+}
+inline void addedge(int u, int v, int w) {
+	edge[tot].to = v;
+	edge[tot].w = w;
+	edge[tot].next = head[u];
+	head[u] = tot++;
+}

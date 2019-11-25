@@ -16,11 +16,9 @@ typedef long long ll;
 
 int main()
 {
-	//freopen()
-	freopen("D:\\4.txt", "r", stdin);
-	freopen("D:\\5.txt", "w", stdout);
-
-
+	//rand()0~32767
+	freopen("D:\\1.in", "r", stdin);
+	freopen("D:\\1.out", "w", stdout);
 	int n;
 	scanf("%d", &n);
 	srand((unsigned)int(time(NULL)));

@@ -1,0 +1,41 @@
+#include<cstdio>
+#include<cstring>
+#include<iostream>
+#include<queue>
+#include<vector>
+#include<cmath>
+#include<algorithm>
+#include<bits/stdc++.h>
+using namespace std;
+const int MAXN = 1e5 + 5;
+const int MOD = 1e5;
+#define ll long long
+int n;
+int a[MAXN];
+int main()
+{
+	//freopen("D:\\1.in", "r", stdin);
+	freopen("D:\\1.in", "w", stdout);
+	n = 5;
+	srand((unsigned)int(time(NULL)));
+	for (register int i = 1; i <= n; i++)a[i] = i;
+	/*1×óÆ¥ÓÒ
+	for (register int i = 1; i < n; i++) {
+		int v = 1 + rand() % i, u = i + 1 + rand() % (n - i);
+		printf("%d %d\n", a[v], a[u]);
+		swap(a[u], a[i + 1]);
+	}
+	*/
+	/*1×óÆ¥ÓÒ
+	swap(a[1], a[n]);
+	for (register int i = 1; i < n; i++) {
+		int v = 1 + rand() % (n - i), u = n - i + 1 + rand() % i;
+		printf("%d %d\n", a[u], a[v]);
+		swap(a[v], a[n - i]);
+	}
+	*/
+
+	//fclose(stdin);
+	fclose(stdout);
+	return 0;
+}
