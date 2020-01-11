@@ -1,0 +1,52 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define ll long long
+const int MAXN = 2e5 + 5;
+const int INF = 0x3f3f3f3f;
+int a;
+int vis[MAXN];
+int id[MAXN];
+int n, m;
+int main()
+{
+	ios::sync_with_stdio(false);
+	cin >> n >> m;
+	int max1 = 0;
+	for (int i = 0; i < n; i++) {
+		cin >> a;
+		++vis[a];
+		max1 = max(max1, a);
+	}
+	int res = INF;
+	for (int i = 1; i <= max1; ++i)
+	{
+		if (vis[i]) {
+			int u = i / 2;
+			int cnt = 1;
+			while (u) {
+				if (vis[u] < m) {
+					int t = min(m - vis[u], vis[i]);
+					vis[u] += t;
+					id[u] += t * cnt;
+				}
+				else break;
+				++cnt;
+				u >>= 1;
+			}
+		}
+	}
+	for (int i = 0; i <= max1; ++i)if (vis[i] >= m)res = min(res, id[i]);
+	cout << res << endl;
+	return 0;
+}

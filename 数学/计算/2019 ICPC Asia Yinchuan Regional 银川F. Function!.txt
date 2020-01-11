@@ -1,0 +1,40 @@
+#include<iostream>
+#include<algorithm>
+#include<cstring>
+#include<cmath>
+using namespace std;
+#define ll long long
+const int MOD = 998244353;
+const int inv = 166374059;
+long long solve(long long x, long long y)
+{
+	x %= MOD;
+	long long kk = y * (y + 1) % MOD*inv%MOD;
+	return (x*(x + 1) % MOD*(x + 2) % MOD*inv%MOD + kk * (2ll * y + 1) % MOD - 3ll * (x + 1)*kk%MOD + MOD) % MOD;
+}
+int main()
+{
+
+	long long n;
+	while (cin >> n) {
+		long long sum = 0;
+		long long i = 2;
+		for (; i*i <= n; ++i)
+		{
+			long long x = 0;
+			long long cnt = 0;
+			long long j = i;
+			for (; j*i <= n; j = j * i)
+			{
+				++cnt;
+				x = (x + (j%MOD*(i - 1) % MOD)*cnt) % MOD;
+			}
+			++cnt;
+			x = (x + (n - j + 1) % MOD*cnt) % MOD;
+			sum = (sum + i % MOD*x%MOD) % MOD;
+		}
+		cout << (sum + solve(n, i - 1)) % MOD << endl;
+	}
+}
+
+

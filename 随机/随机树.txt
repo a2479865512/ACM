@@ -19,7 +19,7 @@ int main()
 	n = 5;
 	srand((unsigned)int(time(NULL)));
 	for (register int i = 1; i <= n; i++)a[i] = i;
-	/*1×óÆ¥ÓÒ
+	/*1ÓÒÆ¥×ó
 	for (register int i = 1; i < n; i++) {
 		int v = 1 + rand() % i, u = i + 1 + rand() % (n - i);
 		printf("%d %d\n", a[v], a[u]);

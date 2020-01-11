@@ -206,3 +206,6 @@ a.insert(a.begin(), 100);  //在a的开始位置（即头部）插入100
 a.erase(a.begin());  //将a的第一个元素删除
 a.remove(7);//删除a中值为7的元素
 
+
+
+advance

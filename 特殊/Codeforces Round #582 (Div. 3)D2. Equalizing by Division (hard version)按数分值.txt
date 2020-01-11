@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include <iostream>
+#include <unordered_map>
+#include <iterator>
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+#define LL long long
+
+LL n, k;
+const LL MAXN = 2e5 + 10;
+LL num[MAXN];
+
+LL vis[MAXN];
+
+LL res[MAXN];
+
+int main()
+{
+	LL ress = 999999999999999;
+	scanf("%lld%lld", &n, &k);
+	for (LL i = 1; i <= n; ++i)
+	{
+		scanf("%lld", &num[i]);
+	}
+	sort(num + 1, num + 1 + n);
+	for (int i = 1; i <= n; ++i)
+	{
+		LL u = num[i];
+		LL cnt = 0;
+		while (u)
+		{
+			++vis[u];
+			if (vis[u] <= k)
+				res[u] += cnt;
+			++cnt;
+			u >>= 1;
+		}
+	}
+	for (int i = 0; i <= 2e5; ++i)
+	{
+		//printf ("i = %d  vis = %lld   res = %lld\n" , i , vis[i] , res[i]) ;
+		if (vis[i] >= k && res[i] < ress)
+			ress = res[i];
+	}
+	printf("%lld", ress);
+}

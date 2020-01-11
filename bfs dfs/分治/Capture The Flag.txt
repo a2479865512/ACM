@@ -60,8 +60,10 @@ int main()
 		if (find(v))
 		{
 			//printf("hash2: %lld\n", Hash(t));
-			cout << mp[v] << mp[i] << endl;
-			return 0;
+			if (mp[v] + mp[i] != str) {
+				cout << mp[v] << mp[i] << endl;
+				return 0;
+			}
 		}
 	}
 	//assert(0);

@@ -27,9 +27,9 @@ void Find(int h, int k, int i, int s)
 		a[h] = i++;
 		fa[s] = fa[h];
 		sum--;
-	}
+	}else s=h;
 	if (sum == 0)return;
-	Find(fa[h], k + 1, i, h);
+	Find(fa[h], k + 1, i, s);
 	return;
 
 }
