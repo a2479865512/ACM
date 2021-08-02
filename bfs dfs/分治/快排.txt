@@ -1,0 +1,20 @@
+void sortk(int l, int r, int *a)
+{
+	if (l >= r)return;
+	int i = l, j = r;
+	int b = a[l];
+	while (i < j)
+	{
+		while (a[j] >= b && i < j)--j;
+		while (a[i] <= b && i < j)++i;
+		if (i < j) {
+			a[i] ^= a[j];
+			a[j] ^= a[i];
+			a[i] ^= a[j];
+		}
+	}
+	a[l] = a[i];
+	a[i] = b;
+	sortk(l, i - 1, a);
+	sortk(i + 1, r, a);
+}

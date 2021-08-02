@@ -19,7 +19,7 @@ void getNext(int *p) {
 			}
 		}
 		else {
-			k = next1[k];
+			k = next1[k];//这相当于一个递推的优化
 		}
 	}
 }
@@ -39,7 +39,7 @@ int KMP(int *S, int *P)
 	}
 	if (j == len2)// 匹配成功
 	{
-		return i - j + 1;//完全匹配时的开始下标，下标从0开始
+		return i - j + 1;//完全匹配时的开始下标，下标从1开始
 	}
 	return -1;//不存在匹配情况 
 }

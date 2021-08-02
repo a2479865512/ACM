@@ -1,0 +1,26 @@
+int Horspool(vector<char> & T, vector<char> & P)
+{
+	int n = T.size();
+	int m = P.size();
+	vector<int> table(96, m);//以字母表中可打印字符为索引的数组
+
+	for (int i = 0; i < m - 1; i++)
+	{
+		table[P[i] - 32] = m - 1 - i;//模式串中每个字符的移动距离，从左至右扫描模式，相同字符的最后一次改写恰好是该字符在模式串的最右边
+	}
+
+	int i = m - 1;
+	while (i <= n - 1)
+	{
+		int k = 0;
+		while (k <= m - 1 && P[m - 1 - k] == T[i - k])
+			k++;
+
+		if (k == m)
+			return i - m + 1;//匹配成功，返回索引
+		else
+			i += table[T[i] - 32];//模式串向右移动
+	}
+
+	return -1;//匹配失败
+}

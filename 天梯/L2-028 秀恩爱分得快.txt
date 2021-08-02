@@ -1,0 +1,132 @@
+#include <stdio.h>
+#include <iostream>
+#include <map>
+#include <algorithm>
+#include <cstring>
+#include <string>
+#include <stack>
+#include <cmath>
+#include <queue>
+#include <vector>
+#include <iterator>
+#include <set>
+using namespace std;
+#define ll long long
+const double PI = acos(-1.0);
+const double eps = 1e-8;
+const int MAXN = 1005;
+const int INF = 0x3f3f3f3f;
+const ll MOD = 1e9 + 7;
+double sa[MAXN], sb[MAXN];
+int x[MAXN][MAXN >> 1];
+int vis[MAXN];
+inline int read1()
+{
+	int x = 0, f = 1; char ch = getchar();
+	while (ch<'0' || ch>'9') { if (ch == '-')f = -1; ch = getchar(); }
+	while (ch >= '0'&&ch <= '9') { x = (x << 3) + (x << 1) + ch - '0'; ch = getchar(); }
+	vis[x] = f;
+	return x;
+}
+int aa[MAXN], bb[MAXN], ac, bc;
+inline int read()
+{
+	int x = 0, f = 1; char ch = getchar();
+	while (ch<'0' || ch>'9') { if (ch == '-')f = -1; ch = getchar(); }
+	while (ch >= '0'&&ch <= '9') { x = (x << 3) + (x << 1) + ch - '0'; ch = getchar(); }
+	return x * f;
+}
+void pp(int x, int y)
+{
+	if (vis[x] == -1)putchar('-');
+	printf("%d ", x);
+	if (vis[y] == -1)putchar('-');
+	printf("%d\n", y);
+}
+int main()
+{
+	int n, m;
+	n = read();
+	m = read();
+	for (int i = 0; i < m; i++)
+	{
+		x[i][0] = read();
+		for (int j = 1; j <= x[i][0]; ++j) {
+			x[i][j] = read1();
+		}
+	}
+	int a = read1(), b = read1();
+	for (int i = 0; i < m; i++)
+	{
+		int f = 0;
+		for (int j = x[i][0]; j >= 1; --j)
+		{
+			if (x[i][j] == a)
+			{
+				f = 1;
+				break;
+			}
+		}
+		if (f) {
+			for (int j = x[i][0]; j >= 1; --j)
+			{
+				if (vis[x[i][j]] != vis[a]) {
+					sa[x[i][j]] += 1.0 / x[i][0];
+				}
+			}
+		}
+		f = 0;
+		for (int j = x[i][0]; j >= 1; --j)
+		{
+			if (x[i][j] == b)
+			{
+				f = 1;
+				break;
+			}
+		}
+		if (f) {
+			for (int j = x[i][0]; j >= 1; --j)
+			{
+				if (vis[x[i][j]] != vis[b]) {
+					sb[x[i][j]] += 1.0 / x[i][0];
+				}
+			}
+		}
+	}
+	double maxa = 0, maxb = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (vis[i] != vis[a] && maxa < sa[i]) {
+			maxa = sa[i];
+		}
+		if (vis[i] != vis[b] && maxb < sb[i]) {
+			maxb = sb[i];
+		}
+	}
+	int f = 0;
+	for (int i = 0; i < n; i++)
+	{
+		if (vis[i] != vis[a] && maxa == sa[i]) {
+			aa[ac++] = i;
+			if (i == b) { ++f; }
+		}
+		if (vis[i] != vis[b] && maxb == sb[i]) {
+			bb[bc++] = i;
+			if (i == a) { ++f; }
+		}
+	}
+	if (f == 2) {
+		pp(a, b);
+	}
+	else {
+		for (int i = 0; i < ac; i++)
+		{
+			pp(a, aa[i]);
+		}
+		for (int i = 0; i < bc; i++)
+		{
+			pp(b, bb[i]);
+		}
+	}
+	return 0;
+}

@@ -15,9 +15,11 @@ int read() {
 int main() {
 	int n = read(), m = read(), blo = sqrt(n + 0.5);
 	for (int i = 1; i <= n; i++) {
-		p[i] = read();
-		pre[i] = last[p[i]]; nxt[last[p[i]]] = i;
-		last[p[i]] = i; nxt[i] = n + 1;
+		p[i] = read();//p[i]原数组
+		pre[i] = last[p[i]];//pre[i]上一个位置 
+		nxt[last[p[i]]] = i;//nxt[i]下一个位置 
+		last[p[i]] = i;//x的最后位置 
+		nxt[i] = n + 1;
 	}
 	memset(dp, 0x7f, sizeof(dp));
 	dp[0] = 0;

@@ -1,0 +1,4 @@
+javascript:require(["function-widget-1:share/util/shareFriend/createLinkShare.js"]).prototype.makePrivatePassword=function(){return prompt("请输入自定义的密码","love")};编辑于 03-31
+
+javascript:require(["function-widget-1:share/util/shareFriend/createLinkShare.js"]).prototype.makePrivatePassword=function(){return prompt("请输入自定义4位密码：","sut8")}
+

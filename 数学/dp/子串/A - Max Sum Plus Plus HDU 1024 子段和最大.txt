@@ -1,0 +1,64 @@
+#include <iostream>
+#include<cstdio>
+#include<memory.h>
+using namespace std;
+const int maxn = 1000005;
+const int maxm = 100;
+const int inf = 0x7ffffff;
+//int d[maxm][maxn];
+int num[maxn];
+int d[maxn];
+int pre[maxn];
+/*
+int main()
+{
+	freopen("in.txt","r",stdin);
+	int m,n,tmp;
+	while(cin>>m>>n){
+		for(int i=1;i<=n;++i){
+			cin>>num[i];
+		}
+		//dp[i][j],第j个人放在第i组时的最大值（1<=i<=j<=n,1<=i<=m）
+		for(int i=0;i<=n;++i){
+			d[0][i]=0;
+			d[i][0]=0;
+		}
+		for(int i=1;i<=m;++i){
+			for(int j=i;j<=n;++j){
+				tmp=-inf;
+				for(int k=i-1;k<=j-1;++k){
+					if(tmp<d[i-1][k])tmp=d[i-1][k];
+				}
+				d[i][j]=max(d[i][j-1],tmp)+num[j];
+			}
+		}
+		cout<<d[m][n]<<endl;
+	}
+	return 0;
+}
+*/
+int main()
+{
+	//freopen("in.txt","r",stdin);
+	int m, n, tmp;
+	while (cin >> m >> n) {
+		int tmp;
+		for (int i = 1; i <= n; ++i) {
+			cin >> num[i];
+		}
+		//dp[i][j],第j个人放在第i组时的最大值（1<=i<=j<=n,1<=i<=m）
+		memset(d, 0, sizeof(d));
+		memset(pre, 0, sizeof(pre));
+		for (int i = 1; i <= m; ++i) {
+			tmp = -inf;
+			for (int j = i; j <= n; ++j) {
+				d[j] = max(d[j - 1], pre[j - 1]) + num[j];
+				pre[j - 1] = tmp;
+				tmp = max(tmp, d[j]);
+			}
+		}
+		cout << tmp << endl;
+	}
+
+	return 0;
+}

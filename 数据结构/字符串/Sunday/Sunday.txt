@@ -1,0 +1,48 @@
+#include <iostream>
+#include <cstring>
+#include <algorithm>
+using namespace std;
+
+int Sunday(char *pattern,char *text){
+
+	int bmBc[256];
+	int i, j, m = strlen(pattern);
+	for (i = 0; i < 256; i++)
+	{
+		bmBc[i] = m;
+	}
+
+	for (i = 0; i < m ; i++)
+	{
+		bmBc[pattern[i]] = m  - i;
+	}
+	int n = strlen(text);
+	i = 0;
+	while (i <= n - m)
+	{
+		for (j = 0; j < m && pattern[j] == text[i + j]; ++j);
+		if (j == m)
+		{
+			return j;
+		}
+		else
+		{
+			i += bmBc[text[i + m ]];
+		}
+	}
+
+	return -1;
+}
+
+
+
+int main()
+{
+	char text[256], pattern[256];
+	while (~scanf("%s%s", text, pattern)){
+		Sunday(pattern, text);
+		printf("\n");
+	}
+
+	return 0;
+}

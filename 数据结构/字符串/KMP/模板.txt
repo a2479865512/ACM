@@ -37,7 +37,7 @@ int KMP(char *S, char *P)
 	}
 	if (j == plen)// 匹配成功
 	{
-		return i - j + 1;//完全匹配时的开始下标，下标从0开始
+		return i - j + 1;//完全匹配时的开始下标，下标从1开始
 	}
 	return -1;//不存在匹配情况 
 }
