@@ -96,3 +96,16 @@ echo "XXX" >> index.html  追加XXX到项目中的 index.html 文件下
 
 如果想撤销到暂存区, 就用 git reset --soft HEAD@{1} .
 如果想干掉这个修改, 就用 git reset --hard HEAD@{1} .
+
+echo "# *****" >> README.md
+git add README.md
+git commit -m "first commit"
+git branch -M master
+git remote add origin git@github.com:***********
+git push -u origin master
+
+
+
+
+
+
