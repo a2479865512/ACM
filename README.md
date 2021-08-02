@@ -1,5 +1,9 @@
 # ACM
+
+[![standard-readme compliant](https://img.shields.io/badge/readme%20style-standard-brightgreen.svg?style=flat-square)](https://github.com/a2479865512/ACM)
+
 ACM
+<br>
 │  #pragma GCC optimize(2).txt
 │  ACM常用算法模板.html
 │  bdy.txt
