@@ -52,13 +52,11 @@ int main() {
 				id[v] = 0;
 			}
 			/*
-
-			*/
 			cout << "s" << endl;
 			cout << u << ' ' << v << ' ' << ans << endl;
 			cout << dp[u][0] << dp[v][0] << endl;
 			cout << dp[u][1] << dp[v][1] << endl;
-
+			*/
 			//写题的时候还是紧张了，01给错了
 			if (w[u] < w[v]) {
 				ans = max(ans, dp[v][1] + dp[u][0] + 1);
@@ -71,11 +69,11 @@ int main() {
 			else {
 				ans = max(max(max(max(ans, dp[u][0]), dp[v][0]), dp[u][1]), dp[v][1]);
 			}
-
+			/*
 			cout << u << ' ' << v << ' ' << ans << endl;
 			cout << dp[u][0] << dp[v][0] << endl;
 			cout << dp[u][1] << dp[v][1] << endl << endl;
-
+			*/
 
 		}
 	}
