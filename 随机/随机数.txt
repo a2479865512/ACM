@@ -16,7 +16,7 @@ typedef long long ll;
 
 int main()
 {
-	//rand()0~32767 rand()*32768ll+rand()
+	//rand()0~32767 rand()*32768ll+rand() 等于 rand()<<15|rand();
 	freopen("D:\\1.in", "r", stdin);
 	freopen("D:\\1.out", "w", stdout);
 	int n;

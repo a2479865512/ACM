@@ -1,0 +1,29 @@
+//蓄水池采样法，n(n未知)里选m个 
+//附:无池版每个位置i以(m - k)/(n - i + 1)的概率决定当前数是否选，k为前面已经抽出的数的个数
+#include<bits/stdc++.h>
+using namespace std;
+int main() {
+	int x;
+	int m;
+	cin >> m;
+	int *res = new int[m];
+	int cnt = 0;
+	while (cin >> x) {
+		if (cnt < m) {
+			res[cnt++] = x;
+		}
+		else {
+			//n<65535 m/(cnt+1) * 1/m
+			++cnt;
+			int k = rand();
+			if (rand() % cnt < m) {
+				res[rand() % m] = x;
+			}
+		}
+	}
+	for (int i = 0; i < m&&i < cnt; ++i) {
+		cout << res[i] << endl;
+	}
+	delete[]res;
+	return 0;
+}
