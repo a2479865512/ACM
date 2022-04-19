@@ -1,3 +1,10 @@
+/*
+a * x + b * y = gcd(a,b);
+a * x + m * y = 1 = gcd(a,b);
+x = a^-1
+
+*/
+
 ·ÇµÝ¹é
 ll extend_gcd(ll a, ll b, ll &x, ll &y) {
 	if (b == 0) {
@@ -15,6 +22,34 @@ ll inv(ll a, ll n) {
 	extend_gcd(a, n, x, y);
 	x = (x % n + n) % n;
 	return x;
+}
+
+int exgcd(int m, int n, int &x, int &y) {
+	if (n == 0) {
+		x = 1; y = 0;
+		return m;
+	}
+	int a, a1, b, b1, c, d, q, r, t;
+	a1 = b = 1;
+	a = b1 = 0;
+	c = m; d = n;
+
+	q = c / d; r = c % d;
+	while (r) {
+		c = d;
+		d = r;
+		t = a1;
+		a1 = a;
+		a = t - q * a;
+		t = b1;
+		b1 = b;
+		b = t - q * b;
+
+		q = c / d;
+		r = c % d;
+	}
+	x = a; y = b;
+	return d;
 }
 
 

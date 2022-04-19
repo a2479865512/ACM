@@ -1,3 +1,16 @@
+/*
+p=k∗i+r    令 r < i , 则 k=[p/i] , r=p%i
+k ∗ i + r ≡ 0 ( mod p )
+两边乘 i^-1 * r^-1
+k ∗ r^−1 + i^−1 ≡ 0 ( mod p )
+i^-1 = - k ∗ r^−1
+i^-1 = -[p/i]  *  (p%i)^-1
+p = mod
+inv[i] = - (mod/i) * inv[ mod % i]
+inv[i] = mod* inv[ mod % i] - (mod/i) * inv[ mod % i]
+inv[i] = ( mod - mod/i ) * inv[ mod % i]
+*/
+
 const int mod = 1000000009;
 const int maxn = 10005;
 int inv[maxn];//p=k*i+r

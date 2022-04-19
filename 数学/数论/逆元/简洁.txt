@@ -1,0 +1,9 @@
+ll k=1e9+7;
+cout<<(k+1)/2<<endl;
+cout<<(k+1)/3<<endl;
+cout<<(k+1)/4<<endl;
+cout<<(k+1+k)/5<<endl;
+cout<<apow(2,k-2,k)<<endl;
+cout<<apow(3,k-2,k)<<endl;
+cout<<apow(4,k-2,k)<<endl;
+cout<<apow(5,k-2,k)<<endl;
